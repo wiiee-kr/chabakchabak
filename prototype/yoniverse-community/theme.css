@@ -1,0 +1,9 @@
+/* 색상 변경은 이 파일에서만 합니다. 원본 UI의 간격과 크기는 유지합니다. */
+:root {
+  --color-brand-main: #202020;
+  --color-brand-pressed: #444444;
+  --color-danger: #202020;
+  --color-danger-muted: #777777;
+}
+/* 커뮤니티 시안은 바로 시작합니다. */
+.launch-splash { display: none; }

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="styles/typography.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>차박차박 · 마이페이지</title>
+  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/mypage.css">
+  <script src="community-ui/model.js" defer></script>
+  <script src="scripts/mypage.js" defer></script>
+<link rel="stylesheet" href="styles/focus.css">
+<link rel="stylesheet" href="styles/bottom-nav.css">
+<script src="scripts/profile-photo.js" defer></script>
+<link rel="stylesheet" href="styles/layout.css">
+</head>
+<body class="has-bottom-nav">
+  <div class="my-page">
+    <header class="page-bar">
+      <a class="back-button" href="home.html" aria-label="홈으로 돌아가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></a>
+      <h1>마이페이지</h1>
+    </header>
+    <main>
+      <section class="profile" aria-label="내 프로필">
+        <button class="profile-photo-trigger" id="edit-profile-photo" type="button" aria-label="프로필 사진 수정"><img class="profile-image" src="assets/my-thumbnail.png" width="72" height="72" alt="내 프로필 사진"></button>
+        <div class="profile-copy"><p class="profile-name" id="profile-name">산길동행</p></div>
+        <button class="edit-button" id="edit-profile" type="button">프로필 수정</button>
+      </section>
+      <section class="menu-section" aria-label="내 활동">
+        <nav aria-label="내 활동">
+          <a class="menu-item" href="community.html#/activity/posts"><img class="menu-icon" src="assets/icons/untitled-ui/file-02.svg" width="24" height="24" alt="" data-figma-node="1007:11592"><span>작성한 글</span></a>
+          <a class="menu-item" href="community.html#/activity/comments"><img class="menu-icon" src="assets/icons/untitled-ui/message-chat-circle.svg" width="24" height="24" alt="" data-figma-node="1007:11067"><span>작성한 댓글</span></a>
+          <a class="menu-item" href="community.html#/activity/likes"><img class="menu-icon" src="assets/icons/untitled-ui/heart.svg" width="24" height="24" alt="" data-figma-node="1007:10224"><span>좋아요한 글</span></a>
+        </nav>
+      </section>
+      <section class="menu-section" aria-label="관리">
+        <a class="menu-item" href="community.html#/blocked"><img class="menu-icon" src="assets/icons/untitled-ui/user-x-01.svg" width="24" height="24" alt="" data-figma-node="1007:10560"><span>차단한 사용자</span></a>
+      </section>
+      <footer class="page-footer"><p>차박차박</p><p>시연용 프로필 · 이 브라우저에만 저장돼요</p></footer>
+    </main>
+  </div>
+  <dialog id="profile-dialog" aria-labelledby="dialog-title">
+    <form id="profile-form" novalidate>
+      <h2 id="dialog-title" class="visually-hidden">프로필 수정</h2>
+      <button type="button" id="cancel-edit" class="sheet-close" aria-label="닫기">×</button>
+      <button type="button" id="choose-photo" class="photo-edit">
+        <img id="photo-preview" src="assets/my-thumbnail.png" width="96" height="96" alt="프로필 사진">
+        <span>사진 수정</span>
+      </button>
+      <input id="profile-file" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+      <p id="photo-error" class="field-error" role="alert" hidden></p>
+      <div class="nickname-field">
+        <label for="nickname">닉네임</label>
+        <input id="nickname" name="nickname" type="text" required autocomplete="nickname" aria-describedby="nickname-help nickname-error">
+        <p id="nickname-help">한글·영문·숫자 1~20자, 공백·특수문자 사용 불가</p>
+        <p id="nickname-error" class="field-error" role="alert" hidden></p>
+      </div>
+      <p id="save-error" class="field-error" role="alert" hidden></p>
+      <button class="save-button" type="submit">확인</button>
+    </form>
+  </dialog>
+  <p class="notice" id="notice" role="status" hidden></p>
+<nav class="bottom-nav" aria-label="주요 메뉴">
+    <a class="bottom-nav__item" href="home.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 18.2 7.1 5.9Q8.2 3.5 9.6 5.7L13 11l2.5-3.5Q16.8 5.7 17.8 7.8l4.7 10.4Q23.7 21 20.8 21H3.2Q.2 21 1.5 18.2ZM12 13.5a2.5 2.5 0 0 0-2.5 2.5v5h5v-5a2.5 2.5 0 0 0-2.5-2.5Z"/></svg>
+      <span>홈</span>
+    </a>
+    <a class="bottom-nav__item" href="packing.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M8 6V5a4 4 0 0 1 8 0v1a4 4 0 0 1 4 4v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3v-9a4 4 0 0 1 4-4Zm2 0h4V5a2 2 0 0 0-4 0v1Zm-2 7a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2H8Z"/></svg>
+      <span>준비물</span>
+    </a>
+    <a class="bottom-nav__item" href="community.html">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 0 0-10 10v9a1 1 0 0 0 1.6.8l3.2-2.4A10 10 0 1 0 12 2ZM7 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
+      <span>커뮤니티</span>
+    </a>
+    <a class="bottom-nav__item" href="mypage.html" aria-current="page" aria-label="마이페이지">
+      <img class="bottom-nav__avatar" src="assets/my-thumbnail.png" width="24" height="24" alt="">
+      <span>마이</span>
+    </a>
+  </nav>
+</body>
+</html>

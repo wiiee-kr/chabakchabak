@@ -1,0 +1,140 @@
+/* CTA uses the Product/Primary token; fallback supports the standalone UI. */
+:root {
+  --brand: var(--ds-product-primary, #2454d6);
+  --brand-pressed: color-mix(in srgb, var(--brand) 85%, black);
+}
+.fab:active, .send:active:not(:disabled) { background: var(--brand-pressed); }
+
+/* Category-free metadata and profile-only comment composer. */
+.meta time { margin-left: auto; }
+/* One-row composer: 20px line height + 24px padding, up to three lines. */
+.composer { padding: 4px 8px; border-radius: 28px; }
+.composer-row { display: flex; align-items: center; gap: 4px; }
+.composer textarea {
+  flex: 1;
+  min-width: 0;
+  width: auto;
+  height: 44px;
+  min-height: 44px;
+  max-height: 84px;
+  padding: 12px 8px;
+  line-height: 20px;
+  overflow-y: hidden;
+}
+.composer .send {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  margin: 2px 0;
+}
+.composer .recipient { padding-top: 8px; }
+
+/* Post title followed by the author and timestamp row. */
+.detail h2 { margin-top: 0; }
+.detail > .meta { margin-top: 16px; }
+
+/* The shared layout stylesheet controls the app-bar/body gap. */
+.editor-title { padding-top: 0; }
+
+.toolbar .draft-status {
+  margin-left: auto;
+  color: var(--ds-grayscale-400);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/* Post author uses the same text color as comment nicknames. */
+.detail .author {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.composer .send-icon { width: 20px; height: 20px; stroke-width: 1.8; }
+
+.post > .actions .post-time {
+  margin-left: auto;
+  color: var(--ds-grayscale-400);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  white-space: nowrap;
+}
+
+/* Left-aligned 32px profile thumbnails. */
+.profile-thumbnail {
+  display: block;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--soft);
+}
+.detail > .author-profile { display: flex; align-items: center; gap: 10px; }
+.author-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.detail .author-info .author { max-width: none; font-size: 13px; font-weight: 600; line-height: 18px; }
+.author-info time { margin-left: 0; font-size: 12px; line-height: 18px; }
+.comment { display: flex; align-items: flex-start; gap: 10px; }
+.comment > .profile-thumbnail { width: 32px; height: 32px; }
+.comment-content { flex: 1; min-width: 0; }
+.comment-top { height: 20px; }
+.comment-top .name { font-weight: 600; }
+.comment-body { line-height: 20px; }
+.reply-controls { padding-left: 82px; }
+
+/* Keep the app bar visible above detail content. */
+.topbar { position: sticky; top: 0; flex-shrink: 0; }
+
+/* App-bar titles sit directly next to the back button's touch target. */
+.topbar:has(> [data-action="back"] + h1) { gap: 0; }
+.topbar > [data-action="back"] + h1 { padding-left: 0; }
+
+/* App bar titles are navigation labels, not emphasized content. */
+.topbar h1 { font-size: 18px; font-weight: 400; }
+
+.post .post-link h2,
+.post h2,
+.detail > h2,
+.editor-title,
+.activity-post-title { font-weight: 600; }
+
+/* CTA labels: semibold. */
+.primary, .text-action { font-weight: 600; }
+
+/* Activity segmented navigation sits directly below the app bar. */
+.topbar:has(+ .activity-tabs) { border-bottom: 0; margin-bottom: 0; }
+.activity-tabs {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 4px;
+  margin: 0 16px;
+  padding: 4px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ds-grayscale-50);
+}
+.activity-tabs a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--ds-grayscale-500);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 400;
+}
+.activity-tabs a[aria-current="page"] {
+  border: 0;
+  background: var(--ds-grayscale-white);
+  color: var(--ds-product-primary);
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+}
+
+.detail > .body-copy { margin-top: 16px; }

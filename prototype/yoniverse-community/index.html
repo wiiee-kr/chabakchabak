@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<link rel="stylesheet" href="../styles/typography.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="익명으로 연애 이야기를 나누고 요매거진 콘텐츠를 읽는 모바일 커뮤니티 프로토타입">
+  <title>차박차박 · 커뮤니티 시안</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+  <link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="../styles/focus.css">
+</head>
+<body>
+  <div class="phone" role="application" aria-label="차박차박 커뮤니티 시안" data-ui="AppFrame">
+    <div class="launch-splash" aria-hidden="true" data-ui="AppLaunchSplash">
+      <img class="launch-splash-logo" src="assets/yoniverse-logo-black.png" alt="" fetchpriority="high">
+    </div>
+    <div class="status" data-ui="AppStatusBar">
+      <span id="status-time">15:03</span>
+      <span class="status-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+    </div>
+
+    <header class="topbar" data-ui="AppTopbar">
+      <button class="icon-button back-button" type="button" aria-label="뒤로" data-action="back" data-ui="AppTopbar_backButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+      </button>
+      <div class="topbar-title" data-ui="AppTopbar_title" aria-label="요니버스"></div>
+      <button class="icon-button topbar-search" type="button" aria-label="검색" data-action="open-search" data-ui="AppTopbar_searchButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+      </button>
+      <button class="icon-button topbar-notification" type="button" aria-label="알림센터" data-action="open-notifications" data-ui="AppTopbar_notificationButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"></path><path d="M10 21h4"></path></svg>
+        <span class="notification-dot" data-ui="AppTopbar_notificationDot" hidden></span>
+      </button>
+      <button class="icon-button topbar-share" type="button" aria-label="공유하기" data-action="share-magazine" data-ui="AppTopbar_shareButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V12M8 7L12 3L16 7M12 3V15"></path></svg>
+      </button>
+      <button class="icon-button topbar-more" type="button" aria-label="게시글 더보기" data-action="open-post-menu" data-ui="AppTopbar_moreButton">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="19" r="1.5"></circle></svg>
+      </button>
+    </header>
+
+    <main class="screen active" data-screen="home" data-ui="HomeScreen">
+      <section class="hero" aria-label="메인 배너" data-ui="HomeHeroCarousel">
+        <button class="hero-slide hero-book" type="button" data-magazine="0" data-ui="HomeHeroCard_book">
+          <span class="hero-content">
+            <span class="hero-eyebrow">요매거진 주인장의 첫 번째 책</span>
+            <strong>《이별 뒤의 마음에게》</strong>
+            <span class="hero-copy">끝난 사랑 뒤에도 내 마음을 천천히 돌보는 법</span>
+          </span>
+        </button>
+        <button class="hero-slide hero-community" type="button" data-action="open-community" data-ui="HomeHeroCard_community">
+          <span class="hero-content">
+            <span class="hero-eyebrow">커뮤니티</span>
+            <strong>지금 올라온 글 보러 가기</strong>
+            <span class="hero-copy">답장 텀, 스토리 반응, 애매한 호감 신호를 함께 이야기해요.</span>
+          </span>
+        </button>
+        <div class="hero-slide hero-ad" data-ui="HomeHeroCard_ad">
+          <span class="ad-badge">AD</span>
+          <span class="hero-content">
+            <span class="hero-eyebrow">브랜드 배너 영역</span>
+            <strong>광고 상품이 들어가는 자리</strong>
+            <span class="hero-copy">어드민에서 이동 없음으로 설정된 배너 예시입니다.</span>
+          </span>
+        </div>
+        <button class="hero-slide hero-anonymous" type="button" data-member-open="write" data-ui="HomeHeroCard_anonymous">
+          <span class="hero-content">
+            <span class="hero-eyebrow">익명 커뮤니티</span>
+            <strong>편하게 털어놓아도 괜찮아요</strong>
+            <span class="hero-copy">친구에게 말하기 어려운 썸, 이별, 재회 이야기를 남겨보세요.</span>
+          </span>
+        </button>
+        <span class="hero-pagination" data-ui="HomeHeroCarousel_pagination">1 / 4</span>
+      </section>
+
+      <section class="content-section" data-ui="HomeRecentLoveSection">
+        <div class="section-head"><h2>요즘 연애</h2></div>
+        <div data-post-list="home" data-ui="HomeRecentLovePostList"></div>
+        <button class="recent-love-more" type="button" data-action="toggle-recent-love" data-ui="HomeRecentLoveMoreButton" hidden></button>
+      </section>
+
+      <section class="magazine-section" aria-label="요매거진" data-ui="HomeMagazineSection">
+        <div class="section-head"><h2>요매거진</h2></div>
+        <div class="magazine-rail" data-magazine-rail data-ui="HomeMagazineRail"></div>
+        <button class="magazine-more-button" type="button" data-open="magazines" data-ui="HomeMagazineMoreButton">더보기</button>
+      </section>
+
+      <button class="fab" type="button" data-member-open="write" aria-label="글쓰기" data-ui="HomeWriteFab">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg>
+      </button>
+    </main>
+
+    <main class="screen" data-screen="community" data-ui="CommunityScreen">
+      <div class="chips" id="community-chips" aria-label="카테고리" data-ui="CommunityCategoryChipList"></div>
+      <div data-post-list="community" data-ui="CommunityPostList"></div>
+      <div class="load-sentinel" data-community-sentinel data-ui="CommunityPostList_loadState"></div>
+      <button class="fab" type="button" data-member-open="write" aria-label="글쓰기" data-ui="CommunityWriteFab">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"></path></svg>
+      </button>
+    </main>
+
+    <main class="screen detail-screen" data-screen="detail" data-ui="PostDetailScreen">
+      <article class="detail" data-ui="PostDetailCard">
+        <div class="detail-head">
+          <strong id="detail-category" class="detail-category"></strong>
+          <div class="meta"><strong id="detail-author"></strong><span id="detail-time"></span></div>
+        </div>
+        <h1 id="detail-title"></h1>
+        <span id="detail-edited" class="detail-edited edited" hidden>수정됨</span>
+        <p id="detail-body"></p>
+        <div class="thread-actions" data-ui="PostDetailCard_actionList">
+          <button class="thread-action" type="button" id="detail-like" data-action="like-current" aria-label="게시글 좋아요"></button>
+          <button class="thread-action" type="button" id="detail-comment-count" data-action="focus-comment" aria-label="댓글 입력으로 이동"></button>
+          <button class="thread-action" type="button" id="detail-share" data-action="share-current-post" aria-label="게시글 공유하기"></button>
+        </div>
+      </article>
+      <div class="section-head comment-section-head"><h2>댓글</h2></div>
+      <div id="detail-comments" data-ui="PostCommentList"></div>
+      <div class="comment-composer" data-ui="PostCommentInput">
+        <div class="comment-field">
+          <textarea id="comment-input" rows="1" aria-label="댓글 입력" placeholder="댓글로 생각을 남겨주세요" autocomplete="off" data-ui="PostCommentInput_field"></textarea>
+        </div>
+        <button class="submit-icon" id="comment-submit" type="button" data-action="submit-comment" aria-label="댓글 등록" disabled data-ui="PostCommentInput_submitButton">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+        </button>
+      </div>
+    </main>
+
+    <main class="screen" data-screen="write" data-ui="WriteScreen">
+      <form id="write-form" class="write-form" data-ui="WriteForm">
+        <div class="anonymous-guide" data-ui="WriteAnonymousGuide">익명으로 글을 작성하고 있어요.</div>
+        <label class="field-group">
+          <span class="field-label">카테고리 <em>필수</em></span>
+          <select id="write-category" aria-label="카테고리 선택" data-ui="WriteForm_categorySelect"></select>
+        </label>
+        <label class="field-group">
+          <span class="field-label">제목 <em>필수</em></span>
+          <input id="write-title" aria-label="제목" placeholder="제목을 입력해주세요." autocomplete="off" data-ui="WriteForm_titleInput">
+        </label>
+        <label class="field-group">
+          <span class="field-label">글 <em>필수</em></span>
+          <textarea id="write-body" aria-label="글" placeholder="연애이야기를 입력해주세요." data-ui="WriteForm_bodyInput"></textarea>
+        </label>
+        <div class="writing-guide" data-ui="WriteGuide">
+          <strong>서로를 존중하는 글을 작성해 주세요.</strong>
+          <span>개인정보, 욕설, 광고, 성범죄 유도 내용은 운영 정책에 따라 숨김 처리될 수 있습니다.</span>
+        </div>
+        <button class="primary-button" id="write-submit" type="submit" disabled data-ui="WriteForm_submitButton">등록</button>
+      </form>
+    </main>
+
+    <main class="screen" data-screen="search" data-ui="SearchScreen">
+      <div class="search-bar" data-ui="SearchInput">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+        <input id="search-input" type="search" aria-label="게시글 검색" placeholder="제목과 글에서 검색해보세요." autocomplete="off">
+        <button type="button" data-action="clear-search" aria-label="검색어 지우기">×</button>
+      </div>
+      <div data-post-list="search" data-ui="SearchResultList"></div>
+    </main>
+
+    <main class="screen" data-screen="mypage" data-ui="MyPageScreen">
+      <button class="profile profile-link mypage-profile" type="button" data-open="account" data-ui="MyPageProfileCard">
+        <span class="profile-main"><span class="profile-name">익명으로 활동 중</span></span>
+        <span class="chevron">›</span>
+      </button>
+
+      <section class="menu-group" aria-label="나의 활동" data-ui="MyPageActivityMenu">
+        <button type="button" data-open="my-posts">내가 작성한 글 <span class="chevron">›</span></button>
+        <button type="button" data-open="my-comments">내가 작성한 댓글 <span class="chevron">›</span></button>
+        <button type="button" data-open="likes">좋아요한 글 <span class="chevron">›</span></button>
+      </section>
+
+      <section class="menu-group" aria-label="설정과 연결" data-ui="MyPageSettingMenu">
+        <button type="button" data-action="open-os-settings" data-ui="MyPageSettingMenu_notificationButton">알림 설정 <span class="chevron">›</span></button>
+        <button type="button" data-info="community-rules" data-ui="MyPageSettingMenu_rulesButton">커뮤니티 이용규칙 <span class="chevron">›</span></button>
+        <button type="button" data-external="instagram" data-ui="MyPageExternalButton_instagram">요매거진 Instagram 이동
+          <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6"></path><path d="M20 4 11 13"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></span>
+        </button>
+        <button type="button" data-external="marpple" data-ui="MyPageExternalButton_marpple">마플샵 이동
+          <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6"></path><path d="M20 4 11 13"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></span>
+        </button>
+        <button type="button" data-external="kakao" data-ui="MyPageExternalButton_kakao">요니버스 카카오 문의톡으로 이동
+          <span class="menu-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6"></path><path d="M20 4 11 13"></path><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"></path></svg></span>
+        </button>
+      </section>
+
+      <section class="menu-group" aria-label="약관과 정보" data-ui="MyPageInfoMenu">
+        <button type="button" data-info="terms" data-ui="MyPageInfoMenu_termsButton">서비스 이용약관 <span class="chevron">›</span></button>
+        <button type="button" data-info="privacy" data-ui="MyPageInfoMenu_privacyButton">개인정보 처리방침 <span class="chevron">›</span></button>
+        <div class="menu-row" data-ui="MyPageInfoMenu_appVersionRow">앱 버전 <span class="menu-value">1.0.0 · 최신 버전</span></div>
+      </section>
+    </main>
+
+    <main class="screen" data-screen="account" data-ui="AccountScreen">
+      <section class="account-card" data-ui="AccountProfileCard">
+        <div class="account-row"><strong>로그인 방식</strong><span id="account-provider">카카오</span></div>
+        <div class="account-row"><strong>가입 이메일</strong><span>yo.user@kakao.com</span></div>
+      </section>
+      <div class="account-actions">
+        <button type="button" data-action="logout">로그아웃하기</button>
+        <button class="danger" type="button" data-open="withdraw">탈퇴하기</button>
+      </div>
+    </main>
+
+    <main class="screen" data-screen="notifications" data-ui="NotificationScreen">
+      <div data-notification-list data-ui="NotificationList"></div>
+    </main>
+
+    <main class="screen" data-screen="my-posts" data-ui="MyPostScreen">
+      <div data-post-list="my-posts" data-ui="MyPostList"></div>
+    </main>
+
+    <main class="screen" data-screen="likes" data-ui="LikedPostScreen">
+      <div data-post-list="likes" data-ui="LikedPostList"></div>
+    </main>
+
+    <main class="screen" data-screen="my-comments" data-ui="MyCommentScreen">
+      <div id="my-comment-list" data-ui="MyCommentList"></div>
+    </main>
+
+    <main class="screen" data-screen="magazines" data-ui="MagazineListScreen">
+      <div class="magazine-list" id="magazine-list" data-ui="MagazineList"></div>
+    </main>
+
+    <main class="screen magazine-detail-screen" data-screen="magazine-detail" data-ui="MagazineDetailScreen">
+      <div class="magazine-detail-media">
+        <div id="magazine-detail-rail" class="magazine-detail-rail" data-ui="MagazineDetailImageCarousel"></div>
+        <span id="magazine-detail-counter" class="hero-pagination">1 / 4</span>
+      </div>
+      <article class="magazine-detail-copy">
+        <h1 id="magazine-detail-title"></h1>
+        <p id="magazine-detail-body"></p>
+      </article>
+    </main>
+
+    <main class="screen" data-screen="info" data-ui="InfoScreen">
+      <article class="info-page">
+        <h1 id="info-title"></h1>
+        <p id="info-body"></p>
+      </article>
+    </main>
+
+    <main class="screen" data-screen="withdraw" data-ui="WithdrawalScreen">
+      <form id="withdraw-form" class="withdraw-form">
+        <fieldset data-ui="WithdrawalReasonField">
+          <legend>탈퇴하는 이유를 알려주세요. <em>필수</em></legend>
+          <p>서비스 개선을 위해 참고할게요.</p>
+          <div id="withdraw-reasons" class="reason-list" data-ui="WithdrawalReasonList"></div>
+        </fieldset>
+        <label class="field-group">
+          <span class="field-label">자유 입력</span>
+          <textarea id="withdraw-note" placeholder="소중한 의견이 있으시다면 입력해주세요. 더 나은 서비스가 되도록 노력하겠습니다." data-ui="WithdrawalNoteInput"></textarea>
+          <span class="counter" id="withdraw-note-counter">0/500</span>
+        </label>
+        <div class="consent-box" data-ui="WithdrawalConsentBox">
+          <p class="consent-copy" data-ui="WithdrawalConsentBox_copy">탈퇴 후에도 작성한 글과 댓글은 삭제되지 않고 유지됩니다. 개인정보 등 삭제가 필요한 내용이 포함되어 있다면, 탈퇴 전에 직접 수정하거나 삭제해 주세요.</p>
+          <label class="consent-check" data-ui="WithdrawalConsentBox_checkbox">
+            <input type="checkbox" id="withdraw-consent">
+            <span><em>[필수]</em> 위 내용을 확인했으며, 작성한 콘텐츠가 탈퇴 후에도 유지되는 것에 동의합니다.</span>
+          </label>
+        </div>
+        <button class="danger-button" id="withdraw-submit" type="submit" disabled data-ui="WithdrawalForm_submitButton">탈퇴하기</button>
+      </form>
+    </main>
+
+    <main class="screen completion-screen" data-screen="withdraw-complete" data-ui="WithdrawalCompleteScreen">
+      <div class="completion-mark" aria-hidden="true">✓</div>
+      <h1>탈퇴가 완료되었습니다.</h1>
+      <p>그동안 요매거진과 함께해 주셔서 감사합니다.</p>
+      <button class="primary-button" type="button" data-action="browse-as-guest">비회원으로 둘러보기</button>
+    </main>
+
+    <nav class="tabs" aria-label="하단 네비게이션" data-ui="BottomTabBar">
+      <button class="tab active" type="button" data-prototype-home="true" data-ui="BottomTabBar_homeTab">
+        <span class="tab-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 10.5651C3 9.9907 3 9.70352 3.07403 9.43905C3.1396 9.20478 3.24737 8.98444 3.39203 8.78886C3.55534 8.56806 3.78202 8.39175 4.23539 8.03912L11.0177 2.764C11.369 2.49075 11.5447 2.35412 11.7387 2.3016C11.9098 2.25526 12.0902 2.25526 12.2613 2.3016C12.4553 2.35412 12.631 2.49075 12.9823 2.764L19.7646 8.03913C20.218 8.39175 20.4447 8.56806 20.608 8.78886C20.7526 8.98444 20.8604 9.20478 20.926 9.43905C21 9.70352 21 9.9907 21 10.5651V17.8C21 18.9201 21 19.4801 20.782 19.908C20.5903 20.2843 20.2843 20.5903 19.908 20.782C19.4802 21 18.9201 21 17.8 21H6.2C5.07989 21 4.51984 21 4.09202 20.782C3.71569 20.5903 3.40973 20.2843 3.21799 19.908C3 19.4801 3 18.9201 3 17.8V10.5651Z"></path></svg></span>
+        <span>홈</span>
+      </button>
+      <button class="tab" type="button" data-tab="community" data-ui="BottomTabBar_communityTab">
+        <span class="tab-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 9H21M3 15H21M7.8 3H16.2C17.8802 3 18.7202 3 19.362 3.32698C19.9265 3.6146 20.3854 4.07354 20.673 4.63803C21 5.27976 21 6.11984 21 7.8V16.2C21 17.8802 21 18.7202 20.673 19.362C20.3854 19.9265 19.9265 20.3854 19.362 20.673C18.7202 21 17.8802 21 16.2 21H7.8C6.11984 21 5.27976 21 4.63803 20.673C4.07354 20.3854 3.6146 19.9265 3.32698 19.362C3 18.7202 3 17.8802 3 16.2V7.8C3 6.11984 3 5.27976 3.32698 4.63803C3.6146 4.07354 4.07354 3.6146 4.63803 3.32698C5.27976 3 6.11984 3 7.8 3Z"></path></svg></span>
+        <span>커뮤니티</span>
+      </button>
+      <button class="tab" type="button" data-tab="mypage" data-member-tab="mypage" data-ui="BottomTabBar_mypageTab">
+        <span class="tab-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z"></path></svg></span>
+        <span>마이</span>
+      </button>
+      <!-- 상품 판매 전까지 숨기고, 재판매 시 복원한다. -->
+      <button class="tab" type="button" data-tab="magazine-book" data-ui="BottomTabBar_magazineBookTab" hidden>
+        <span class="tab-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z"></path><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20M8 7h8M8 10h8"></path></svg></span>
+        <span>요매거진 북</span>
+      </button>
+    </nav>
+
+    <div class="modal-layer" id="modal-layer" hidden data-ui="ModalLayer">
+      <button class="modal-scrim" type="button" data-action="close-modal" aria-label="닫기"></button>
+      <section class="modal-panel" id="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title"></section>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite" hidden data-ui="Toast"></div>
+
+    <div class="exit-layer" id="exit-layer" hidden data-ui="AppExitLayer">
+      <strong>앱이 종료되었습니다.</strong>
+      <span>정지 안내 확인 후 앱을 종료하는 화면입니다.</span>
+    </div>
+  </div>
+</body>
+</html>
