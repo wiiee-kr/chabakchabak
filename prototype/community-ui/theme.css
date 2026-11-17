@@ -94,7 +94,7 @@
 .topbar > [data-action="back"] + h1 { padding-left: 0; }
 
 /* App bar titles are navigation labels, not emphasized content. */
-.topbar h1 { font-size: 18px; font-weight: 400; }
+/* App-bar title typography is shared in layout.css. */
 
 .post .post-link h2,
 .post h2,
@@ -161,5 +161,25 @@
 .blocked-user { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .blocked-user .profile-thumbnail { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; object-fit: cover; }
 .blocked-name { font-size: 14px; line-height: 20px; font-weight: 500; overflow-wrap: anywhere; }
-.unblock-button { flex-shrink: 0; min-height: var(--button-size-m-height); padding: 0 var(--button-size-m-padding-x); border: var(--button-border-width-default) solid var(--button-outlined-tertiary-border-default); border-radius: var(--button-size-m-radius); color: var(--button-outlined-tertiary-label-default); background: white; font-size: var(--typography-label-m-size); font-weight: var(--typography-label-m-weight); line-height: var(--typography-label-m-line-height); }
+.unblock-button { flex-shrink: 0; min-height: var(--button-size-m-height); padding: 4px 8px; border: var(--button-border-width-default) solid var(--button-outlined-tertiary-border-default); border-radius: var(--button-size-m-radius); color: var(--button-outlined-tertiary-label-default); background: white; font-size: var(--typography-label-m-size); font-weight: var(--typography-label-m-weight); line-height: var(--typography-label-m-line-height); }
 .unblock-button:active { background: var(--soft); }
+
+/* Slightly soften body previews on the community root list. */
+#list-view .excerpt { color: #3a3a3a; }
+
+/* More menus use full-width, flat list rows. */
+.sheet .menu-action {
+  display: block;
+  min-height: 52px;
+  margin: 0;
+  padding: 14px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+.sheet .menu-action:active { background: var(--soft); }

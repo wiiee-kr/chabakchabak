@@ -83,8 +83,6 @@ body.has-bottom-nav {
 /* Keep page actions and notices above the shared navigation. */
 .has-bottom-nav .write-dock { bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 12px); }
 .has-bottom-nav .sticky { bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset)); }
-.has-bottom-nav #toast,
-.has-bottom-nav #notice { bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 16px); }
 
 /* Community's app frame owns scrolling; keep its navigation in the frame. */
 .phone .bottom-nav {

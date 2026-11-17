@@ -44,7 +44,7 @@ main#app > header > strong {
   font-weight: 500;
 }
 
-/* Floating app bars share the bottom navigation's pill surface. */
+/* The app-bar row stays transparent; only its floating groups have a surface. */
 :root {
   --floating-bar-shadow: 0 4px 24px rgb(0 0 0 / 10%), 0 1px 4px rgb(0 0 0 / 3%);
   --app-bar-shadow: 0 0 8px rgb(0 0 0 / 8%), 0 0 2px rgb(0 0 0 / 2%);
@@ -69,14 +69,18 @@ main#app > header > strong {
   background: transparent;
   box-shadow: none;
 }
-.app-bar h1, .page-bar h1, .topbar h1, main#app > header .app-bar__leading > strong {
+.app-bar h1, .page-bar h1, .topbar h1, body > main#app > header .app-bar__leading > strong {
   flex: 1;
   min-width: 0;
   margin: 0;
   padding: 0;
+  font-family: var(--font-app);
   font-size: 18px;
   font-weight: 500;
   line-height: 24px;
+  letter-spacing: normal;
+  color: #191919;
+  -webkit-font-smoothing: antialiased;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -160,7 +164,7 @@ body:has(> main#app) dialog .actions button {
 
 /* Compact CTAs step down; full-width CTAs retain their larger labels. */
 :root { --cta-label-compact-size: 14px; }
-.text-action, .unblock-button, .photo-edit,
+.text-action, .unblock-button, .photo-edit, .edit-button,
 .primary:not(.wide) { font-size: var(--cta-label-compact-size); }
 .sheet .primary, .poll .primary { font-size: var(--cta-label-size); }
 .dialog-actions button,
@@ -169,8 +173,43 @@ body:has(> main#app) dialog .actions button { font-size: var(--cta-label-size); 
 body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 
 /* A single app-bar icon occupies a square 48px capsule. */
-.app-bar__actions:has(> :only-child),
-.app-bar__leading:has(> :is(button, a):only-child) {
+.app-bar__actions:has(> :is(.app-bar__icon, .icon):only-child),
+.app-bar__leading:has(> :is(.app-bar__icon, .icon):only-child) {
   width: var(--app-bar-height); min-width: var(--app-bar-height);
   flex-basis: var(--app-bar-height); padding: 2px; justify-content: center;
+}
+
+/* Root tab titles have no back button and use balanced horizontal spacing. */
+.app-bar__leading:has(> :is(h1, strong):only-child) { padding-inline: 20px; }
+
+/* Toasts overlay the app-bar position at the top of the screen. */
+#toast, #notice {
+  top: var(--app-bar-offset);
+  bottom: auto;
+  z-index: 100;
+  pointer-events: none;
+  background: #fff;
+  color: #333;
+  border: 1px solid #e9e9e9;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 8%), 0 1px 4px rgb(0 0 0 / 3%);
+}
+.phone > #toast { position: absolute; }
+
+/* Publish validity is reflected by the floating check button. */
+.topbar .app-bar__actions > button[form="write-form"]:disabled {
+  color: #c7c7cc;
+  background: transparent;
+  cursor: default;
+}
+.topbar .app-bar__actions:has(> button[form="write-form"]:enabled) {
+  background: var(--ds-product-primary, #2454d6);
+}
+.topbar .app-bar__actions > button[form="write-form"]:enabled {
+  color: #fff;
+  background: var(--ds-product-primary, #2454d6);
+}
+.topbar .app-bar__actions:has(> button[form="write-form"]:enabled:active),
+.topbar .app-bar__actions > button[form="write-form"]:enabled:active {
+  background: color-mix(in srgb, var(--ds-product-primary, #2454d6) 85%, black);
 }

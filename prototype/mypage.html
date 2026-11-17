@@ -17,7 +17,7 @@
 <link rel="stylesheet" href="styles/dialog-actions.css"><script src="scripts/dialog-actions.js" defer></script></head>
 <body class="has-bottom-nav">
   <div class="my-page">
-    <header class="page-bar"><div class="app-bar__leading"><a class="app-bar__icon" href="home.html" aria-label="뒤로가기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></a><h1>마이페이지</h1></div><div class="app-bar__actions"><a class="app-bar__icon" href="community.html#/notifications" aria-label="알림센터"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4"/></svg></a><a class="app-bar__icon" href="community.html#/search" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20l-4-4 M18 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></a></div></header>
+    <header class="page-bar"><div class="app-bar__leading"><h1>마이페이지</h1></div><div class="app-bar__actions"><a class="app-bar__icon" href="community.html#/notifications" aria-label="알림센터"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4"/></svg></a><a class="app-bar__icon" href="community.html#/search" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20l-4-4 M18 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></a></div></header>
     <main>
       <section class="profile" aria-label="내 프로필">
         <button class="profile-photo-trigger" id="edit-profile-photo" type="button" aria-label="프로필 사진 수정"><img class="profile-image" src="assets/my-thumbnail.png" width="56" height="56" alt="내 프로필 사진"></button>
@@ -32,10 +32,10 @@
           <a class="menu-item" href="community.html#/activity/likes"><img class="menu-icon" src="assets/icons/untitled-ui/heart.svg" width="24" height="24" alt="" data-figma-node="1007:10224"><span>좋아요한 글</span></a>
         </nav>
       </section>
-      <section class="menu-section" aria-label="관리">
-        <a class="menu-item" href="community.html#/blocked"><img class="menu-icon" src="assets/icons/untitled-ui/user-x-01.svg" width="24" height="24" alt="" data-figma-node="1007:10560"><span>차단한 사용자</span></a>
-      <a class="menu-item" href="my-settings.html#notifications"><img class="menu-icon" src="assets/icons/untitled-ui/bell-01.svg" width="24" height="24" alt="" data-figma-node="1007:10340"><span>알림 설정</span></a><a class="menu-item" href="my-settings.html#account"><img class="menu-icon" src="assets/icons/untitled-ui/user-01.svg" width="24" height="24" alt="" data-figma-node="1007:10494"><span>내 계정</span></a><a class="menu-item" href="my-settings.html#notices"><img class="menu-icon" src="assets/icons/untitled-ui/announcement-01.svg" width="24" height="24" alt="" data-figma-node="1007:10331"><span>공지사항</span></a><a class="menu-item" href="my-settings.html#support"><img class="menu-icon" src="assets/icons/untitled-ui/headphones-01.svg" width="24" height="24" alt="" data-figma-node="1007:10670"><span>이용 문의</span></a><a class="menu-item" href="my-settings.html#terms"><img class="menu-icon" src="assets/icons/untitled-ui/file-check-02.svg" width="24" height="24" alt="" data-figma-node="1007:11628"><span>서비스 이용약관</span></a><a class="menu-item" href="my-settings.html#privacy"><img class="menu-icon" src="assets/icons/untitled-ui/shield-tick.svg" width="24" height="24" alt="" data-figma-node="1007:8934"><span>개인정보 처리방침</span></a></section>
-      <footer class="page-footer"><p>차박차박</p><p>앱 버전 · 출시 전</p><p>디자인 프로토타입</p></footer>
+      <section class="menu-section" aria-label="설정">
+        <a class="menu-item" href="my-settings.html#settings"><svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 3-.7 2.3-2 .9-2.2-.5-2 3.5L3.7 11v2L2.1 14.8l2 3.5 2.2-.5 2 .9L9 21h6l.7-2.3 2-.9 2.2.5 2-3.5-1.6-1.8v-2l1.6-1.8-2-3.5-2.2.5-2-.9L15 3Z"/><circle cx="12" cy="12" r="3"/></svg><span>설정</span></a>
+      </section>
+      <footer class="page-footer"><p>차박차박</p><p>디자인 프로토타입</p></footer>
     </main>
   </div>
   <dialog id="profile-dialog" aria-labelledby="dialog-title">
@@ -69,7 +69,7 @@
       <span>준비물</span>
     </a>
     <a class="bottom-nav__item" href="community.html">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2a10 10 0 0 0-10 10v9a1 1 0 0 0 1.6.8l3.2-2.4A10 10 0 1 0 12 2ZM7 11a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm5 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M5 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3H5Zm1 4a1 1 0 0 0 0 2h12a1 1 0 0 0 0-2H6Zm0 4a1 1 0 0 0 0 2h12a1 1 0 0 0 0-2H6Zm0 4a1 1 0 0 0 0 2h7a1 1 0 0 0 0-2H6Z"/></svg>
       <span>커뮤니티</span>
     </a>
     <a class="bottom-nav__item" href="mypage.html" aria-current="page" aria-label="마이페이지">

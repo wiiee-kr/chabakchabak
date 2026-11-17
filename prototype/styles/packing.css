@@ -1,6 +1,276 @@
 @import url('./fonts.css');
+@import url('./design-system.css');
 
-*{box-sizing:border-box}body{margin:0;background:#f4f4f1;color:#202020;font-family:var(--font-app);font-size:17px;line-height:1.55}button,input,select{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer;border:1px solid #aaa;background:white;border-radius:7px;min-height:46px;padding:10px 16px}button:hover{background:#efefec;border-color:#222}button:disabled{opacity:.4;cursor:not-allowed}aside{position:fixed;left:max(32px,calc((100vw - 1200px)/2));top:50px;width:320px}.brand{font-weight:600;color:inherit;text-decoration:none}.brand span,.eyebrow{font-size:11px;letter-spacing:2px;color:#666}.brand span{display:block;margin-top:5px}aside h1{font-size:42px;line-height:1.3;margin-top:90px;letter-spacing:-2px}aside p{color:#666}aside ol{padding-left:23px;margin-top:42px;font-size:15px;line-height:2.2}.note{font-size:12px;margin-top:80px}main{width:510px;min-height:100vh;background:#fff;margin-left:calc(50% - 30px);padding:28px 26px 48px;border-left:1px solid #ccc;border-right:1px solid #ccc}header{display:flex;align-items:center;gap:0;padding-bottom:20px;border-bottom:1px solid #ddd;margin-bottom:26px}header strong{font-size:16px}header span{margin-left:auto;font-size:12px;color:#777}header button{padding:6px 12px}h1{font-size:29px;letter-spacing:-1px;margin:0 0 8px}h2{font-size:20px;margin:0}p{margin:8px 0 18px}.muted{color:#666;font-size:15px}.primary{background:var(--ds-product-primary, #2454d6);color:#fff;border-color:var(--ds-product-primary, #2454d6);font-weight:600}.primary:hover:not(:disabled),.primary:active:not(:disabled){background:color-mix(in srgb, var(--ds-product-primary, #2454d6) 85%, black);border-color:transparent;color:#fff}.wide{width:100%}.stack{display:grid;gap:10px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:30px 0 15px}.card{border:1px solid #aaa;border-radius:9px;padding:20px;margin:14px 0}.card-title{display:flex;justify-content:space-between;align-items:center}.card small{color:#666}.progress-label{display:flex;justify-content:space-between;font-size:15px;margin:17px 0 8px}progress{display:block;width:100%;height:10px;border:0;border-radius:0;background:#eee;accent-color:#333}progress::-webkit-progress-bar{background:#eee}progress::-webkit-progress-value{background:#333}.actions{display:flex;gap:8px;margin-top:18px}.actions>*{flex:1}.group{border:1px solid #bbb;border-radius:8px;margin:18px 0;overflow:hidden}.group-head{display:flex;align-items:center;background:#f6f6f3;border-bottom:1px solid #ddd;padding:9px 12px;gap:8px}.group-head label{flex:1;font-weight:600}.group-head small{font-size:13px;color:#666;font-weight:normal;margin-left:7px}.item{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 20px;min-height:54px}.item label{flex:1;display:flex;align-items:center;gap:12px;min-height:44px;overflow-wrap:anywhere}.item .item-name{flex:1;overflow-wrap:anywhere}.done .item-name{color:#777;text-decoration:line-through}input[type=checkbox]{width:23px;height:23px;accent-color:#252525;vertical-align:middle;flex-shrink:0;margin:0 8px 0 0}.menu{min-width:44px;border:0;background:transparent;font-size:20px;padding:4px 8px}.add{border:0;color:#555;background:transparent;text-align:left;width:100%;padding-left:20px;font-size:15px}.field{display:grid;gap:7px;margin:16px 0}.field span{font-weight:600}.field input,.field select{width:100%;border:1px solid #aaa;border-radius:6px;padding:13px;min-height:50px;background:#fff}.sticky{position:sticky;bottom:0;padding:15px 0;background:#fff;border-top:1px solid #ddd;margin-top:24px}.notice{padding:12px;background:#f4f4f1;font-size:14px;border-left:2px solid #777}.drop{outline:3px dashed #555;outline-offset:2px}.empty{padding:35px 10px;text-align:center;color:#666;border:1px dashed #ccc;border-radius:8px;margin-top:16px}dialog{border:1px solid #888;border-radius:12px;padding:25px;width:min(440px,calc(100vw - 32px));max-height:85vh}dialog::backdrop{background:#0006}dialog h2{margin-bottom:15px}dialog .stack button{text-align:left}#toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#222;color:#fff;border-radius:8px;padding:14px 22px;max-width:90vw;z-index:10;display:none;font-size:15px}.user-label{font-size:12px;color:#666;letter-spacing:1px;margin-top:25px}.drag-hint{font-size:12px;color:#777;margin-bottom:10px}@media(max-width:900px){aside{display:none}main{margin:0 auto;border:0;width:min(100%,550px);padding:20px 20px 32px}}@media(min-width:901px) and (max-width:1100px){aside{width:260px;left:30px}main{margin-left:42%}}@media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
+*{box-sizing:border-box}body{margin:0;background:#f4f4f1;color:#202020;font-family:var(--font-app);font-size:17px;line-height:1.55}button,input,select{font:inherit;color:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer;border:1px solid #aaa;background:white;border-radius:7px;min-height:46px;padding:10px 16px}button:hover{background:#efefec;border-color:#222}button:disabled{opacity:.4;cursor:not-allowed}aside{position:fixed;left:max(32px,calc((100vw - 1200px)/2));top:50px;width:320px}.brand{font-weight:600;color:inherit;text-decoration:none}.brand span,.eyebrow{font-size:11px;letter-spacing:2px;color:#666}.brand span{display:block;margin-top:5px}aside h1{font-size:36px;line-height:1.3;margin-top:90px;letter-spacing:-2px}aside p{color:#666}aside ol{padding-left:23px;margin-top:42px;font-size:15px;line-height:2.2}.note{font-size:12px;margin-top:80px}main{width:510px;min-height:100vh;background:#fff;margin-left:calc(50% - 30px);padding:28px 26px 48px;border-left:1px solid #ccc;border-right:1px solid #ccc}header{display:flex;align-items:center;gap:0;padding-bottom:20px;border-bottom:1px solid #ddd;margin-bottom:26px}header strong{font-size:16px}header span{margin-left:auto;font-size:12px;color:#777}header button{padding:6px 12px}h1{font-size:24px;letter-spacing:-1px;margin:0 0 8px}h2{font-size:18px;margin:0}p{margin:8px 0 18px}.muted{color:#666;font-size:15px}.primary{background:var(--ds-product-primary, #2454d6);color:#fff;border-color:var(--ds-product-primary, #2454d6);font-weight:600}.primary:hover:not(:disabled),.primary:active:not(:disabled){background:color-mix(in srgb, var(--ds-product-primary, #2454d6) 85%, black);border-color:transparent;color:#fff}.wide{width:100%}.stack{display:grid;gap:10px}.section-head{display:flex;justify-content:space-between;align-items:center;margin:30px 0 15px}.card{border:1px solid #aaa;border-radius:9px;padding:20px;margin:14px 0}.card-title{display:flex;justify-content:space-between;align-items:center}.card small{color:#666}.progress-label{display:flex;justify-content:space-between;font-size:15px;margin:17px 0 8px}progress{display:block;width:100%;height:10px;border:0;border-radius:0;background:#eee;accent-color:#333}progress::-webkit-progress-bar{background:#eee}progress::-webkit-progress-value{background:#333}.actions{display:flex;gap:8px;margin-top:18px}.actions>*{flex:1}.group{border:1px solid #bbb;border-radius:8px;margin:18px 0;overflow:hidden}.group-head{display:flex;align-items:center;background:#f6f6f3;border-bottom:1px solid #ddd;padding:9px 12px;gap:8px}.group-head label{flex:1;font-size:16px;font-weight:600}.group-head small{font-size:13px;color:#666;font-weight:normal;margin-left:7px}.item{display:flex;align-items:center;gap:10px;padding:5px 12px 5px 20px;min-height:54px}.item label{flex:1;display:flex;align-items:center;gap:12px;min-height:44px;overflow-wrap:anywhere}.item .item-name{flex:1;overflow-wrap:anywhere}.done .item-name{color:#777;text-decoration:line-through}input[type=checkbox]{appearance:none;-webkit-appearance:none;width:var(--checkbox-size);height:var(--checkbox-size);min-width:var(--checkbox-size);padding:0;border:0;background:var(--checkbox-unselected-image) center / 24px 24px no-repeat;vertical-align:middle;flex-shrink:0;margin:0 8px 0 0;cursor:pointer}input[type=checkbox]:checked{background-image:var(--checkbox-selected-image)}.menu{min-width:44px;border:0;background:transparent;font-size:20px;padding:4px 8px}.add{border:0;color:#555;background:transparent;text-align:left;width:100%;padding-left:20px;font-size:15px}.field{display:grid;gap:7px;margin:16px 0}.field span{font-weight:600}.field input,.field select{width:100%;border:1px solid #aaa;border-radius:6px;padding:13px;min-height:50px;background:#fff}.sticky{position:sticky;bottom:0;padding:15px 0;background:#fff;border-top:1px solid #ddd;margin-top:24px}.notice{padding:12px;background:#f4f4f1;font-size:14px;border-left:2px solid #777}.drop{outline:3px dashed #555;outline-offset:2px}.empty{padding:35px 10px;text-align:center;color:#666;border:1px dashed #ccc;border-radius:8px;margin-top:16px}dialog{border:1px solid #888;border-radius:12px;padding:25px;width:min(440px,calc(100vw - 32px));max-height:85vh}dialog::backdrop{background:#0006}dialog h2{margin-bottom:15px}dialog .stack button{text-align:left}#toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:#222;color:#fff;border-radius:8px;padding:14px 22px;max-width:90vw;z-index:10;display:none;font-size:15px}.user-label{font-size:12px;color:#666;letter-spacing:1px;margin-top:25px}.drag-hint{font-size:12px;color:#777;margin-bottom:10px}@media(max-width:900px){aside{display:none}main{margin:0 auto;border:0;width:min(100%,550px);padding:20px 20px 32px}}@media(min-width:901px) and (max-width:1100px){aside{width:260px;left:30px}main{margin-left:42%}}@media(prefers-reduced-motion:no-preference){button{transition:background .15s}}
 
 /* Larger body copy inside packing dialogs. */
 dialog p { font-size: 18px; }
+
+/* One step smaller headings throughout the packing tab. */
+/* App-bar title typography is shared in layout.css. */
+
+/* Keep each new-checklist label beside its input. */
+.trip-field { grid-template-columns: 76px minmax(0, 1fr); align-items: center; gap: 12px; }
+.trip-field > span { white-space: nowrap; }
+.trip-field > input { min-width: 0; }
+
+.trip-field > span {
+  color: var(--input-field-label-default);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.trip-field > input {
+  height: 52px;
+  min-height: 52px;
+  border: var(--input-field-border-width) solid var(--input-field-border-default);
+  border-radius: var(--input-field-container-radius);
+  padding: var(--input-field-container-padding) calc(var(--input-field-container-padding) + var(--input-field-text-padding-x));
+  background: #fff;
+  color: var(--input-field-text-value);
+  font-family: var(--font-app);
+  font-size: var(--input-field-text-size);
+  font-weight: 400;
+  line-height: var(--input-field-text-line-height);
+  letter-spacing: 0;
+}
+.trip-field > input::placeholder { color: var(--input-field-text-placeholder); opacity: 1; }
+
+.group-name-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--input-field-text-value);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+.group-name-input::placeholder { color: var(--input-field-text-placeholder); opacity: 1; }
+
+/* New checklist fills the phone viewport with the shared 16px gutter. */
+body.packing-new { background: #fff; }
+body.packing-new > aside { display: none; }
+body.packing-new > main#app {
+  display: flow-root;
+  width: 100%;
+  max-width: none;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 0 16px 32px;
+  border: 0;
+}
+body.packing-new > main#app > header {
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+body.packing-new .group-head > label,
+body.packing-new .item > label { min-width: 0; }
+
+/* Fill the available body width, keeping only the outer 16px gutters. */
+body.packing-new > main#app > :is(.trip-field, .section-head, .notice, .drag-hint, .group, .sticky) {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin-inline: 0;
+}
+body.packing-new .trip-field > input,
+body.packing-new .group > .add,
+body.packing-new .sticky > button {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+}
+
+/* Checklist cards: user-provided reference, with shared checkbox assets. */
+body.packing-new,
+body.packing-new > main#app { background: #fff; }
+body.packing-new .group {
+  margin-block: 20px;
+  padding: 8px 0;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
+}
+body.packing-new .group-head {
+  min-height: 56px;
+  padding: 4px 12px 4px 16px;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+}
+body.packing-new .group-head > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+body.packing-new .group-head small { display: none; }
+body.packing-new .item {
+  min-height: 48px;
+  padding: 2px 12px 2px 32px;
+  gap: 8px;
+}
+body.packing-new .item > label {
+  gap: 8px;
+  font-size: 16px;
+  line-height: 26px;
+}
+body.packing-new .group input[type=checkbox] { margin: 0; }
+body.packing-new .group .menu {
+  flex: 0 0 32px;
+  width: 32px;
+  min-width: 32px;
+  min-height: 44px;
+  padding: 0;
+  color: #191919;
+  font-size: 24px;
+}
+body.packing-new .group > .add {
+  min-height: 48px;
+  padding: 8px 16px 8px 32px;
+  border-radius: 0;
+  color: #595959;
+  font-size: 16px;
+  line-height: 26px;
+}
+body.packing-new .group input[type=checkbox]:indeterminate {
+  position: relative;
+  border-radius: 8px;
+  background: var(--ds-product-primary);
+}
+body.packing-new .group input[type=checkbox]:indeterminate::after {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 2px;
+  left: 5px;
+  top: 11px;
+  border-radius: 1px;
+  background: #fff;
+}
+body:is(.packing-new, .packing-base) .sticky { background: #fff; }
+
+/* Let trip inputs consume all space between the label and page gutter. */
+body.packing-new > main#app > .trip-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-inline: 0;
+}
+body.packing-new .trip-field > span {
+  flex: 0 0 48px;
+}
+body.packing-new .trip-field > input {
+  flex: 1 1 0;
+  width: 0;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Creation and base editing screens have no bottom navigation. */
+body:is(.packing-new, .packing-base).has-bottom-nav { padding-bottom: 0; }
+body:is(.packing-new, .packing-base) > .bottom-nav { display: none; }
+body:is(.packing-new, .packing-base) .sticky { bottom: env(safe-area-inset-bottom, 0px); }
+
+/* Normalize native date control sizing to the title text field. */
+body.packing-new .trip-field > input {
+  appearance: none;
+  -webkit-appearance: none;
+  height: 52px;
+  min-height: 52px;
+  max-height: 52px;
+  padding-block: 12px;
+  line-height: 26px;
+}
+body.packing-new #trip-date::-webkit-date-and-time-value {
+  min-height: 26px;
+  line-height: 26px;
+  text-align: left;
+}
+body.packing-new #trip-date::-webkit-datetime-edit { padding: 0; }
+
+/* Exactly 8px between the trip date and title rows. */
+body.packing-new > main#app > .trip-field:has(> #trip-date) { margin-bottom: 8px; }
+body.packing-new > main#app > .trip-field:has(> #trip-title) { margin-top: 0; }
+
+/* Text action for creating a checklist in the app bar. */
+body > main#app > header .packing-create { min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; font-size: 16px; font-weight: 600; color: var(--ds-product-primary, #2454d6); }
+body > main#app > header .packing-create:disabled { color: #999; opacity: 1; }
+
+/* Packing home actions use the shared medium button tokens. */
+.packing-home-actions > button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--button-gap);
+  min-height: 0;
+  height: auto;
+  padding: 8px var(--button-size-m-padding-x);
+  border-radius: var(--button-size-m-radius);
+  border-width: var(--button-border-width-default);
+  font-size: var(--typography-label-m-size);
+  font-weight: var(--typography-label-m-weight);
+  line-height: var(--typography-label-m-line-height);
+}
+.packing-home-actions > button[data-action="base"] {
+  background: #fff;
+  border-color: var(--button-outlined-tertiary-border-default);
+  color: var(--button-outlined-tertiary-label-default);
+}
+.packing-home-actions > button[data-action="base"]:is(:hover, :active) {
+  background: var(--nav-pressed, #f5f5f5);
+}
+
+/* Saved checklists share the soft card treatment used while creating a list. */
+.packing-list-card {
+  padding: 16px;
+  margin: 16px 0;
+  border: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
+}
+.packing-list-card .card-title { gap: 12px; }
+.packing-list-card h2 { font-size: 18px; line-height: 26px; overflow-wrap: anywhere; }
+.packing-list-card .menu { flex-shrink: 0; }
+.packing-list-card small { font-size: 14px; color: #8c8c8c; }
+.packing-list-card progress { height: 6px; border-radius: 999px; overflow: hidden; accent-color: var(--ds-product-primary, #2454d6); }
+.packing-list-card progress::-webkit-progress-value { background: var(--ds-product-primary, #2454d6); border-radius: 999px; }
+.packing-list-card .actions > button {
+  min-height: 0;
+  padding: 8px var(--button-size-m-padding-x);
+  border-radius: var(--button-size-m-radius);
+  font-size: var(--typography-label-m-size);
+  font-weight: var(--typography-label-m-weight);
+  line-height: var(--typography-label-m-line-height);
+}
+.packing-list-card .actions > button:not(.primary) { border-color: var(--button-outlined-tertiary-border-default); color: var(--button-outlined-tertiary-label-default); }
+
+.packing-list-card { cursor: pointer; }
+
+body > main#app > header .packing-create[data-action="base"] { color: #000; }
+
+/* Keep the home creation CTA above the bottom navigation. */
+.packing-home-actions {
+  position: fixed;
+  z-index: 9;
+  left: 16px;
+  right: 16px;
+  bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 12px);
+  max-width: 448px;
+  margin-inline: auto;
+}
+body > main#app:has(.packing-home-actions) {
+  padding-bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 80px);
+}

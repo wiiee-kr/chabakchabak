@@ -13,3 +13,24 @@
   --typography-label-m-weight: 500;
   --typography-label-m-line-height: 20px;
 }
+
+/* Figma Textfield Default 4:954 / Filled 4:968. */
+:root {
+  --input-field-border-width: 1px;
+  --input-field-border-default: #d9d9d9;
+  --input-field-container-radius: 12px;
+  --input-field-container-padding: 12px;
+  --input-field-text-padding-x: 4px;
+  --input-field-label-default: #434343;
+  --input-field-text-value: #434343;
+  --input-field-text-placeholder: #c3c3c3;
+  --input-field-text-size: 16px;
+  --input-field-text-line-height: 26px;
+}
+
+/* Figma Checkbox 4:1228: original 24px Unselected / Selected assets. */
+:root {
+  --checkbox-size: 24px;
+  --checkbox-unselected-image: url('../assets/icons/checkbox-unselected.svg');
+  --checkbox-selected-image: url('../assets/icons/checkbox-selected.svg');
+}

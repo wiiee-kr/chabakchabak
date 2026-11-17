@@ -2,11 +2,13 @@
 window.prepareDialogActions = function(dialog) {
   if (dialog.id === 'profile-dialog') {
     dialog.querySelector('.save-button')?.classList.add('popup-primary');
-    dialog.querySelector('.photo-edit')?.classList.add('popup-tertiary');
+    dialog.querySelector('.photo-edit')?.classList.remove('popup-primary', 'popup-tertiary');
     return;
   }
   const buttons = [...dialog.querySelectorAll('button')].filter(b => !b.hidden && !b.classList.contains('sheet-close'));
   if (!buttons.length) return;
+  // Menu options are flat rows, not confirmation CTAs.
+  if (buttons.every(b => b.classList.contains('menu-action'))) return;
   const risky = dialog.dataset.risky === 'true';
   const caution = new Set(['delete','delete-confirm','block','block-confirm','report']);
   for (const b of buttons) {

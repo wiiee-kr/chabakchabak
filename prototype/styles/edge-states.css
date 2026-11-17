@@ -35,3 +35,17 @@
 .page-bar + main:has(> .data-empty:first-child) { padding-top: 0; }
 .section-head:has(+ .data-empty) { margin-bottom: 0; }
 .view:has(> #search-results > .data-empty) > .searchbox { padding-bottom: 0; }
+
+/* Scroll content behind the split floating bar, without an opaque header strip. */
+.phone .topbar:has(+ .view) { pointer-events: none; }
+.phone .topbar :is(.app-bar__leading, .app-bar__actions) { pointer-events: auto; }
+.phone .topbar + .view {
+  margin-top: calc(-1 * (var(--app-bar-height) + var(--app-bar-offset)));
+  padding-top: calc(var(--app-bar-height) + var(--app-bar-offset) + var(--app-body-gap));
+}
+.phone .topbar + .view.edge-state {
+  padding-top: calc(var(--app-bar-height) + var(--app-bar-offset) + var(--empty-state-top-gap));
+}
+.phone .topbar + .view:has(> .data-empty:first-child) {
+  padding-top: calc(var(--app-bar-height) + var(--app-bar-offset));
+}
