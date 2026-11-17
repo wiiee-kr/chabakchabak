@@ -5,7 +5,7 @@
 h1, h2, p { margin: 0; }
 /* App-bar title typography is shared in layout.css. */
 svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
-.back-button { display: grid; align-items: center; justify-items: start; width: 44px; height: 44px; color: inherit; border-radius: 50%; }
+.back-button { display: grid; align-items: center; justify-items: center; width: 44px; height: 44px; color: inherit; border-radius: 50%; }
 button, input { font: inherit; }
 button { cursor: pointer; color: inherit; }
 .profile { display: flex; align-items: center; flex-wrap: wrap; column-gap: 16px; row-gap: 22px; padding: 24px 24px 32px; }

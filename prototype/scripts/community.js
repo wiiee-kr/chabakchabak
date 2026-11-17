@@ -27,7 +27,7 @@
   } catch { storageAvailable = false; }
   const icons = {
     back: '<path d="m14 6-6 6 6 6"/>',
-    more: '<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
+    more: '<circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/>',
     plus: '<path d="M12 5v14M5 12h14"/>',
     heart: '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/>',
     comment: '<path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8Z"/>',
@@ -147,6 +147,7 @@
     dialog.className = sheet ? 'sheet' : '';
     dialog.innerHTML = `<h2 id="dialog-title">${esc(title)}</h2>${body}<div class="${sheet ? '' : 'actions'}">${actions}</div>`;
     dialogHandler = handler;
+    window.prepareDialogCancel(dialog);
     dialog.showModal();
   }
   function confirm(title, body, label, action) {

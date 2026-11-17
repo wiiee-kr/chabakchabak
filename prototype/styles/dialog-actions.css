@@ -1,4 +1,4 @@
-/* All popup CTA labels use solid primary or tertiary stroke. */
+/* Popup CTAs use solid primary, tertiary stroke, or text-only cancel. */
 dialog .popup-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 20px; }
 dialog .popup-actions--pair { flex-direction: row; }
 dialog .popup-actions > button {
@@ -16,3 +16,12 @@ dialog > p:has(~ .popup-actions) { margin-bottom: 0; }
 
 dialog .popup-actions > button[hidden] { display: none; }
 dialog form:has(+ .popup-actions) textarea:last-child { margin-bottom: 0; }
+
+dialog button.popup-cancel-text,
+dialog button.popup-cancel-text:hover,
+dialog button.popup-cancel-text:active {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--button-outlined-tertiary-label-default, #262626);
+}

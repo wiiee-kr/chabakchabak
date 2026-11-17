@@ -1,5 +1,17 @@
+/* Three or more visible actions use a text-only cancel button. */
+window.prepareDialogCancel = function(dialog) {
+  const buttons = [...dialog.querySelectorAll('button')].filter(b => !b.closest('[hidden]') && !b.classList.contains('sheet-close'));
+  dialog.querySelectorAll('.popup-cancel-text').forEach(b => b.classList.remove('popup-cancel-text'));
+  if (buttons.length < 3) return;
+  buttons.forEach(b => {
+    if (b.matches('.cancel,[data-close],#confirm-cancel,[data-action="cancel"],[data-action="close"]') || b.textContent.trim() === '취소') {
+      b.classList.add('popup-cancel-text');
+    }
+  });
+};
 /* Shared popup actions. Called after content is built and before showModal. */
 window.prepareDialogActions = function(dialog) {
+  window.prepareDialogCancel(dialog);
   if (dialog.id === 'profile-dialog') {
     dialog.querySelector('.save-button')?.classList.add('popup-primary');
     dialog.querySelector('.photo-edit')?.classList.remove('popup-primary', 'popup-tertiary');

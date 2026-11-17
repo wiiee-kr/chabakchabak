@@ -21,8 +21,8 @@ dialog p { font-size: 18px; }
   line-height: 24px;
 }
 .trip-field > input {
-  height: 52px;
-  min-height: 52px;
+  height: 44px;
+  min-height: 44px;
   border: var(--input-field-border-width) solid var(--input-field-border-default);
   border-radius: var(--input-field-container-radius);
   padding: var(--input-field-container-padding) calc(var(--input-field-container-padding) + var(--input-field-text-padding-x));
@@ -69,8 +69,8 @@ body.packing-new > main#app > header {
   margin-left: 0;
   margin-right: 0;
 }
-body.packing-new .group-head > label,
-body.packing-new .item > label { min-width: 0; }
+body .group-head > label,
+body .item > label { min-width: 0; }
 
 /* Fill the available body width, keeping only the outer 16px gutters. */
 body.packing-new > main#app > :is(.trip-field, .section-head, .notice, .drag-hint, .group, .sticky) {
@@ -80,7 +80,7 @@ body.packing-new > main#app > :is(.trip-field, .section-head, .notice, .drag-hin
   margin-inline: 0;
 }
 body.packing-new .trip-field > input,
-body.packing-new .group > .add,
+body .group > .add,
 body.packing-new .sticky > button {
   width: 100%;
   max-width: none;
@@ -90,22 +90,25 @@ body.packing-new .sticky > button {
 /* Checklist cards: user-provided reference, with shared checkbox assets. */
 body.packing-new,
 body.packing-new > main#app { background: #fff; }
-body.packing-new .group {
-  margin-block: 20px;
-  padding: 8px 0;
+body .group,
+.packing-list-card {
   border: 0;
   border-radius: 16px;
   background: #fff;
   box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
 }
-body.packing-new .group-head {
+body .group {
+  margin-block: 20px;
+  padding: 8px 0;
+}
+body .group-head {
   min-height: 56px;
   padding: 4px 12px 4px 16px;
   gap: 8px;
   border: 0;
   background: transparent;
 }
-body.packing-new .group-head > label {
+body .group-head > label {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -113,19 +116,19 @@ body.packing-new .group-head > label {
   line-height: 24px;
   font-weight: 600;
 }
-body.packing-new .group-head small { display: none; }
-body.packing-new .item {
+body .group-head small { display: none; }
+body .item {
   min-height: 48px;
   padding: 2px 12px 2px 32px;
   gap: 8px;
 }
-body.packing-new .item > label {
+body .item > label {
   gap: 8px;
   font-size: 16px;
   line-height: 26px;
 }
-body.packing-new .group input[type=checkbox] { margin: 0; }
-body.packing-new .group .menu {
+body .group input[type=checkbox] { margin: 0; }
+body .group .menu {
   flex: 0 0 32px;
   width: 32px;
   min-width: 32px;
@@ -134,7 +137,7 @@ body.packing-new .group .menu {
   color: #191919;
   font-size: 24px;
 }
-body.packing-new .group > .add {
+body .group > .add {
   min-height: 48px;
   padding: 8px 16px 8px 32px;
   border-radius: 0;
@@ -142,12 +145,12 @@ body.packing-new .group > .add {
   font-size: 16px;
   line-height: 26px;
 }
-body.packing-new .group input[type=checkbox]:indeterminate {
+body .group input[type=checkbox]:indeterminate {
   position: relative;
   border-radius: 8px;
   background: var(--ds-product-primary);
 }
-body.packing-new .group input[type=checkbox]:indeterminate::after {
+body .group input[type=checkbox]:indeterminate::after {
   content: '';
   position: absolute;
   width: 14px;
@@ -187,10 +190,10 @@ body:is(.packing-new, .packing-base) .sticky { bottom: env(safe-area-inset-botto
 body.packing-new .trip-field > input {
   appearance: none;
   -webkit-appearance: none;
-  height: 52px;
-  min-height: 52px;
-  max-height: 52px;
-  padding-block: 12px;
+  height: 44px;
+  min-height: 44px;
+  max-height: 44px;
+  padding-block: 8px;
   line-height: 26px;
 }
 body.packing-new #trip-date::-webkit-date-and-time-value {
@@ -236,13 +239,9 @@ body > main#app > header .packing-create:disabled { color: #999; opacity: 1; }
 .packing-list-card {
   padding: 16px;
   margin: 16px 0;
-  border: 0;
-  border-radius: 16px;
-  background: #fff;
-  box-shadow: 0 4px 20px rgb(0 0 0 / 8%);
 }
-.packing-list-card .card-title { gap: 12px; }
-.packing-list-card h2 { font-size: 18px; line-height: 26px; overflow-wrap: anywhere; }
+.packing-list-card .card-title { align-items: flex-start; gap: 12px; }
+.packing-list-card h2 { font-size: 16px; line-height: 24px; overflow-wrap: anywhere; }
 .packing-list-card .menu { flex-shrink: 0; }
 .packing-list-card small { font-size: 14px; color: #8c8c8c; }
 .packing-list-card progress { height: 6px; border-radius: 999px; overflow: hidden; accent-color: var(--ds-product-primary, #2454d6); }
@@ -270,7 +269,155 @@ body > main#app > header .packing-create[data-action="base"] { color: #000; }
   bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 12px);
   max-width: 448px;
   margin-inline: auto;
+  justify-items: end;
+  pointer-events: none;
+}
+.packing-home-actions > button {
+  width: max-content;
+  pointer-events: auto;
+  border-radius: 999px;
+  box-shadow: var(--floating-bar-shadow, 0 4px 24px rgb(0 0 0 / 10%));
 }
 body > main#app:has(.packing-home-actions) {
   padding-bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 80px);
 }
+
+/* Only the saved checklist menu uses a plain text cancel action. */
+#dialog:has([data-list-copy]) .popup-actions > button[data-close] {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--button-outlined-tertiary-label-default);
+}
+
+/* Match the community writing FAB height. */
+.packing-home-actions > button {
+  height: 56px;
+  min-height: 56px;
+}
+
+.packing-list-card .menu { display: flex; align-items: center; justify-content: flex-end; min-height: 26px; height: 26px; padding: 0 0 0 8px; }
+.packing-list-card .menu svg { display: block; width: 16px; height: 16px; fill: currentColor; stroke: none; }
+
+.packing-list-card .progress-label { margin: 16px 0 8px; font-size: 14px; line-height: 20px; color: #777; }
+.packing-list-card .progress-label b { font-weight: 400; }
+
+/* Shared packing card typography; checked items remain readable. */
+body .group-head > h2 { font-size: 16px; line-height: 24px; font-weight: 600; }
+body .group .done .item-name { color: inherit; text-decoration: none; }
+
+/* Detail title and date rows are separated by exactly 8px. */
+body > main#app > h1:has(+ .trip-detail-date) { margin-bottom: 8px; }
+.trip-detail-date { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.trip-detail-date > .muted { margin: 0; }
+.trip-detail-date > .trip-edit {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--button-outlined-tertiary-label-default);
+  font-size: var(--typography-label-m-size);
+  font-weight: var(--typography-label-m-weight);
+  line-height: var(--typography-label-m-line-height);
+  flex-shrink: 0;
+}
+
+/* Round the detail progress track and its filled segment. */
+.trip-detail-date ~ progress { border-radius: 999px; overflow: hidden; }
+.trip-detail-date ~ progress::-webkit-progress-bar { border-radius: 999px; }
+.trip-detail-date ~ progress::-webkit-progress-value { border-radius: 999px; }
+.trip-detail-date ~ progress::-moz-progress-bar { border-radius: 999px; }
+
+/* Quiet date marker and base-editor save action. */
+.trip-detail-date > .muted { display: flex; align-items: center; gap: 4px; }
+.trip-date-icon { width: 16px; height: 16px; flex-shrink: 0; fill: #bfbfbf; stroke: none; }
+body.packing-base .sticky { border: 0; }
+body.packing-base .packing-save {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--button-solid-primary-height);
+  min-height: var(--button-solid-primary-height);
+  border-radius: var(--button-size-m-radius);
+  padding: 0 var(--button-size-m-padding-x);
+  line-height: var(--typography-label-m-line-height);
+}
+
+/* Base guidance is plain copy, without a notice box. */
+body.packing-base > main#app > .notice { background: transparent; border: 0; border-radius: 0; box-shadow: none; padding: 0; }
+
+/* Home overflow menu uses a flat text option. */
+#dialog .packing-home-menu > button { border: 0; border-radius: 0; background: transparent; padding: 12px 0; text-align: left; }
+
+/* Saved checklist overflow keeps the same appearance when pressed. */
+.packing-list-card .menu,
+.packing-list-card .menu:is(:hover, :active) {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  opacity: 1;
+  transform: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Anchored overflow options, without a modal backdrop. */
+.packing-overflow {
+  position: fixed;
+  z-index: 50;
+  width: max-content;
+  min-width: 200px;
+  max-width: calc(100vw - 32px);
+  padding: 8px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 12%);
+}
+.packing-overflow > button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  text-align: left;
+  font-size: var(--cta-label-size, 16px);
+  font-weight: var(--typography-label-m-weight);
+  line-height: 24px;
+}
+.packing-overflow > button:hover { background: var(--nav-pressed, #f5f5f5); }
+.packing-overflow > .danger { color: #d92d20; }
+
+/* Base list names edit directly in their existing rows. */
+body.packing-base .base-name-input {
+  flex: 1;
+  width: 0;
+  min-width: 0;
+  min-height: 48px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+}
+/* A row moving under the pointer after deletion must not look pressed. */
+body.packing-base .group > .add:hover { background: transparent; }
+body.packing-base .group > .add:active { background: var(--nav-pressed, #f5f5f5); }
+body.packing-base .base-group-name { font-size: 16px; line-height: 24px; font-weight: 600; }
+body.packing-base .base-remove {
+  flex: 0 0 44px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font-size: 24px;
+  line-height: 24px;
+}
+
+/* Muted overflow icons in the saved checklist body. */
+body.packing-detail .group .menu { color: #8c8c8c; }
+
+/* Packing home introductory heading: one size below 24px. */
+body > main#app > h1 { font-size: 20px; }

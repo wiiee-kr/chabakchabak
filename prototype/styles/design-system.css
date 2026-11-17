@@ -4,6 +4,7 @@
   --radius-control-m: 10px;
   --button-size-m-radius: var(--radius-control-m);
   --button-size-m-height: 40px;
+  --button-solid-primary-height: 48px;
   --button-size-m-padding-x: 16px;
   --button-gap: 4px;
   --button-border-width-default: 1px;

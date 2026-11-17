@@ -96,7 +96,7 @@ main#app > header > strong {
   background: var(--nav-surface, #fff);
   box-shadow: var(--app-bar-shadow);
 }
-.app-bar__leading { flex: 0 1 auto; min-width: 0; padding-right: 20px; }
+.app-bar__leading { flex: 0 1 auto; min-width: 0; padding-left: 0; padding-right: 20px; }
 .app-bar__actions { flex: 0 0 auto; margin-left: auto; }
 .app-bar__icon, .topbar .icon {
   display: inline-flex;
@@ -114,6 +114,18 @@ main#app > header > strong {
   text-decoration: none;
 }
 .app-bar__icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+:is(.app-bar, .page-bar, .topbar, .header, main#app > header) [aria-label="뒤로가기"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  padding: 0;
+}
+:is(.app-bar, .page-bar, .topbar, .header, main#app > header) [aria-label="뒤로가기"] > svg {
+  display: block;
+  flex-shrink: 0;
+  margin: 0;
+}
 .app-bar__icon:active, .topbar .icon:active { background: var(--nav-pressed, #f5f5f5); }
 .page-actions { display: flex; justify-content: flex-end; flex-shrink: 0; padding: var(--app-body-gap) 16px 0; }
 .page-actions + .view { padding-top: var(--app-body-gap); }
@@ -179,8 +191,11 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
   flex-basis: var(--app-bar-height); padding: 2px; justify-content: center;
 }
 
-/* Root tab titles have no back button and use balanced horizontal spacing. */
-.app-bar__leading:has(> :is(h1, strong):only-child) { padding-inline: 20px; }
+/* All leading app-bar groups use zero left padding, including icon-only groups. */
+.app-bar__leading:has(> :is(.app-bar__icon, .icon):only-child) { padding-left: 0; }
+
+/* Root tab title-only groups retain their original horizontal spacing. */
+.app-bar__leading:has(> :is(h1, strong):only-child) { padding-left: 20px; padding-right: 20px; }
 
 /* Toasts overlay the app-bar position at the top of the screen. */
 #toast, #notice {
@@ -197,19 +212,23 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 .phone > #toast { position: absolute; }
 
 /* Publish validity is reflected by the floating check button. */
-.topbar .app-bar__actions > button[form="write-form"]:disabled {
+.app-bar__actions > :is(button[form="write-form"], .app-bar__confirm):disabled {
   color: #c7c7cc;
   background: transparent;
   cursor: default;
 }
-.topbar .app-bar__actions:has(> button[form="write-form"]:enabled) {
+.app-bar__actions:has(> :is(button[form="write-form"], .app-bar__confirm):enabled) {
   background: var(--ds-product-primary, #2454d6);
 }
-.topbar .app-bar__actions > button[form="write-form"]:enabled {
+.app-bar__actions > :is(button[form="write-form"], .app-bar__confirm):enabled {
   color: #fff;
   background: var(--ds-product-primary, #2454d6);
 }
-.topbar .app-bar__actions:has(> button[form="write-form"]:enabled:active),
-.topbar .app-bar__actions > button[form="write-form"]:enabled:active {
+.app-bar__actions:has(> :is(button[form="write-form"], .app-bar__confirm):enabled:active),
+.app-bar__actions > :is(button[form="write-form"], .app-bar__confirm):enabled:active {
   background: color-mix(in srgb, var(--ds-product-primary, #2454d6) 85%, black);
 }
+
+/* Match the community publish icon, including disabled opacity. */
+.app-bar__confirm { opacity: 1; }
+.app-bar__confirm svg { width: 21px; height: 21px; }
