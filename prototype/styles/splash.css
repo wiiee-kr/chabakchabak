@@ -1,8 +1,8 @@
 @import url('./fonts.css');
 
 :root {
-  --splash-primary: #04a576;
-  --splash-on-primary: #fff;
+  --splash-primary: #fff;
+  --splash-on-primary: #202020;
 }
 
 * { box-sizing: border-box; }
@@ -21,24 +21,13 @@ body {
   place-items: center;
   min-height: 100svh;
   min-height: 100dvh;
-  padding: max(32px, env(safe-area-inset-top)) 24px max(80px, env(safe-area-inset-bottom));
+  padding: max(32px, env(safe-area-inset-top)) 24px max(32px, env(safe-area-inset-bottom));
 }
 
 .splash__brand { text-align: center; }
-.splash__symbol { display: block; margin: 0 auto 22px; }
-.splash__wordmark { margin: 0; font-size: 42px; font-weight: 600; line-height: 1.25; letter-spacing: -2px; }
+.splash__bi { margin: 0; }
+.splash__bi img { display: block; width: 240px; max-width: 100%; height: auto; margin: 0 auto; }
 .splash__tagline { margin: 18px 0 0; font-size: 15px; font-weight: 400; line-height: 24px; letter-spacing: -.2px; }
-.splash__community { display: inline-flex; align-items: center; gap: 16px; margin-top: 36px; padding: 13px 20px; color: var(--splash-on-primary); border: 1px solid rgb(255 255 255 / 55%); border-radius: 10px; text-decoration: none; font-size: 14px; }
-.splash__footer {
-  position: absolute;
-  right: 24px;
-  bottom: max(32px, calc(env(safe-area-inset-bottom) + 16px));
-  left: 24px;
-  text-align: center;
-  font-size: 12px;
-  line-height: 20px;
-  color: rgb(255 255 255 / 80%);
-}
 
 @media (max-height: 420px) {
   .splash { min-height: 420px; }

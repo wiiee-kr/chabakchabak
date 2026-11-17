@@ -1,3 +1,4 @@
+@import url("../styles/design-system.css");
 /* CTA uses the Product/Primary token; fallback supports the standalone UI. */
 :root {
   --brand: var(--ds-product-primary, #2454d6);
@@ -74,7 +75,7 @@
   background: var(--soft);
 }
 .detail > .author-profile { display: flex; align-items: center; gap: 10px; }
-.author-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.author-info { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; min-width: 0; text-align: left; }
 .detail .author-info .author { max-width: none; font-size: 13px; font-weight: 600; line-height: 18px; }
 .author-info time { margin-left: 0; font-size: 12px; line-height: 18px; }
 .comment { display: flex; align-items: flex-start; gap: 10px; }
@@ -138,3 +139,27 @@
 }
 
 .detail > .body-copy { margin-top: 16px; }
+
+/* Solid pencil for the write floating action button. */
+.fab .write-solid { fill: currentColor; stroke: none; }
+
+/* My comments: comment first, source post second, timestamp third. */
+.activity-comment { padding: 20px 16px; }
+.activity-comment__link { display: block; }
+.post.activity-comment .activity-comment__body {
+  margin: 7px 0 0; color: var(--ink); font-size: 16px; line-height: 1.35;
+  font-weight: 600; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;
+}
+.activity-comment__context { display: flex; align-items: baseline; gap: 6px; margin-top: 4px; color: var(--ink); font-size: 15px; line-height: 1.45; font-weight: 400; }
+.activity-comment__label { flex-shrink: 0; }
+.activity-comment__post-title { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; white-space: pre-line; overflow-wrap: anywhere; }
+.activity-comment__time { display: block; margin-top: 6px; color: var(--ds-grayscale-400); font-size: 12px; line-height: 16px; font-weight: 400; }
+
+/* Block management uses the shared outlined tertiary M control. */
+.blocked-list { margin: 0; padding: 0; list-style: none; }
+.blocked-list .blocked-row { gap: 16px; min-height: 72px; padding: 16px; border-bottom: 1px solid var(--soft); }
+.blocked-user { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.blocked-user .profile-thumbnail { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; object-fit: cover; }
+.blocked-name { font-size: 14px; line-height: 20px; font-weight: 500; overflow-wrap: anywhere; }
+.unblock-button { flex-shrink: 0; min-height: var(--button-size-m-height); padding: 0 var(--button-size-m-padding-x); border: var(--button-border-width-default) solid var(--button-outlined-tertiary-border-default); border-radius: var(--button-size-m-radius); color: var(--button-outlined-tertiary-label-default); background: white; font-size: var(--typography-label-m-size); font-weight: var(--typography-label-m-weight); line-height: var(--typography-label-m-line-height); }
+.unblock-button:active { background: var(--soft); }

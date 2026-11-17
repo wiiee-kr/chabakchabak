@@ -1,20 +1,31 @@
+@import url('./design-system.css');
+
 .my-page { max-width: 480px; margin: 0 auto; }
-.page-bar { display: flex; align-items: center; gap: 0; min-height: calc(72px + env(safe-area-inset-top)); padding: calc(12px + env(safe-area-inset-top)) 16px 12px; }
+.page-bar { display: flex; align-items: center; gap: 0; height: calc(var(--app-bar-height, 48px) + env(safe-area-inset-top)); min-height: calc(var(--app-bar-height, 48px) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 16px 0; }
 h1, h2, p { margin: 0; }
 .page-bar h1 { font-size: 18px; font-weight: 400; }
-svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 .back-button { display: grid; align-items: center; justify-items: start; width: 44px; height: 44px; color: inherit; border-radius: 50%; }
 button, input { font: inherit; }
 button { cursor: pointer; color: inherit; }
 .profile { display: flex; align-items: center; flex-wrap: wrap; column-gap: 16px; row-gap: 22px; padding: 24px 24px 32px; }
-.profile-image { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; }
+.profile-image { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; }
 .profile-copy { flex: 1; min-width: 0; }
-.profile-name { font-size: 22px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
-.edit-button { width: 100%; min-height: 44px; border: 1px solid #dedede; background: #fff; border-radius: 8px; font-size: 13px; }
-.menu-section { border-top: 8px solid #f6f6f6; padding: 14px 24px; }
-.menu-item { display: flex; align-items: center; gap: 8px; min-height: 58px; text-decoration: none; color: #191919; font-size: 15px; border-radius: 6px; }
+.profile-name { font-size: 18px; font-weight: 600; line-height: 1.4; overflow-wrap: anywhere; }
+.edit-button {
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: var(--button-size-m-height); min-height: var(--button-size-m-height);
+  padding: 0 var(--button-size-m-padding-x); gap: var(--button-gap);
+  border: var(--button-border-width-default) solid var(--button-outlined-tertiary-border-default);
+  background: transparent; color: var(--button-outlined-tertiary-label-default);
+  border-radius: var(--button-size-m-radius);
+  font-size: var(--typography-label-m-size); font-weight: var(--typography-label-m-weight);
+  line-height: var(--typography-label-m-line-height); letter-spacing: 0;
+}
+.menu-section { border-top: 1px solid #f6f6f6; padding: 14px 24px; }
+.menu-item { display: flex; align-items: center; gap: 8px; min-height: 58px; text-decoration: none; color: #191919; font-size: 15px; font-weight: 400; border-radius: 6px; }
 .menu-item > svg { color: #555; }
-.menu-item:hover, .edit-button:hover, .back-button:hover { background: #f7f7f7; }
+.back-button:hover { background: #f7f7f7; }
 .page-footer { padding: 30px 24px max(28px, env(safe-area-inset-bottom)); color: #888; font-size: 11px; line-height: 1.8; }
 .page-footer p:first-child { color: #555; font-size: 13px; margin-bottom: 5px; }
 dialog { width: calc(100% - 40px); max-width: 380px; border: 0; border-radius: 16px; padding: 24px; color: #191919; }
@@ -22,7 +33,7 @@ dialog::backdrop { background: #0006; }
 dialog h2 { font-size: 20px; margin-bottom: 26px; }
 dialog label { display: block; font-size: 13px; margin-bottom: 10px; }
 dialog input { width: 100%; border: 1px solid #ccc; border-radius: 8px; padding: 12px; font-size: 16px; }
-dialog p { font-size: 12px; color: #777; line-height: 1.7; margin-top: 10px; }
+dialog p { font-size: 14px; color: #777; line-height: 1.7; margin-top: 10px; }
 .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 24px; }
 .dialog-actions button { min-height: 44px; padding: 10px 20px; border: 0; background: #f4f4f4; border-radius: 8px; }
 .dialog-actions .save-button { background: var(--ds-product-primary, #2454d6); color: #fff; }
@@ -49,3 +60,18 @@ dialog p { font-size: 12px; color: #777; line-height: 1.7; margin-top: 10px; }
 body:has(#profile-dialog[open]) { overflow: hidden; }
 
 .menu-item > .menu-icon { display: block; width: 24px; height: 24px; flex: 0 0 24px; }
+
+.menu-group-title { color: #888; font-size: 12px; font-weight: 500; margin: 10px 0 8px; }
+.settings-content { padding: 16px 24px 40px; }
+.settings-content h2 { font-size: 16px; font-weight: 600; margin-bottom: 12px; }
+.settings-content p { font-size: 14px; line-height: 1.6; color: #707070; margin-bottom: 16px; }
+.settings-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 0; border-bottom:1px solid #f3f3f3; font-size:14px; }
+.settings-row span:last-child { color:#888; }
+.settings-button { display:block; width:100%; min-height:48px; margin-top:12px; border:1px solid #dedede; border-radius:12px; background:white; font-size:14px; }
+.settings-button.danger { color:#c43b32; }
+.settings-content select { width:100%; padding:12px; font:inherit; border:1px solid #ddd; border-radius:8px; background:white; margin:8px 0 20px; }
+.settings-content label { font-size:14px; line-height:1.6; }
+.settings-button:disabled { opacity:.4; cursor:default; }
+
+/* Shared typography for My menu labels and notification toggle labels. */
+.menu-item, .notification-toggle__title { font-family: var(--font-app); font-size: var(--menu-label-font-size, 15px); font-weight: 400; line-height: normal; letter-spacing: normal; color: #191919; }

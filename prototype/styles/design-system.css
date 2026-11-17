@@ -1,0 +1,15 @@
+/* Verified Figma source: kyRVfsumtaWbm4e96wrJB0, page 4:37.
+   Button/Outlined/Tertiary M Default: 4:816; guidelines: 4:906. */
+:root {
+  --radius-control-m: 10px;
+  --button-size-m-radius: var(--radius-control-m);
+  --button-size-m-height: 40px;
+  --button-size-m-padding-x: 16px;
+  --button-gap: 4px;
+  --button-border-width-default: 1px;
+  --button-outlined-tertiary-border-default: #d9d9d9;
+  --button-outlined-tertiary-label-default: #262626;
+  --typography-label-m-size: 14px;
+  --typography-label-m-weight: 500;
+  --typography-label-m-line-height: 20px;
+}

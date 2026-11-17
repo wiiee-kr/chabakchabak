@@ -10,16 +10,18 @@
   --ds-grayscale-400: #9e9e9e;
   --ds-grayscale-500: #7b7b7b;
   --ds-blue-600: #2454d6;
+  /* Primitive Blue/900 — Figma node 4:2685 */
+  --ds-blue-900: #1b326b;
   --ds-product-primary: var(--ds-blue-600);
 
   /* BottomNavigation/BG → BG/Default */
   --nav-surface: var(--ds-grayscale-white);
   /* Border/Color/Default */
   --nav-border: var(--ds-grayscale-200);
-  /* BottomNavigation/Label/Selected → Text/Primary → Product/Primary */
-  --nav-label-selected: var(--ds-product-primary);
-  /* BottomNavigation/Icon/Selected → Icon/Color/Primary → Product/Primary */
-  --nav-icon-selected: var(--ds-product-primary);
+  /* Selected navigation label → Primitive Blue/900 (project override) */
+  --nav-label-selected: var(--ds-blue-900);
+  /* Selected navigation icon → Primitive Blue/900 (project override) */
+  --nav-icon-selected: var(--ds-blue-900);
   /* BottomNavigation/Icon/Default → Icon/Color/Alternative */
   --nav-icon-inactive: var(--ds-grayscale-300);
   /* BottomNavigation/Label/Default → Text/Helper */
@@ -45,7 +47,7 @@ body.has-bottom-nav {
   height: var(--bottom-nav-height);
   padding: 4px;
   border-radius: 999px;
-  box-shadow: 0 4px 24px rgb(0 0 0 / 10%), 0 1px 4px rgb(0 0 0 / 3%);
+  box-shadow: var(--floating-bar-shadow, 0 4px 24px rgb(0 0 0 / 10%), 0 1px 4px rgb(0 0 0 / 3%));
   border-top: 0;
   background: var(--nav-surface);
 }

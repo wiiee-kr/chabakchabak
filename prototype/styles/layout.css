@@ -1,5 +1,5 @@
 /* Shared gap from the app bar edge to the first body element. */
-:root { --app-body-gap: 20px; }
+:root { --app-body-gap: 16px; }
 
 .app-bar + main,
 .page-bar + main { padding-top: var(--app-body-gap); }
@@ -20,8 +20,8 @@
 main:not(#app) > header { margin-bottom: var(--app-body-gap); }
 main:not(#app) > header + h1 { margin-top: 0; }
 
-/* App-wide 56px bars; safe area sits above the content height. */
-:root { --app-bar-height: 56px; }
+/* App-wide 48px bars; safe area sits above the content height. */
+:root { --app-bar-height: 48px; }
 .app-bar,
 .page-bar,
 .topbar,
@@ -42,4 +42,135 @@ body > main#app { padding-top: 0; }
 .topbar h1,
 main#app > header > strong {
   font-weight: 500;
+}
+
+/* Floating app bars share the bottom navigation's pill surface. */
+:root {
+  --floating-bar-shadow: 0 4px 24px rgb(0 0 0 / 10%), 0 1px 4px rgb(0 0 0 / 3%);
+  --app-bar-shadow: 0 0 8px rgb(0 0 0 / 8%), 0 0 2px rgb(0 0 0 / 2%);
+  --app-bar-offset: calc(12px + env(safe-area-inset-top));
+}
+.app-bar, .page-bar, .topbar, main#app > header {
+  position: sticky;
+  top: var(--app-bar-offset);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  justify-content: space-between;
+  width: calc(100% - 32px);
+  max-width: 448px;
+  height: var(--app-bar-height);
+  min-height: var(--app-bar-height);
+  margin: var(--app-bar-offset) auto 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.app-bar h1, .page-bar h1, .topbar h1, main#app > header .app-bar__leading > strong {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 24px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+ .app-bar__leading, .app-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: var(--app-bar-height);
+  box-sizing: border-box;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--nav-surface, #fff);
+  box-shadow: var(--app-bar-shadow);
+}
+.app-bar__leading { flex: 0 1 auto; min-width: 0; padding-right: 20px; }
+.app-bar__actions { flex: 0 0 auto; margin-left: auto; }
+.app-bar__icon, .topbar .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  height: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  text-decoration: none;
+}
+.app-bar__icon svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.app-bar__icon:active, .topbar .icon:active { background: var(--nav-pressed, #f5f5f5); }
+.page-actions { display: flex; justify-content: flex-end; flex-shrink: 0; padding: var(--app-body-gap) 16px 0; }
+.page-actions + .view { padding-top: var(--app-body-gap); }
+body > main#app > header { width: calc(100% + 20px); margin-left: -10px; margin-bottom: var(--app-body-gap); }
+@media (max-width: 900px) { body > main#app > header { width: calc(100% + 8px); margin-left: -4px; } }
+
+/* Tabs are the first body element on activity screens. */
+.topbar + .activity-tabs { margin-top: var(--app-body-gap); }
+
+/* Menu rows on depth-two and deeper screens. */
+:root { --detail-menu-gap: 8px; --detail-menu-padding-y: 8px; }
+.detail-menu-list { display: flex; flex-direction: column; gap: var(--detail-menu-gap); }
+.settings-content .settings-row + .settings-row,
+.settings-content .menu-item + .menu-item { margin-top: var(--detail-menu-gap); }
+
+.detail-menu-list > *,
+.settings-content .settings-row,
+.settings-content .menu-item {
+  min-height: 0;
+  padding-block: var(--detail-menu-padding-y);
+}
+
+/* My menu and depth-two list labels always share one size token. */
+:root { --menu-label-font-size: 15px; }
+.menu-item,
+.settings-content .settings-row,
+.settings-content .detail-menu-list > label,
+.notification-toggle__title,
+.blocked-list .blocked-name {
+  font-size: var(--menu-label-font-size);
+}
+
+/* Menu rows have no pointer-press or native tap highlight. */
+.menu-item, .menu-item * { -webkit-tap-highlight-color: transparent; }
+.menu-item:hover, .menu-item:active { background: transparent; }
+.menu-item:active .menu-icon { background: transparent; opacity: 1; filter: none; }
+
+/* CTA label size: one step above each existing button size. */
+:root { --cta-label-size: 16px; --cta-label-large-size: 18px; }
+.primary, .text-action, .settings-button, .edit-button, .unblock-button,
+.photo-edit { font-size: var(--cta-label-size); }
+.dialog-actions button, #profile-form .save-button,
+body > main#app .primary, body > main#app .sticky button,
+body:has(> main#app) dialog .actions button {
+  font-size: var(--cta-label-large-size);
+}
+.sheet .cancel { font-size: var(--cta-label-size); }
+
+/* Compact CTAs step down; full-width CTAs retain their larger labels. */
+:root { --cta-label-compact-size: 14px; }
+.text-action, .unblock-button, .photo-edit,
+.primary:not(.wide) { font-size: var(--cta-label-compact-size); }
+.sheet .primary, .poll .primary { font-size: var(--cta-label-size); }
+.dialog-actions button,
+body > main#app .primary:not(.wide),
+body:has(> main#app) dialog .actions button { font-size: var(--cta-label-size); }
+body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
+
+/* A single app-bar icon occupies a square 48px capsule. */
+.app-bar__actions:has(> :only-child),
+.app-bar__leading:has(> :is(button, a):only-child) {
+  width: var(--app-bar-height); min-width: var(--app-bar-height);
+  flex-basis: var(--app-bar-height); padding: 2px; justify-content: center;
 }

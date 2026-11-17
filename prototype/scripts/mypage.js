@@ -21,7 +21,7 @@
   function open(){
     input.value=name.textContent;draftPhoto=photo.src;preview.src=draftPhoto;fileInput.value='';
     ['nickname-error','photo-error','save-error'].forEach(id=>message(id,''));input.removeAttribute('aria-invalid');submit.disabled=false;
-    dialog.showModal();document.querySelector('#choose-photo').focus();
+    window.prepareDialogActions(dialog);dialog.showModal();document.querySelector('#choose-photo').focus();
   }
   document.querySelector('#edit-profile').addEventListener('click',open);
   document.querySelector('#edit-profile-photo').addEventListener('click',()=>{open();fileInput.click();});
