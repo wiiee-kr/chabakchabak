@@ -126,6 +126,16 @@ main#app > header > strong {
   flex-shrink: 0;
   margin: 0;
 }
+svg.navigation-icon {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+svg.navigation-icon--share { width: 20px; height: 20px; }
 .app-bar__icon:active, .topbar .icon:active { background: var(--nav-pressed, #f5f5f5); }
 .page-actions { display: flex; justify-content: flex-end; flex-shrink: 0; padding: var(--app-body-gap) 16px 0; }
 .page-actions + .view { padding-top: var(--app-body-gap); }
@@ -186,13 +196,13 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 
 /* A single app-bar icon occupies a square 48px capsule. */
 .app-bar__actions:has(> :is(.app-bar__icon, .icon):only-child),
-.app-bar__leading:has(> :is(.app-bar__icon, .icon):only-child) {
+.app-bar__leading:has(> :is(.app-bar__icon, .icon):first-child):not(:has(> :nth-child(n+2):not([hidden]))) {
   width: var(--app-bar-height); min-width: var(--app-bar-height);
   flex-basis: var(--app-bar-height); padding: 2px; justify-content: center;
 }
 
 /* All leading app-bar groups use zero left padding, including icon-only groups. */
-.app-bar__leading:has(> :is(.app-bar__icon, .icon):only-child) { padding-left: 0; }
+.app-bar__leading:has(> :is(.app-bar__icon, .icon):first-child):not(:has(> :nth-child(n+2):not([hidden]))) { padding-left: 0; }
 
 /* Root tab title-only groups retain their original horizontal spacing. */
 .app-bar__leading:has(> :is(h1, strong):only-child) { padding-left: 20px; padding-right: 20px; }
@@ -232,3 +242,5 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 /* Match the community publish icon, including disabled opacity. */
 .app-bar__confirm { opacity: 1; }
 .app-bar__confirm svg { width: 21px; height: 21px; }
+
+.detail + .comments-heading { margin-top: var(--section-gap); }

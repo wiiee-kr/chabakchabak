@@ -1,4 +1,5 @@
 @import url("../styles/design-system.css");
+@import url("../styles/activity-tabs.css");
 /* CTA uses the Product/Primary token; fallback supports the standalone UI. */
 :root {
   --brand: var(--ds-product-primary, #2454d6);
@@ -107,37 +108,6 @@
 
 /* Activity segmented navigation sits directly below the app bar. */
 .topbar:has(+ .activity-tabs) { border-bottom: 0; margin-bottom: 0; }
-.activity-tabs {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 4px;
-  margin: 0 16px;
-  padding: 4px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--ds-grayscale-50);
-}
-.activity-tabs a {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 40px;
-  padding: 0 8px;
-  border: 0;
-  border-radius: 8px;
-  color: var(--ds-grayscale-500);
-  font-size: 13px;
-  line-height: 20px;
-  font-weight: 400;
-}
-.activity-tabs a[aria-current="page"] {
-  border: 0;
-  background: var(--ds-grayscale-white);
-  color: var(--ds-product-primary);
-  font-weight: 500;
-  box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
-}
-
 .detail > .body-copy { margin-top: 16px; }
 
 /* Solid pencil for the write floating action button. */

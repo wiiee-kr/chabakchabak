@@ -6,15 +6,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>차박차박 · 홈</title>
+  <link rel="stylesheet" href="styles/design-system.css">
   <link rel="stylesheet" href="styles/home.css">
   <link rel="stylesheet" href="styles/bottom-nav.css">
 <link rel="stylesheet" href="styles/focus.css">
   <script src="scripts/profile-photo.js" defer></script>
+  <script src="scripts/hike-catalog.js" defer></script>
+<script src="scripts/hike-explore.js" defer></script>
 <link rel="stylesheet" href="styles/layout.css">
 </head>
 <body class="has-bottom-nav">
+<div id="hike-home">
   <header class="app-bar"><div class="app-bar__leading app-bar__brand"><a class="app-logo" href="home.html" aria-label="차박차박 홈"><img src="assets/chabak-bi-horizontal.png?v=5" width="360" height="80" alt="차박차박"></a></div><div class="app-bar__actions"><a class="app-bar__icon" href="community.html#/notifications" aria-label="알림센터"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4"/></svg></a><a class="app-bar__icon" href="community.html#/search" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20l-4-4 M18 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></a></div></header>
-  <main aria-label="홈"></main>
+  <main class="hike-page" aria-label="산행 코스 탐색">
+    <a class="hike-feature" href="#course/sobaeksan">
+      <div class="terrain hike-feature__image" data-range="sobaeksan" aria-hidden="true"></div>
+      <div class="hike-feature__body">
+        <p>이번 주 추천</p>
+        <h1>소백산자락길 1자락</h1>
+        <p>소백산 산자락을 따라 걷는 길</p>
+      </div>
+    </a>
+
+    <div class="hike-tabs" role="tablist" aria-label="탐색 종류">
+      <button id="mountain-tab" type="button" role="tab" aria-controls="mountain-panel" aria-selected="true">산</button>
+      <button id="course-tab" type="button" role="tab" aria-controls="course-panel" aria-selected="false" tabindex="-1">코스</button>
+    </div>
+
+    <section id="mountain-panel" class="hike-panel" role="tabpanel" aria-labelledby="mountain-tab">
+      <div class="hike-region-filters" role="group" aria-label="지역">
+        <button type="button" data-region="" aria-pressed="true">전체</button>
+        <button type="button" data-region="수도권" aria-pressed="false">수도권</button>
+        <button type="button" data-region="강원" aria-pressed="false">강원</button>
+        <button type="button" data-region="충청" aria-pressed="false">충청</button>
+        <button type="button" data-region="경상" aria-pressed="false">경상</button>
+        <button type="button" data-region="전라" aria-pressed="false">전라</button>
+        <button type="button" data-region="제주" aria-pressed="false">제주</button>
+      </div>
+      <ul id="mountain-list" class="hike-list"></ul>
+      <p id="mountain-empty" class="hike-empty" role="status" hidden>이 지역에 등록된 산이 없어요</p>
+    </section>
+
+    <section id="course-panel" class="hike-panel" role="tabpanel" aria-labelledby="course-tab" hidden>
+      <div class="mode-group" role="group" aria-label="코스 탐색 기준"><button data-mode="difficulty" aria-pressed="true">난이도별</button><button data-mode="duration" aria-pressed="false">소요시간별</button></div><div id="difficulty" class="hike-region-filters" role="group" aria-label="난이도"><button data-value="" aria-pressed="true">전체</button><button data-value="쉬움" aria-pressed="false">쉬움</button><button data-value="보통" aria-pressed="false">보통</button><button data-value="어려움" aria-pressed="false">어려움</button></div><div id="duration" class="hike-region-filters" role="group" aria-label="소요시간" hidden><button data-value="" aria-pressed="true">전체</button><button data-value="short" aria-pressed="false">2시간 이내</button><button data-value="medium" aria-pressed="false">2시간 초과~4시간</button><button data-value="long" aria-pressed="false">4시간 초과</button></div>
+      <ul id="course-list" class="hike-list"></ul>
+      <p id="course-empty" class="hike-empty" role="status" hidden>조건에 맞는 코스가 없어요</p>
+    </section>
+  </main>
   <nav class="bottom-nav" aria-label="주요 메뉴">
     <a class="bottom-nav__item" href="home.html" aria-current="page">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M1.5 18.2 7.1 5.9Q8.2 3.5 9.6 5.7L13 11l2.5-3.5Q16.8 5.7 17.8 7.8l4.7 10.4Q23.7 21 20.8 21H3.2Q.2 21 1.5 18.2ZM12 13.5a2.5 2.5 0 0 0-2.5 2.5v5h5v-5a2.5 2.5 0 0 0-2.5-2.5Z"/></svg>
@@ -33,5 +71,97 @@
       <span>마이</span>
     </a>
   </nav>
+</div>
+<div id="hike-detail" hidden>
+  <header class="app-bar">
+    <div class="app-bar__leading">
+      <a class="app-bar__icon" href="#home" id="hike-back" aria-label="뒤로가기">
+        <svg class="navigation-icon navigation-icon--back" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#back"/></svg>
+      </a>
+      <h1 id="hike-detail-bar">코스 상세</h1>
+    </div>
+    <div class="app-bar__actions" id="mountain-share-actions" hidden>
+      <button class="app-bar__icon" id="mountain-share" type="button" aria-label="이 산 공유하기">
+        <svg class="navigation-icon navigation-icon--share" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#share"/></svg>
+      </button>
+    </div>
+  </header>
+  <main id="hike-course-detail" class="hike-page">
+    <h2 class="hike-title" id="hike-course-name"></h2>
+    <p class="hike-intro" id="hike-course-mountain"></p>
+    <a id="course-source" class="hike-demo-note" hidden></a>
+    <p id="course-demo-note" class="hike-demo-note">코스와 거리·시간·난이도는 시연용 예시예요</p>
+
+    <dl class="hike-stats" aria-label="코스 요약">
+      <div><dt>거리</dt><dd id="detail-distance"></dd></div>
+      <div><dt>소요시간</dt><dd id="detail-duration"></dd></div>
+      <div><dt>난이도</dt><dd id="detail-difficulty"></dd></div>
+    </dl>
+
+    <section class="hike-section" aria-labelledby="hike-route-title">
+      <h3 id="hike-route-title">코스 한눈에 보기</h3>
+      <figure class="hike-route">
+        <ol id="course-stops" aria-label="주요 지점 순서">
+          <li>출발</li><li>경유</li><li>도착</li>
+        </ol>
+        <figcaption id="course-route-caption">방문 순서를 보여주는 예시 도식</figcaption>
+      </figure>
+    </section>
+
+    <section class="hike-section" aria-labelledby="hike-steps-title">
+      <h3 id="hike-steps-title">이렇게 걸어요</h3>
+      <p id="course-guide" hidden></p>
+      <ol id="course-demo-steps" class="hike-steps">
+        <li><strong>출발 지점</strong><span>출발 장소와 접근 방법</span></li>
+        <li><strong>주요 경유지</strong><span>영상에 나온 장소와 구간별 안내</span></li>
+        <li><strong>도착 지점</strong><span>도착 장소와 돌아가는 방법</span></li>
+      </ol>
+    </section>
+
+    <section class="hike-section" aria-labelledby="hike-video-title">
+      <h3 id="hike-video-title">원본 영상</h3>
+      <p class="hike-placeholder hike-video">영상 확인 예정</p>
+    </section>
+  </main>
+  <main id="hike-mountain-detail" class="hike-page" hidden>
+
+    <div class="mountain-cover">
+      <div class="terrain" id="mountain-cover" role="img"></div>
+      <span class="mountain-cover__counter" role="img" aria-label="산 이미지 1장 중 1번째">1 / 1</span>
+    </div>
+    <p tabindex="-1" id="hike-mountain-region" class="hike-intro"></p>
+    <h2 id="hike-mountain-name" class="hike-title"></h2>
+    <div class="mt-tags" id="mt-traits" aria-label="산의 특징"></div>
+    <p id="mt-description" class="hike-intro"></p>
+    <dl class="hike-stats"><div><dt>최고 고도</dt><dd id="mt-peak"></dd></div><div><dt class="mt-level-label"><button type="button" id="mt-level-help" aria-label="평균 난이도 안내" aria-expanded="false" aria-controls="mt-level-tip"><span>평균 난이도</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 11v6m0-10v.5"/></svg></button><span id="mt-level-tip" hidden></span></dt><dd id="mt-level"></dd></div></dl>
+    <section class="hike-section" aria-labelledby="mountain-notice" hidden>
+      <h3 id="mountain-notice" tabindex="-1">공식 알림</h3>
+      <div class="mt-notices">
+        <details class="mt-notice">
+          <summary>탐방안내소 이용 안내 <small>예시</small></summary>
+          <p>탐방안내소에서 코스별 거리와 예상 소요시간을 안내해요.</p>
+        </details>
+        <details class="mt-notice">
+          <summary>탐방로 지도 안내 <small>예시</small></summary>
+          <p>탐방로 지도를 어디에서 볼 수 있는지 안내하는 예시예요.</p>
+        </details>
+      </div>
+    </section>
+    <section id="mountain-videos" class="hike-section" aria-labelledby="mountain-videos-title" hidden>
+      <h3 id="mountain-videos-title">차박차박이 다녀온 영상</h3>
+      <div id="mountain-video-list"></div>
+    </section>
+    <section class="hike-section" aria-labelledby="hike-mountain-courses">
+      <h3 tabindex="-1" id="hike-mountain-courses">코스</h3>
+      <ul id="hike-mountain-course-list" class="hike-list"></ul>
+    </section>
+    <div class="mountain-bottom-actions">
+      <button type="button" id="mountain-bookmark" aria-label="산 북마크" aria-pressed="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v15l-7-4z"/></svg>
+      </button>
+      <button type="button" id="mountain-course-cta" aria-controls="hike-mountain-course-list"></button>
+    </div>
+  </main>
+</div>
 </body>
 </html>

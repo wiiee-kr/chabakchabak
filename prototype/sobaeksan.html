@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>차박차박 · 소백산 자락길</title>
+  <link rel="stylesheet" href="styles/typography.css">
+  <link rel="stylesheet" href="styles/design-system.css">
+  <link rel="stylesheet" href="styles/home.css">
+  <link rel="stylesheet" href="styles/focus.css">
+  <link rel="stylesheet" href="styles/layout.css">
+</head>
+<body>
+  <header class="app-bar">
+    <div class="app-bar__leading">
+      <a class="app-bar__icon" href="home.html" aria-label="뒤로가기">
+        <svg class="navigation-icon navigation-icon--back" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#back"/></svg>
+      </a>
+      <h1>코스 상세</h1>
+    </div>
+  </header>
+  <main class="hike-page">
+    <h2 class="hike-title">소백산 자락길</h2>
+    <p class="hike-intro">소백산에서 걷는 길을 출발부터 도착까지 살펴보세요</p>
+
+    <dl class="hike-stats" aria-label="코스 요약">
+      <div><dt>거리</dt><dd>확인 예정</dd></div>
+      <div><dt>소요시간</dt><dd>확인 예정</dd></div>
+      <div><dt>난이도</dt><dd>확인 예정</dd></div>
+    </dl>
+
+    <section class="hike-section" aria-labelledby="hike-route-title">
+      <h3 id="hike-route-title">코스 한눈에 보기</h3>
+      <figure class="hike-route">
+        <ol aria-label="방문 순서 예시">
+          <li>출발</li><li>경유</li><li>도착</li>
+        </ol>
+        <figcaption>방문 순서를 보여주는 예시 도식</figcaption>
+      </figure>
+    </section>
+
+    <section class="hike-section" aria-labelledby="hike-steps-title">
+      <h3 id="hike-steps-title">이렇게 걸어요</h3>
+      <ol class="hike-steps">
+        <li><strong>출발 지점</strong><span>출발 장소와 접근 방법</span></li>
+        <li><strong>주요 경유지</strong><span>영상에 나온 장소와 구간별 안내</span></li>
+        <li><strong>도착 지점</strong><span>도착 장소와 돌아가는 방법</span></li>
+      </ol>
+    </section>
+
+    <section class="hike-section" aria-labelledby="hike-video-title">
+      <h3 id="hike-video-title">원본 영상</h3>
+      <p class="hike-placeholder hike-video">영상 확인 예정</p>
+    </section>
+  </main>
+</body>
+</html>

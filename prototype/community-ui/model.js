@@ -90,12 +90,16 @@ function ensureNickname(data,storage){
 // Fixed local photos keep a public nickname consistent across posts and replies.
 const profilePhotos={'포근한구름':10,'느린오후':11,'초록산책':12,'차분한바람':13,'반짝이는별':14,'다정한마음':15,'숲속산책':16,'산들바람':17,'햇살한줌':18,'푸른능선':19,'소소':20,'책갈피':21};
 function avatarSource(user,nickname){
- if(user==='me')return 'assets/my-thumbnail.png';
+ const fallback='assets/my-thumbnail.png';
+ if(user==='me'){
+   try{
+     const photo=JSON.parse(root.localStorage.getItem('chabak-profile-v1'))?.photo;
+     if(typeof photo==='string' && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(photo))return photo;
+   }catch{}
+   return fallback;
+ }
  const name=String(nickname||user).normalize('NFC');
- let hash=2166136261;
- for(const char of name)hash=Math.imul(hash^char.codePointAt(0),16777619)>>>0;
- const photo=profilePhotos[name]??(10+hash%12);
- return `assets/avatars/photo-${photo}.jpg`;
+ return Object.hasOwn(profilePhotos,name) ? `assets/avatars/photo-${profilePhotos[name]}.jpg` : fallback;
 }
 const api={validNickname,randomNickname,ensureNickname,avatarSource,refreshNicknames,nicknameTaken,refreshMountainSamples,length,uid,validDraft,seed,migrate,threads,vote,addComment};
 if(typeof module!=='undefined'&&module.exports)module.exports=api;else root.CommunityModel=api;

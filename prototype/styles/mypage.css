@@ -1,4 +1,5 @@
 @import url('./design-system.css');
+@import url('./activity-tabs.css');
 
 .my-page { max-width: 480px; margin: 0 auto; }
 .page-bar { display: flex; align-items: center; gap: 0; height: calc(var(--app-bar-height, 48px) + env(safe-area-inset-top)); min-height: calc(var(--app-bar-height, 48px) + env(safe-area-inset-top)); padding: env(safe-area-inset-top) 16px 0; }
@@ -86,3 +87,15 @@ body:has(#profile-dialog[open]) { overflow: hidden; }
 
 .account-settings > .settings-row { border: 0; }
 .settings-content .settings-menu > .menu-item { min-height: 58px; padding-block: 8px; margin-top: 0; }
+
+.business-footer { display: grid; gap: 4px; margin-top: 32px; }
+.business-footer p { margin: 0; font-size: 12px; line-height: 18px; word-break: keep-all; overflow-wrap: anywhere; }
+.business-footer span { display: inline-block; max-width: 100%; }
+.business-footer a { color: inherit; }
+
+.settings-content:has(.activity-tabs) { padding-inline: 16px; }
+.settings-content > .activity-tabs { margin-inline: 0; }
+/* Match the first activity title's offset (20px row padding + 7px title margin). */
+.settings-content > .activity-tabs + .hike-list > li:first-child > .hike-row {
+  padding-top: 27px;
+}

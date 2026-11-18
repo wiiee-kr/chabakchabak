@@ -10,6 +10,11 @@
   --button-border-width-default: 1px;
   --button-outlined-tertiary-border-default: #d9d9d9;
   --button-outlined-tertiary-label-default: #262626;
+  /* Figma Label S (4:2665). */
+  --typography-label-s-size: 12px;
+  --typography-label-s-line-height: 18px;
+  --typography-label-s-weight: 500;
+  --typography-label-s-letter-spacing: 0.1px;
   --typography-label-m-size: 14px;
   --typography-label-m-weight: 500;
   --typography-label-m-line-height: 20px;
@@ -34,4 +39,18 @@
   --checkbox-size: 24px;
   --checkbox-unselected-image: url('../assets/icons/checkbox-unselected.svg');
   --checkbox-selected-image: url('../assets/icons/checkbox-selected.svg');
+}
+
+/* Layout */
+:root {
+  --section-gap: 40px;
+  --course-thumbnail-size: 100px;
+}
+
+/* Figma Typography/Title/L (4:2637). */
+:root {
+  --typography-title-l-size: 18px;
+  --typography-title-l-line-height: 28px;
+  --typography-title-l-weight: 600;
+  --typography-title-l-letter-spacing: 0;
 }
