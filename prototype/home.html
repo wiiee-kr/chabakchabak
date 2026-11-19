@@ -90,7 +90,7 @@
     <h2 class="hike-title" id="hike-course-name"></h2>
     <p class="hike-intro" id="hike-course-mountain"></p>
     <a id="course-source" class="hike-demo-note" hidden></a>
-    <p id="course-demo-note" class="hike-demo-note">코스와 거리·시간·난이도는 시연용 예시예요</p>
+    <p id="course-demo-note" class="hike-demo-note">출발·도착 지점을 특정할 수 없어 공식 경로 확인 전이에요</p>
 
     <dl class="hike-stats" aria-label="코스 요약">
       <div><dt>거리</dt><dd id="detail-distance"></dd></div>
@@ -104,20 +104,22 @@
         <ol id="course-stops" aria-label="주요 지점 순서">
           <li>출발</li><li>경유</li><li>도착</li>
         </ol>
-        <figcaption id="course-route-caption">방문 순서를 보여주는 예시 도식</figcaption>
+        <a class="hike-demo-note" id="course-track-source" hidden>두루누비 경로·GPX 자료 (course.source)</a>
+        <figcaption id="course-route-caption">공식 경로 확인 전</figcaption>
       </figure>
     </section>
 
     <section class="hike-section" aria-labelledby="hike-steps-title">
       <h3 id="hike-steps-title">이렇게 걸어요</h3>
       <p id="course-guide" hidden></p>
-      <ol id="course-demo-steps" class="hike-steps">
+      <ol hidden id="course-demo-steps" class="hike-steps">
         <li><strong>출발 지점</strong><span>출발 장소와 접근 방법</span></li>
         <li><strong>주요 경유지</strong><span>영상에 나온 장소와 구간별 안내</span></li>
         <li><strong>도착 지점</strong><span>도착 장소와 돌아가는 방법</span></li>
       </ol>
     </section>
 
+    <dl id="course-facilities"></dl>
     <section class="hike-section" aria-labelledby="hike-video-title">
       <h3 id="hike-video-title">원본 영상</h3>
       <p class="hike-placeholder hike-video">영상 확인 예정</p>
@@ -133,6 +135,8 @@
     <h2 id="hike-mountain-name" class="hike-title"></h2>
     <div class="mt-tags" id="mt-traits" aria-label="산의 특징"></div>
     <p id="mt-description" class="hike-intro"></p>
+    <p><a id="mountain-source" class="hike-demo-note"></a> <a id="profile-source" class="hike-demo-note">숲나들e 산 개요</a></p>
+    <a id="summit-station" class="hike-demo-note"></a>
     <dl class="hike-stats"><div><dt>최고 고도</dt><dd id="mt-peak"></dd></div><div><dt class="mt-level-label"><button type="button" id="mt-level-help" aria-label="평균 난이도 안내" aria-expanded="false" aria-controls="mt-level-tip"><span>평균 난이도</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 11v6m0-10v.5"/></svg></button><span id="mt-level-tip" hidden></span></dt><dd id="mt-level"></dd></div></dl>
     <section class="hike-section" aria-labelledby="mountain-notice" hidden>
       <h3 id="mountain-notice" tabindex="-1">공식 알림</h3>
