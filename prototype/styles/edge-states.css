@@ -11,7 +11,7 @@
 .tertiary-stroke:active { background: var(--soft); }
 .edge-state__retry { margin-top: 20px; }
 
-.edge-state__icon--community { height: 88px; background-image: url('../assets/community-empty.png'); background-size: 158px auto; background-position: center; }
+.edge-state__icon--community { height: 88px; background-image: url('../assets/community-empty.png'); background-size: contain; background-position: center; }
 
 /* Compact empty state inside the post's comments section. */
 .comments-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: var(--empty-state-top-gap) 16px 32px; text-align: center; }
@@ -49,3 +49,5 @@
 .phone .topbar + .view:has(> .data-empty:first-child) {
   padding-top: calc(var(--app-bar-height) + var(--app-bar-offset));
 }
+
+.data-empty.search-prompt { padding-top: 32px; }

@@ -19,7 +19,7 @@
   border: 0;
   border-radius: 8px;
   color: var(--ds-grayscale-500, #7b7b7b);
-  font-size: 13px;
+  font-size: var(--typography-label-m-size, 14px);
   line-height: 20px;
   font-weight: 500;
 }

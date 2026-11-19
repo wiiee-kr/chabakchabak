@@ -15,6 +15,17 @@ const groups=()=>draft.groups;
 const stats=gs=>{const items=gs.flatMap(g=>g.items);return{total:items.length,done:items.filter(i=>i.done).length};};
 const progress=gs=>{const s=stats(gs),pct=s.total?Math.round(s.done/s.total*100):0;return `<div class="progress-label"><span><b>${mode==='home'?'🎒 ':''}${s.done} / ${s.total}개</b></span></div><progress value="${s.done}" max="${s.total||1}" aria-label="준비 완료 ${pct}%"></progress>`;};
 const dateLabel=d=>d?`${Number(d.slice(5,7))}/${Number(d.slice(8,10))}`:'';
+function cardTitle(list){
+  const date=dateLabel(list.date);
+  const title=list.title || '산행 준비물';
+  if(!date || title===date || title.startsWith(date+' ')) return title;
+  return date+' '+title;
+}
+function renderListCard(list){
+  const title=esc(cardTitle(list));
+  const id=esc(list.id);
+  return `<article class="card packing-list-card" data-action="open" data-id="${id}" tabindex="0" aria-label="${title} 열기"><div class="card-title"><h2>${title}</h2><button class="menu" data-action="list-menu" data-id="${id}" aria-label="${title} 더보기"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></div>${progress(list.groups)}</article>`;
+}
 function saveDetail(){if(mode==='detail'){db.lists=db.lists.map(l=>l.id===draft.id?clone(draft):l);persist();}}
 function changed(){dirty=true;saveDetail();render();}
 function header(title){return `<header><div class="app-bar__leading">${mode!=='home'?'<button class="app-bar__icon" data-action="back" aria-label="뒤로가기"><svg class="navigation-icon navigation-icon--back" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#back"/></svg></button>':''}<strong>${mode==='new'?'새 체크리스트':mode==='base'?'내 준비물 양식 편집':mode==='detail'?esc(draft.title):'준비물'}</strong></div>${mode==='home'?`<div class="app-bar__actions"><button class="app-bar__icon" data-action="home-menu" aria-label="준비물 더보기"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></div>`:''}${mode==='new'?`<div class="app-bar__actions"><button class="app-bar__icon app-bar__confirm" data-action="create" aria-label="만들기" ${selectedCount()?'':'disabled'}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg></button></div>`:''}${mode==='detail'?`<div class="app-bar__actions"><button class="app-bar__icon" data-action="list-menu" data-id="${esc(draft.id)}" aria-label="체크리스트 더보기"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg></button></div>`:''}</header>${mode==='home'?`<h1>${title}</h1>`:''}`;}
@@ -22,9 +33,16 @@ function render(){
 document.body.classList.toggle('packing-new',mode==='new');
 document.body.classList.toggle('packing-base',mode==='base');
 document.body.classList.toggle('packing-detail',mode==='detail');
-if(mode==='home'){app.innerHTML=header('하나씩 챙기면, 떠날 준비 끝! ⛰️')+`<div class="stack packing-home-actions"><button class="primary" data-action="new">+ 새 체크리스트</button></div>`+(db.lists.length?db.lists.map(l=>`<article class="card packing-list-card" data-action="open" data-id="${l.id}" tabindex="0" aria-label="${esc(l.title)} 열기"><div class="card-title"><h2>${esc(l.title)}</h2><button class="menu" data-action="list-menu" data-id="${esc(l.id)}" aria-label="${esc(l.title)} 더보기"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></svg></button></div>${progress(l.groups)}</article>`).join(''):'<div class="data-empty"><div class="edge-state__icon edge-state__icon--mountain" aria-hidden="true"></div><p class="edge-state__description">아직 준비한 산행이 없어요<br>첫 체크리스트를 만들어 보세요</p></div>');return;}
+if(mode==='home'){app.innerHTML=header('하나씩 챙기면, 떠날 준비 끝! ⛰️')+`<div class="stack packing-home-actions"><button class="primary" data-action="new">+ 새 체크리스트</button></div>`+(db.lists.length?db.lists.map(renderListCard).join(''):'<div class="data-empty"><div class="edge-state__icon edge-state__icon--mountain" aria-hidden="true"></div><p class="edge-state__description">아직 준비한 산행이 없어요<br>첫 체크리스트를 만들어 보세요</p></div>');return;}
 const isBase=mode==='base',isNew=mode==='new';
-app.innerHTML=header(isBase?'내 준비물 양식 편집':isNew?'새 체크리스트':esc(draft.title))+(isBase?'<p class="notice">나만의 체크리스트 양식을 만들어봐요!<br>한번 만들어두면, 다음부턴 빠르게 완성되는 체크리스트!</p>':isNew?`<label class="field trip-field"><span>산행일</span><input id="trip-date" type="date" value="${esc(draft.date)}" required></label><label class="field trip-field"><span>제목</span><input id="trip-title" maxlength="16" placeholder="제목을 입력해 주세요 (선택)" value="${esc(draft.title)}"></label><div class="section-head"><h2>이번 산행 준비물</h2></div>`:`<div class="trip-detail-date"><p class="muted"><svg class="trip-date-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20a1 1 0 0 1-.87-1.5l8-14a1 1 0 0 1 1.74 0L16 13l2.13-3.5a1 1 0 0 1 1.74 0l4 9A1 1 0 0 1 23 20Z"/></svg>${esc(draft.date.replaceAll('-','.'))}</p></div>${progress(groups())}`)+renderGroups()+renderEmptyGroup()+(isBase?'<div class="sticky"><button class="primary wide packing-save" data-action="save-base">저장하기</button></div>':'');
+app.innerHTML=header(isBase?'내 준비물 양식 편집':isNew?'새 체크리스트':esc(draft.title))+(isBase?'<p class="notice">나만의 체크리스트 양식을 만들어봐요!<br>한번 만들어두면, 다음부턴 빠르게 완성되는 체크리스트!</p>':isNew?`<label class="field trip-field"><span>산행일</span><input id="trip-date" type="date" value="${esc(draft.date)}" required></label><label class="field trip-field"><span>제목</span><input id="trip-title" maxlength="${newTitleLimit}" placeholder="제목을 입력해 주세요 (선택)" value="${esc(draft.title)}"></label><div class="section-head"><h2>이번 산행 준비물</h2></div>`:`<div class="trip-detail-date"><p class="muted"><svg class="trip-date-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20a1 1 0 0 1-.87-1.5l8-14a1 1 0 0 1 1.74 0L16 13l2.13-3.5a1 1 0 0 1 1.74 0l4 9A1 1 0 0 1 23 20Z"/></svg>${esc(draft.date.replaceAll('-','.'))}</p></div>${progress(groups())}`)+renderGroups()+renderEmptyGroup()+(isBase?'<div class="sticky"><button class="primary wide packing-save" data-action="save-base">저장하기</button></div>':'');
+if(mode==='detail' && draft.courseId){
+  const link=document.createElement('a');
+  link.className='primary wide packing-course-link';
+  link.href='home.html#course/'+encodeURIComponent(draft.courseId);
+  link.textContent='이 코스 상세 보기';
+  app.append(link);
+}
 app.querySelectorAll('[data-parent]').forEach(el=>{const g=groups().find(g=>g.id===el.dataset.parent);const count=g.items.filter(i=>mode==='detail'?i.done:i.selected).length;el.indeterminate=count>0&&count<g.items.length;});
 }
 function selectedCount(){return groups().flatMap(g=>g.items).filter(i=>i.selected).length;}
@@ -39,7 +57,7 @@ function itemAdd(gid){if(!groups().length){toast('먼저 카테고리를 만들�
 function addGroup(){showDialog('새 카테고리',nameField('','카테고리 이름'),fd=>{const name=textValue(fd);if(!name)return;if(groups().some(g=>g.name===name)){toast('같은 카테고리가 이미 있어요.');return;}groups().push({id:uid(),name,builtin:false,items:[]});dialog.close();changed();});}
 function move(gid,iid,target){if(gid===target)return;const from=groups().find(g=>g.id===gid),to=groups().find(g=>g.id===target),i=from.items.find(i=>i.id===iid);if(to.items.some(x=>x.name===i.name)){toast('이 카테고리에 같은 준비물이 있어요.');return;}from.items=from.items.filter(x=>x.id!==iid);to.items.push(i);changed();toast(`${to.name}(으)로 옮겼어요.`);}
 function menu(gid,iid,anchor){const g=groups().find(g=>g.id===gid),i=iid?g.items.find(i=>i.id===iid):null;if(mode==='new'&&anchor){openOverflow(anchor,[{label:'이름 수정하기',run:()=>runAction('rename')},...(i?[{label:'다른 카테고리로 이동',run:()=>runAction('move')}]:[]),{label:'삭제하기',danger:true,run:()=>runAction('delete')}]);return;}showDialog(i?i.name:g.name,`<div class="stack"><button type="button" data-menu="rename">이름 수정하기</button>${i?'<button type="button" data-menu="move">다른 카테고리로 이동</button>':''}<button type="button" data-menu="delete">삭제하기</button></div>`);dialog.querySelectorAll('[data-menu]').forEach(b=>b.onclick=()=>{dialog.close();runAction(b.dataset.menu);});function runAction(action){if(action==='rename'){showDialog('이름 수정',nameField((i||g).name),fd=>{const name=textValue(fd);if(!name)return;const siblings=i?g.items:groups();if(siblings.some(x=>x!==(i||g)&&x.name===name)){toast('같은 이름이 이미 있어요.');return;}(i||g).name=name;dialog.close();changed();});}if(action==='move'){showDialog('다른 카테고리로 이동',groupOptions(gid),fd=>{dialog.close();move(gid,iid,fd.get('group'));});}if(action==='delete'){showDialog('삭제할까요?',`<p>${esc((i||g).name)}${i?'':'과(와) 하위 준비물'}을 ${mode==='base'?'기본 목록':'이번 목록'}에서 삭제해요.</p>`,()=>{if(i)g.items=g.items.filter(x=>x.id!==iid);else draft.groups=groups().filter(x=>x.id!==gid);dialog.close();changed();});}}}
-function editTrip(list=draft){showDialog('산행 정보 수정',`<label class="field"><span>날짜</span><input name="date" type="date" required value="${esc(list.date)}"></label>`+nameField(list.title,'제목',16),fd=>{const name=textValue(fd);if(!name)return;if(name.length>16){toast('제목은 16자까지 입력할 수 있어요.');return;}list.date=fd.get('date');list.title=name;dialog.close();if(mode==='detail'){draft=clone(list);changed();}else{persist();render();}});}
+function editTrip(list=draft){showDialog('산행 정보 수정',`<label class="field"><span>날짜</span><input name="date" type="date" required value="${esc(list.date)}"></label>`+nameField(list.title,'제목',Math.max(16,list.title.length)),fd=>{const name=textValue(fd);if(!name)return;list.date=fd.get('date');list.title=name;dialog.close();if(mode==='detail'){draft=clone(list);changed();}else{persist();render();}});}
 
 let overflowMenu=null,overflowAnchor=null;
 function closeOverflow(restore=false){if(!overflowMenu)return;overflowMenu.remove();overflowMenu=null;overflowAnchor?.setAttribute('aria-expanded','false');if(restore&&overflowAnchor?.isConnected)overflowAnchor.focus();overflowAnchor=null;}
@@ -57,13 +75,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&overflowMenu){e.pre
 window.addEventListener('resize',()=>closeOverflow());
 window.addEventListener('scroll',()=>closeOverflow(),true);
 function leave(){if((mode==='base'||mode==='new')&&dirty){showDialog('변경 내용을 나갈까요?', '<p>저장하지 않은 변경 내용은 사라져요.</p>',()=>{dialog.close();mode='home';draft=null;dirty=false;render();});}else{mode='home';draft=null;dirty=false;render();}}
-function startNew(source){mode='new';draft={id:uid(),title:source?source.title:'',date:today(),groups:clone(source?source.groups:db.base)};draft.groups.forEach(g=>g.items.forEach(i=>{i.done=false;i.selected=true;}));dirty=false;render();window.scrollTo(0,0);}
+let newTitleLimit=16;
+function startNew(source, title=source?.title || '', courseId=source?.courseId){newTitleLimit=Math.max(16,title.length);mode='new';draft={id:uid(),title,date:today(),groups:clone(source?source.groups:db.base)};if(courseId)draft.courseId=courseId;draft.groups.forEach(g=>g.items.forEach(i=>{i.done=false;i.selected=true;}));dirty=false;render();window.scrollTo(0,0);}
 app.addEventListener('click',e=>{const b=e.target.closest('[data-action]');if(!b)return;const {action,id,g,i}=b.dataset;
 if(action==='home-menu')openOverflow(b,[{label:'내 준비물 양식 편집',run:()=>{mode='base';draft={groups:clone(db.base)};dirty=false;render();window.scrollTo(0,0);}}]);
 if(action==='add-empty-group-item')addEmptyGroupItem();if(action==='new')startNew();if(action==='base'){mode='base';draft={groups:clone(db.base)};dirty=false;render();window.scrollTo(0,0);}if(action==='back')leave();if(action==='copy')startNew(db.lists.find(l=>l.id===id));if(action==='open'){mode='detail';draft=clone(db.lists.find(l=>l.id===id));dirty=false;render();window.scrollTo(0,0);}if(action==='add-group')addGroup();if(action==='add-item')itemAdd(g);if(action==='group-menu'||action==='item-menu')menu(g,i,b);
 if(action==='base-remove'&&mode==='base'){const group=groups().find(x=>x.id===g);if(!group)return;if(i)group.items=group.items.filter(x=>x.id!==i);else draft.groups=groups().filter(x=>x.id!==g);changed();}
 if(action==='save-base'){db.base=clone(groups());const ok=persist();dirty=false;mode='home';render();if(ok)toast('기본 준비물을 저장했어요. 다음 목록부터 적용돼요.');}
-if(action==='create'){const date=document.querySelector('#trip-date');if(!date.reportValidity())return;if(document.querySelector('#trip-title').value.trim().length>16){toast('제목은 16자까지 입력할 수 있어요.');return;}if(!selectedCount())return;draft.date=date.value;draft.title=document.querySelector('#trip-title').value.trim()||`${dateLabel(draft.date)} 산행 준비물`;draft.groups=groups().map(g=>({...g,items:g.items.filter(i=>i.selected).map(i=>({...i,done:false}))})).filter(g=>g.items.length);delete draft.pendingGroupName;db.lists.unshift(clone(draft));persist();mode='detail';dirty=false;render();window.scrollTo(0,0);}
+if(action==='create'){const date=document.querySelector('#trip-date');if(!date.reportValidity())return;if(document.querySelector('#trip-title').value.trim().length>newTitleLimit){toast(`제목은 ${newTitleLimit}자까지 입력할 수 있어요.`);return;}if(!selectedCount())return;draft.date=date.value;draft.title=document.querySelector('#trip-title').value.trim()||`${dateLabel(draft.date)} 산행 준비물`;draft.groups=groups().map(g=>({...g,items:g.items.filter(i=>i.selected).map(i=>({...i,done:false}))})).filter(g=>g.items.length);delete draft.pendingGroupName;db.lists.unshift(clone(draft));persist();mode='home';draft=null;dirty=false;render();window.scrollTo(0,0);}
 if(action==='trip-edit')editTrip();
 if(action==='list-menu'){const l=db.lists.find(l=>l.id===id);if(!l)return;openOverflow(b,[{label:'제목 및 일자 수정하기',run:()=>editTrip(l)},{label:'복사해서 새로 만들기',run:()=>startNew(l)},{label:'삭제하기',danger:true,run:()=>showDialog('체크리스트 삭제',`<p>‘${esc(l.title)}’ 목록을 삭제할까요?</p>`,()=>{db.lists=db.lists.filter(l=>l.id!==id);persist();dialog.close();if(mode==='detail'){mode='home';draft=null;dirty=false;}render();})}]);}
 });
@@ -95,4 +114,15 @@ app.addEventListener('pointerdown',e=>{if(mode==='base')return;const row=e.targe
 for(const event of ['pointerup','pointercancel','pointermove','dragstart'])app.addEventListener(event,()=>clearTimeout(holdTimer));
 app.addEventListener('click',e=>{if(held){e.preventDefault();e.stopPropagation();held=false;}},true);
 window.addEventListener('beforeunload',e=>{if(dirty&&(mode==='base'||mode==='new')){e.preventDefault();e.returnValue='';}});
-render();if(storageError)toast('저장된 데이터를 읽지 못했어요. 기본 목록으로 시작합니다.');
+const entryUrl=new URL(window.location.href);
+const courseTitle=entryUrl.searchParams.get('courseTitle');
+if(courseTitle){
+  const courseId=entryUrl.searchParams.get('courseId');
+  entryUrl.searchParams.delete('courseId');
+  entryUrl.searchParams.delete('courseTitle');
+  history.replaceState(null,'',entryUrl);
+  startNew(null,courseTitle,courseId);
+}else{
+  render();
+}
+if(storageError)toast('저장된 데이터를 읽지 못했어요. 기본 목록으로 시작합니다.');

@@ -6,21 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#ffffff">
   <title>차박차박 · 홈</title>
-  <link rel="stylesheet" href="styles/design-system.css">
-  <link rel="stylesheet" href="styles/home.css?v=ed045f1">
+  <link rel="stylesheet" href="styles/design-system.css?v=searchfield-1">
+  <link rel="stylesheet" href="styles/home.css?v=mountain-chips">
   <link rel="stylesheet" href="styles/bottom-nav.css">
 <link rel="stylesheet" href="styles/focus.css">
   <script src="scripts/profile-photo.js" defer></script>
-  <script src="scripts/hike-catalog.js" defer></script>
-<script src="scripts/hike-explore.js" defer></script>
+  <script src="scripts/hike-photos.js?v=2" defer></script>
+<script src="scripts/hike-catalog.js" defer></script>
+<script src="scripts/course-tracks.js?v=verified-routes" defer></script>
+<script src="scripts/course-map.js?v=poi-labels" defer></script>
+<script src="scripts/hike-explore.js?v=course-checklist" defer></script>
 <link rel="stylesheet" href="styles/layout.css">
+<script src="scripts/search-field.js" defer></script>
 </head>
 <body class="has-bottom-nav">
 <div id="hike-home">
-  <header class="app-bar"><div class="app-bar__leading app-bar__brand"><a class="app-logo" href="home.html" aria-label="차박차박 홈"><img src="assets/chabak-bi-horizontal.png?v=5" width="360" height="80" alt="차박차박"></a></div><div class="app-bar__actions"><a class="app-bar__icon" href="community.html#/notifications" aria-label="알림센터"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4"/></svg></a><a class="app-bar__icon" href="community.html#/search" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20l-4-4 M18 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></a></div></header>
+  <header class="app-bar"><div class="app-bar__leading app-bar__brand"><a class="app-logo" href="home.html" aria-label="차박차박 홈"><img src="assets/chabak-bi-horizontal.png?v=5" width="360" height="80" alt="차박차박"></a></div><div class="app-bar__actions"><a class="app-bar__icon" href="community.html#/notifications" aria-label="알림센터"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9 M10 21h4"/></svg></a><a class="app-bar__icon" id="home-search-link" href="#search" aria-label="검색"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 20l-4-4 M18 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0"/></svg></a></div></header>
   <main class="hike-page" aria-label="산행 코스 탐색">
     <a class="hike-feature" href="#course/sobaeksan">
-      <div class="terrain hike-feature__image" data-range="sobaeksan" aria-hidden="true"></div>
+      <img id="featured-photo" class="hike-feature__image" alt="">
       <div class="hike-feature__body">
         <p>이번 주 추천</p>
         <h1>소백산자락길 1자락</h1>
@@ -86,6 +90,33 @@
     </a>
   </nav>
 </div>
+<div id="hike-search" hidden>
+  <header class="app-bar"><div class="app-bar__leading">
+    <a class="app-bar__icon" id="search-back" href="#home" aria-label="뒤로가기">
+      <svg class="navigation-icon navigation-icon--back" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#back"/></svg>
+    </a>
+    <h1>검색</h1>
+  </div></header>
+  <main class="hike-page">
+    <div class="ds-search-field"><input id="hike-query" type="search" enterkeyhint="search" aria-label="산과 코스 검색" placeholder="어떤 산과 코스를 찾고 있나요?"><button class="ds-search-clear" type="button" aria-label="검색어 지우기"></button></div>
+    <div id="home-search-prompt">
+      <img src="assets/chabak-symbol-empty-3d.png" width="120" alt="">
+      <p>찾는 산 또는 코스명을 입력해봐요!</p>
+    </div>
+    <div id="search-results" hidden>
+      <section class="hike-section" aria-labelledby="search-mountains-title">
+        <h2 id="search-mountains-title">산</h2>
+        <ul id="search-mountains" class="hike-list"></ul>
+        <p id="search-mountains-empty" class="hike-empty" hidden>검색된 산이 없어요</p>
+      </section>
+      <section class="hike-section" aria-labelledby="search-courses-title">
+        <h2 id="search-courses-title">코스</h2>
+        <ul id="search-courses" class="hike-list"></ul>
+        <p id="search-courses-empty" class="hike-empty" hidden>검색된 코스가 없어요</p>
+      </section>
+    </div>
+  </main>
+</div>
 <div id="hike-detail" hidden>
   <header class="app-bar">
     <div class="app-bar__leading">
@@ -94,24 +125,31 @@
       </a>
       <h1 id="hike-detail-bar">코스 상세</h1>
     </div>
-    <div class="app-bar__actions" id="mountain-share-actions" hidden>
-      <button class="app-bar__icon" id="mountain-share" type="button" aria-label="이 산 공유하기">
+    <div class="app-bar__actions">
+      <button class="app-bar__icon" id="hike-share" type="button" aria-label="공유하기">
         <svg class="navigation-icon navigation-icon--share" viewBox="0 0 24 24" aria-hidden="true"><use href="assets/navigation-icons.svg#share"/></svg>
       </button>
+      <button class="app-bar__icon" id="hike-more" type="button" aria-label="더보기" popovertarget="hike-options">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><g fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="12" cy="19" r="1.5"/></g></svg>
+      </button>
+      <div id="hike-options" popover>
+        <button type="button" id="open-sources" aria-haspopup="dialog">공식정보 보기</button>
+      </div>
     </div>
   </header>
   <main id="hike-course-detail" class="hike-page">
-    <div class="mountain-cover"><div class="terrain" id="course-cover" aria-hidden="true"></div></div>
+    <div class="mountain-cover"><img id="course-cover" class="hike-cover-photo" alt=""><a class="hike-credit" target="_blank" rel="noopener"></a></div>
     <p class="hike-intro" id="hike-course-mountain"></p>
     <h2 class="hike-title" id="hike-course-name"></h2>
     <p class="hike-intro" id="course-guide" hidden></p>
-    <dl class="hike-stats" aria-label="코스 요약">
+    <dl id="course-stats" class="hike-stats" aria-label="코스 요약">
       <div><dt>난이도</dt><dd id="detail-difficulty"></dd></div>
       <div><dt>거리</dt><dd id="detail-distance"></dd></div>
       <div><dt>소요시간</dt><dd id="detail-duration"></dd></div>
     </dl>
     <section class="hike-section" aria-labelledby="hike-route-title">
       <h3 id="hike-route-title">코스 한눈에 보기</h3>
+      <figure id="course-map" hidden></figure>
       <ol id="course-stops" aria-label="주요 지점 순서"></ol>
       <p class="hike-intro" id="course-route-caption">공식 경로를 확인하고 있어요</p>
     </section>
@@ -123,21 +161,19 @@
       <button type="button" id="course-detail-bookmark" aria-label="코스 북마크" aria-pressed="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v15l-7-4z"/></svg>
       </button>
-      <a id="course-source"></a>
+      <a id="course-packing-cta">이 코스 준비물리스트 만들기</a>
     </div>
   </main>
   <main id="hike-mountain-detail" class="hike-page" hidden>
 
     <div class="mountain-cover">
-      <div class="terrain" id="mountain-cover" role="img"></div>
+      <img id="mountain-cover" class="hike-cover-photo" alt=""><a class="hike-credit" target="_blank" rel="noopener"></a>
       <span class="mountain-cover__counter" role="img" aria-label="산 이미지 1장 중 1번째">1 / 1</span>
     </div>
     <p tabindex="-1" id="hike-mountain-region" class="hike-intro"></p>
     <h2 id="hike-mountain-name" class="hike-title"></h2>
     <div class="mt-tags" id="mt-traits" aria-label="산의 특징"></div>
     <p id="mt-description" class="hike-intro"></p>
-    <p><a id="mountain-source" class="hike-demo-note"></a> <a id="profile-source" class="hike-demo-note">숲나들e 산 개요</a></p>
-    <a id="summit-station" class="hike-demo-note"></a>
     <dl class="hike-stats"><div><dt>최고 고도</dt><dd id="mt-peak"></dd></div><div><dt class="mt-level-label"><button type="button" id="mt-level-help" aria-label="평균 난이도 안내" aria-expanded="false" aria-controls="mt-level-tip"><span>평균 난이도</span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 11v6m0-10v.5"/></svg></button><span id="mt-level-tip" hidden></span></dt><dd id="mt-level"></dd></div></dl>
     <section class="hike-section" aria-labelledby="mountain-notice" hidden>
       <h3 id="mountain-notice" tabindex="-1">공식 알림</h3>
@@ -168,5 +204,10 @@
     </div>
   </main>
 </div>
+<dialog id="hike-sources" aria-labelledby="sources-title">
+  <header><h2 id="sources-title">공식정보 보기</h2><form method="dialog"><button type="submit" aria-label="닫기">×</button></form></header>
+  <ul id="source-list"></ul>
+  <p id="sources-empty" hidden>아직 등록된 공식정보가 없어요</p>
+</dialog>
 </body>
 </html>

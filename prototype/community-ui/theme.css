@@ -153,3 +153,34 @@
   line-height: 24px;
 }
 .sheet .menu-action:active { background: var(--soft); }
+
+.story-banner {
+  display: grid;
+  align-content: center;
+  gap: 2px;
+  width: calc(100% - 32px);
+  min-height: 72px;
+  margin: 0 16px 16px;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 12px;
+  text-align: left;
+  color: #173f73;
+  background: linear-gradient(95deg, #e1f1ff 38%, rgba(225,241,255,.96) 55%, rgba(225,241,255,0) 86%),
+    #e1f1ff url('../assets/hikes/daenammun-view.jpg') right 46% / 50% auto no-repeat;
+}
+@font-face {
+  font-family: 'Geekble Malang';
+  src: local('GeekbleMalang2OTF'), url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/GeekbleMalang2WOFF2.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+.story-banner strong {
+  font-family: 'Geekble Malang', sans-serif;
+  font-size: var(--typography-title-l-size, 18px);
+  line-height: 24px;
+  font-weight: 400;
+}
+.story-banner span { color: #365875; font-size: 12px; line-height: 18px; }
+.story-banner:active { filter: brightness(.97); }
+.story-list-empty { padding: 40px 16px 24px; text-align: center; }

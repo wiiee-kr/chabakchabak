@@ -44,6 +44,7 @@
 /* Layout */
 :root {
   --section-gap: 40px;
+  --section-content-gap: 12px;
   --course-thumbnail-size: 100px;
 }
 
@@ -54,3 +55,47 @@
   --typography-title-l-weight: 600;
   --typography-title-l-letter-spacing: 0;
 }
+
+/* Figma Searchfield 4:1100, Default and Filled. */
+.ds-search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--input-field-container-padding);
+  border-radius: var(--input-field-container-radius);
+  background: var(--ds-grayscale-50, #f5f5f5);
+}
+.ds-search-field::before {
+  content: "";
+  flex: 0 0 24px;
+  height: 24px;
+  background: url('../assets/icons/search-field-search.svg') center no-repeat;
+}
+.ds-search-field input[type="search"] {
+  appearance: none;
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  margin: 0;
+  padding: 0 var(--input-field-text-padding-x);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--input-field-text-value);
+  font: 400 16px/26px var(--font-app);
+  letter-spacing: 0;
+}
+.ds-search-field input::placeholder { color: var(--input-field-text-placeholder); opacity: 1; }
+.ds-search-field input::-webkit-search-cancel-button { display: none; }
+.ds-search-field .ds-search-clear {
+  flex: 0 0 20px;
+  min-height: 0;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent url('../assets/icons/search-field-clear.svg') center no-repeat;
+  cursor: pointer;
+}
+.ds-search-field input:placeholder-shown + .ds-search-clear { display: none; }

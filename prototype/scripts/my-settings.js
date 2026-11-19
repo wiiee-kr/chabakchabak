@@ -54,7 +54,7 @@
      <a href="#bookmarks/courses" ${isCourse ? 'aria-current="page"' : ''}>북마크한 코스</a>
    </nav>`;
    const list = saved.length
-     ? `<ul class="hike-list">${saved.map(({ hike }) => `<li><a class="hike-row" href="home.html#${type}/${hike.id}/bookmarks"><span class="terrain hike-row__image" data-range="${hike.mountainId || hike.id}" aria-hidden="true"></span><span><strong>${hike[type]}</strong><span class="hike-row__meta">${isCourse ? hike.mountain : hike.regions.join(' · ')}</span></span></a></li>`).join('')}</ul>`
+     ? `<ul class="hike-list bookmark-list">${saved.map(({ hike }) => `<li><a class="hike-row" href="home.html#${type}/${hike.id}/bookmarks">${hikeThumbnail(hike)}<span><strong>${hike[type]}</strong><span class="hike-row__meta">${isCourse ? hike.mountain : hike.regions.join(' · ')}</span></span></a></li>`).join('')}</ul>`
      : `<div class="data-empty"><div class="edge-state__icon edge-state__icon--mountain" aria-hidden="true"></div><p class="edge-state__description">아직 북마크한 ${label}${isCourse ? '가' : '이'} 없어요</p></div>`;
    root.innerHTML = tabs + list;
   }
