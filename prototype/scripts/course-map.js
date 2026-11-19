@@ -90,6 +90,7 @@ function renderCourseMap(figure, course, stops) {
   source.target = '_blank';
   source.rel = 'noopener';
   source.textContent = '경로 · ' + (track.credit || '두루누비 GPX');
+  if (track.format === 'gpx') source.append(' (trkpt/@lat, trkpt/@lon)');
   caption.append(source);
   const credit = document.createElement('a');
   credit.href = 'https://www.openstreetmap.org/copyright';

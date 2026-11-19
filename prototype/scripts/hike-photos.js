@@ -181,7 +181,4 @@ function showHikeCover(id, item) {
   if (!photo) return;
   cover.src = photo.src;
   cover.alt = photo.place;
-  const credit = cover.parentElement.querySelector('.hike-credit');
-  credit.textContent = [photo.place, photo.author, photo.license].filter(Boolean).join(' · ');
-  credit.href = photo.source;
 }

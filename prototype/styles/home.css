@@ -189,7 +189,8 @@ body {
 }
 .hike-list, .hike-route ol, .hike-steps { padding: 0; margin: 0; list-style: none; }
 .hike-list { display: grid; gap: 8px; }
-.hike-row { display: flex; align-items: center; gap: 12px; padding: 12px; }
+.hike-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px; }
+.hike-row > .hike-row__image + span { padding-top: 8px; }
 .hike-row__image { width: 56px; height: 56px; flex-shrink: 0; border-radius: 8px; font-size: 12px; }
 #hike-home .hike-row__image { width: 112px; height: auto; aspect-ratio: 4 / 3; }
 :is(#hike-mountain-course-list, .bookmark-list) .hike-row__image {
@@ -205,6 +206,7 @@ body {
   gap: 4px;
   margin-top: 4px;
 }
+.hike-row__chips:empty, .mt-tags:empty { display: none; }
 .hike-row__chips > span {
   padding: 2px 6px;
   border-radius: 4px;
@@ -276,11 +278,6 @@ body {
 .hike-row__image, .hike-feature__image, .hike-cover-photo { display:block; object-fit:cover; }
 .hike-feature__image, .hike-cover-photo { width:100%; }
 .hike-cover-photo { height:100%; }
-.hike-credit {
-  position:absolute; left:12px; bottom:12px; max-width:calc(100% - 84px);
-  padding:4px 8px; border-radius:8px; background:rgb(0 0 0 / 65%);
-  color:white; font-size:11px; line-height:16px; text-decoration:none;
-}
 .hike-feature { position:relative; border:0; border-radius:16px; }
 .hike-feature__image { aspect-ratio:2 / 1; }
 .hike-feature__body { position:absolute; inset:auto 0 0; padding:32px 16px 16px; background:linear-gradient(transparent, rgb(11 35 41 / 82%)); color:white; }
@@ -306,18 +303,6 @@ body {
   margin-bottom: 16px;
 }
 
-.mountain-cover__counter {
-  position: absolute;
-  right: 16px;
-  bottom: 12px;
-  padding: 4px 8px;
-  border-radius: 999px;
-  background: rgb(0 0 0 / 60%);
-  color: white;
-  font-size: 12px;
-  line-height: 16px;
-  font-variant-numeric: tabular-nums;
-}
 .mt-tags { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
 .mt-tags span { padding:4px 8px; border-radius:var(--radius-control-m); background:var(--ds-grayscale-50); font-size:var(--typography-label-s-size); line-height:var(--typography-label-s-line-height); font-weight:var(--typography-label-s-weight); letter-spacing:var(--typography-label-s-letter-spacing); }
 .hike-page:is(#hike-course-detail, #hike-mountain-detail) .hike-stats { background:color-mix(in srgb, var(--ds-product-primary) 5%, white); border:0; padding:12px 0; }

@@ -7,15 +7,15 @@
   <meta name="theme-color" content="#ffffff">
   <title>차박차박 · 홈</title>
   <link rel="stylesheet" href="styles/design-system.css?v=searchfield-1">
-  <link rel="stylesheet" href="styles/home.css?v=mountain-chips">
+  <link rel="stylesheet" href="styles/home.css?v=thumbnail-info">
   <link rel="stylesheet" href="styles/bottom-nav.css">
 <link rel="stylesheet" href="styles/focus.css">
   <script src="scripts/profile-photo.js" defer></script>
-  <script src="scripts/hike-photos.js?v=2" defer></script>
+  <script src="scripts/hike-photos.js?v=thumbnail-info" defer></script>
 <script src="scripts/hike-catalog.js" defer></script>
-<script src="scripts/course-tracks.js?v=verified-routes" defer></script>
-<script src="scripts/course-map.js?v=poi-labels" defer></script>
-<script src="scripts/hike-explore.js?v=course-checklist" defer></script>
+<script src="scripts/course-tracks.js?v=mountain-course-count" defer></script>
+<script src="scripts/course-map.js?v=mountain-course-count" defer></script>
+<script src="scripts/hike-explore.js?v=thumbnail-info" defer></script>
 <link rel="stylesheet" href="styles/layout.css">
 <script src="scripts/search-field.js" defer></script>
 </head>
@@ -138,7 +138,7 @@
     </div>
   </header>
   <main id="hike-course-detail" class="hike-page">
-    <div class="mountain-cover"><img id="course-cover" class="hike-cover-photo" alt=""><a class="hike-credit" target="_blank" rel="noopener"></a></div>
+    <div class="mountain-cover"><img id="course-cover" class="hike-cover-photo" alt=""></div>
     <p class="hike-intro" id="hike-course-mountain"></p>
     <h2 class="hike-title" id="hike-course-name"></h2>
     <p class="hike-intro" id="course-guide" hidden></p>
@@ -167,8 +167,7 @@
   <main id="hike-mountain-detail" class="hike-page" hidden>
 
     <div class="mountain-cover">
-      <img id="mountain-cover" class="hike-cover-photo" alt=""><a class="hike-credit" target="_blank" rel="noopener"></a>
-      <span class="mountain-cover__counter" role="img" aria-label="산 이미지 1장 중 1번째">1 / 1</span>
+      <img id="mountain-cover" class="hike-cover-photo" alt="">
     </div>
     <p tabindex="-1" id="hike-mountain-region" class="hike-intro"></p>
     <h2 id="hike-mountain-name" class="hike-title"></h2>

@@ -28,7 +28,7 @@ async function syncVideoTitle(label, videoUrl) {
     const response = await fetch('https://www.youtube.com/oembed?' + query);
     if (!response.ok) return;
     const { title } = await response.json();
-    if (typeof title === 'string' && title.trim()) label.textContent = field(title, 'oEmbed.title');
+    if (typeof title === 'string' && title.trim()) label.textContent = field(title, 'title');
   } catch {
     // 오프라인에서는 등록된 제목을 그대로 표시한다.
   }
@@ -44,7 +44,7 @@ function renderMountainVideos(mountainId) {
     thumbnail.alt = '';
     thumbnail.loading = 'lazy';
     const label = document.createElement('span');
-    label.textContent = field(title, 'video.title');
+    label.textContent = title;
     link.append(thumbnail, label);
     syncVideoTitle(label, link.href);
     return link;
@@ -78,32 +78,85 @@ function sourceName(source) {
   return '한국관광공사 대한민국 구석구석';
 }
 
-function fieldLabel(path, original) {
-  return '(' + path + (original ? ' · ' + original : '') + ')';
+// 화면 주석은 ‘화면 변수별 출처’ 시트의 1순위 API 응답 필드명을 표시한다.
+function field(value, responseField) {
+  if (value == null) return '';
+  return responseField ? value + ' (' + responseField + ')' : String(value);
 }
 
-function field(value, path, original) {
-  return value == null ? '' : value + ' ' + fieldLabel(path, original);
+function mountainField(hike, value, responseField) {
+  // 제주 오름은 개별 산 레코드가 아닌 운영 묶음이다.
+  return field(value, (hike.mountainId || hike.id) === 'jeju' ? null : responseField);
 }
+
+const metricFields = { km: 'stretLt', minutes: 'reqreTime', difficulty: '숲길구간난이도' };
+const facilityFields = {
+  transport: '교통편설명',
+  toilets: 'RSTRM_NM',
+  water: 'plcTypeCd, plcNm, explnCn',
+  shops: 'plcTypeCd, plcNm, explnCn'
+};
 
 function metric(course, key) {
-  const originals = {
-    km: ['길이', '코스거리'],
-    minutes: ['소요시간', '코스소요시간'],
-    difficulty: ['난이도', '코스난이도']
-  };
-  const isDurunubi = course.source?.includes('durunubi.kr');
-  const isArchive = course.source?.includes('archive.knps.or.kr');
-  const original = key === 'minutes' && course.timeOrigin ? course.timeOrigin : isDurunubi ? originals[key][0] : isArchive ? originals[key][1] : '';
   let value = course[key];
-  if (key === 'difficulty' && !value && course.sectionGrade) return field(course.sectionGrade, 'course.sectionGrade');
+  if (key === 'difficulty' && !value) value = course.sectionGrade;
   if (value == null) return '';
   if (key === 'km') value += 'km';
   if (key === 'minutes') {
     value = formatDuration(value);
-    if (course.maxMinutes) return field(value + ' ~ ' + formatDuration(course.maxMinutes), 'course.minutes, course.maxMinutes');
+    if (course.maxMinutes) value += ' ~ ' + formatDuration(course.maxMinutes);
   }
-  return field(value, 'course.' + key, course.rawGrade && key === 'difficulty' ? '원문 ' + course.rawGrade : original);
+  return field(value, metricFields[key]);
+}
+
+const mountainTraits = new Map();
+const categoryLabels = new Map([
+  ['분류:대한민국의 국립공원', '국립공원'],
+  ['분류:백두대간', '백두대간'],
+  ['분류:한북정맥', '한북정맥'],
+  ['분류:서울특별시의 명승', '서울특별시 명승'],
+  ['분류:강원특별자치도의 명승', '강원특별자치도 명승'],
+]);
+
+function coursesForMountain(id) {
+  return courses.filter(course => course.mountainId === id);
+}
+
+function renderMountainTraits(container, mountain) {
+  const labels = mountainTraits.get(mountain) || [];
+  container.replaceChildren(...labels.map(label => {
+    const chip = document.createElement('span');
+    chip.textContent = field(label, 'query.pages[].categories[].title');
+    chip.title = '한국어 위키백과 · ' + mountain;
+    return chip;
+  }));
+  if (container.dataset.mountainId) {
+    const countChip = document.createElement('span');
+    countChip.textContent = coursesForMountain(container.dataset.mountainId).length + '코스';
+    container.append(countChip);
+  }
+}
+
+async function loadMountainTraits() {
+  const params = new URLSearchParams({
+    action: 'query', format: 'json', formatversion: '2', origin: '*',
+    prop: 'categories', cllimit: 'max', clcategories: [...categoryLabels.keys()].join('|'),
+    titles: hikes.filter(hike => hike.id !== 'jeju').map(hike => hike.mountain).join('|'),
+  });
+  try {
+    const response = await fetch('https://ko.wikipedia.org/w/api.php?' + params);
+    if (!response.ok) return;
+    const data = await response.json();
+    for (const page of data.query?.pages || []) {
+      const labels = (page.categories || []).map(category => categoryLabels.get(category.title)).filter(Boolean);
+      mountainTraits.set(page.title, labels);
+    }
+    document.querySelectorAll('[data-traits-for]').forEach(container => {
+      renderMountainTraits(container, container.dataset.traitsFor);
+    });
+  } catch {
+    // 조회할 수 없는 특징은 표시하지 않는다.
+  }
 }
 
 function renderList(id, items, type, fromMountain = false, searchSuffix = null) {
@@ -111,22 +164,20 @@ function renderList(id, items, type, fromMountain = false, searchSuffix = null) 
     const isMountain = type === 'mountain';
     const name = isMountain ? hike.mountain : hike.course;
     if (id === 'mountain-list') {
-      const count = courses.filter(course => course.mountainId === hike.id).length;
-      const chips = [...hike.traits, `${count}코스`].map(label => `<span>${label}</span>`).join(' ');
       return `<li><a class="hike-row" href="#mountain/${hike.id}">
         ${hikeThumbnail(hike)}
-        <span><span class="hike-row__region">${hike.regions.join(' · ')}</span><strong>${name}</strong><span class="hike-row__chips">${chips}</span></span>
+        <span><span class="hike-row__region">${mountainField(hike, hike.regions.join(' · '), 'ctpvNm')}</span><strong>${mountainField(hike, name, 'frtrlNm')}</strong><span class="hike-row__chips" data-traits-for="${name}" data-mountain-id="${hike.id}"></span></span>
       </a></li>`;
     }
     let meta;
     if (isMountain) {
-      meta = field(hike.regions.join(' · '), 'mountain.regions');
+      meta = mountainField(hike, hike.regions.join(' · '), 'ctpvNm');
     } else {
       const grade = metric(hike, 'difficulty');
       const difficulty = grade && `<span data-level="${hike.difficulty || ''}">${grade}</span>`;
       const distance = metric(hike, 'km');
       const duration = metric(hike, 'minutes');
-      const parts = fromMountain ? [difficulty, distance, duration] : [field(hike.mountain, 'course.mountain'), distance, duration, difficulty];
+      const parts = fromMountain ? [difficulty, distance, duration] : [mountainField(hike, hike.mountain, 'frtrlNm'), distance, duration, difficulty];
       meta = parts.filter(Boolean).join(' · ');
     }
     const bookmark = fromMountain ? `<button type="button" class="course-bookmark" data-course-id="${hike.id}"
@@ -136,9 +187,14 @@ function renderList(id, items, type, fromMountain = false, searchSuffix = null) 
     const from = searchSuffix ?? (isMountain ? '' : fromMountain ? '/mountain' : '/courses');
     return `<li><a class="hike-row" href="#${type}/${hike.id}${from}">
       ${hikeThumbnail(hike)}
-      <span><strong>${field(name, isMountain ? 'mountain.mountain' : 'course.course')}</strong><span class="hike-row__meta">${meta}</span></span>
+      <span><strong>${isMountain ? mountainField(hike, name, 'frtrlNm') : field(name, 'stretNm')}</strong><span class="hike-row__meta">${meta}</span></span>
     </a>${bookmark}</li>`;
   }).join('');
+  if (id === 'mountain-list') {
+    byId(id).querySelectorAll('[data-traits-for]').forEach(container => {
+      renderMountainTraits(container, container.dataset.traitsFor);
+    });
+  }
 }
 
 function filterMountains() {
@@ -257,6 +313,10 @@ function renderSources(hike, isCourse) {
     if (hike.profileSource) sources.push(['숲나들e · ' + hike.mountain + ' 개요', hike.profileSource]);
     if (hike.latitude != null) sources.push(['기상청 정상 예보 지점 · ' + hike.latitude + ', ' + hike.longitude, summitStationSource]);
   }
+  const photo = hikePhoto(hike);
+  if (photo?.source) {
+    sources.push([['썸네일 정보', photo.place, photo.author, photo.license].filter(Boolean).join(' · '), photo.source]);
+  }
   byId('source-list').replaceChildren(...sources.map(([label, url]) => {
     const row = document.createElement('li');
     const link = document.createElement('a');
@@ -335,19 +395,17 @@ function showScreen() {
   if (isHome) selectTab(byId(screen === 'courses' ? 'course-tab' : 'mountain-tab'));
   if (isMountain) {
     byId('hike-back').href = from === 'bookmarks' ? 'my-settings.html#bookmarks' : '#home';
-    byId('hike-mountain-name').textContent = field(hike.mountain, 'mountain.mountain');
-    byId('hike-detail-bar').textContent = field(hike.mountain, 'mountain.mountain');
+    byId('hike-mountain-name').textContent = mountainField(hike, hike.mountain, 'frtrlNm');
+    byId('hike-detail-bar').textContent = mountainField(hike, hike.mountain, 'frtrlNm');
     showHikeCover('mountain-cover', hike);
-    const { location: locationLabel, traits, heightM, description } = hike;
+    const { location: locationLabel, heightM, description } = hike;
     const isGroup = hike.id === 'jeju';
-    byId('hike-mountain-region').textContent = field(locationLabel, 'mountain.location', isGroup ? '' : '소재지');
-    byId('mt-traits').replaceChildren(...traits.map(trait => {
-      const chip = document.createElement('span');
-      chip.textContent = field(trait, 'mountain.traits');
-      return chip;
-    }));
-    byId('mt-description').textContent = field(description, 'mountain.description', '편집 요약');
-    byId('mt-peak').textContent = isGroup ? '오름별 상이' : field(heightM.toLocaleString('ko-KR') + 'm', 'mountain.heightM', '산높이');
+    byId('hike-mountain-region').textContent = mountainField(hike, locationLabel, 'addrNm');
+    const traits = byId('mt-traits');
+    traits.dataset.traitsFor = hike.mountain;
+    renderMountainTraits(traits, hike.mountain);
+    byId('mt-description').textContent = mountainField(hike, description, 'mntidetails');
+    byId('mt-peak').textContent = isGroup ? '오름별 상이' : field(heightM.toLocaleString('ko-KR') + 'm', 'aslAltide');
     const verified = courses.filter(course => course.mountainId === id && course.source && course.difficulty);
     const levels = ['쉬움', '보통', '어려움'];
     const score = verified.reduce((sum, course) => sum + levels.indexOf(course.difficulty), 0);
@@ -358,15 +416,15 @@ function showScreen() {
     levelTip.textContent = verified.length > 1
       ? `등록된 코스 중 난이도가 확인된 ${verified.length}개의 평균이에요. 쉬움·보통·어려움을 1~3점으로 환산해 반올림해요.`
       : verified.length === 1 ? `${verified[0].course} 1개의 난이도예요.` : '확인된 코스 난이도가 아직 없어요.';
-    byId('mt-level').textContent = verified.length ? field(level, 'level', verified.length > 1 ? '코스 평균' : '단일 코스') : level;
+    byId('mt-level').textContent = verified.length ? field(level, metricFields.difficulty) : level;
     byId('mt-level').dataset.level = level;
     renderMountainVideos(id);
     const notices = document.querySelector('.mt-notices');
     notices.scrollLeft = 0;
     for (const notice of notices.children) notice.open = false;
-    const mountainCourses = courses.filter(course => course.mountainId === id);
+    const mountainCourses = coursesForMountain(id);
     renderList('hike-mountain-course-list', mountainCourses, 'course', true);
-    byId('mountain-course-cta').textContent = hike.mountain + ' 코스 ' + field(mountainCourses.length, 'mountainCourses.length');
+    byId('mountain-course-cta').textContent = hike.mountain + ' 코스 ' + mountainCourses.length;
     bookmarkButton.dataset.mountainId = id;
     bookmarkButton.setAttribute('aria-pressed', String(bookmarkTime('mountain', id) !== null));
     updateMountainTitle();
@@ -377,15 +435,15 @@ function showScreen() {
     byId('hike-detail-bar').hidden = window.scrollY < 8;
     byId('hike-back').href = from === 'bookmarks' ? 'my-settings.html#bookmarks/courses' : from === 'mountain' ? `#mountain/${hike.mountainId}` : from === 'courses' ? '#courses' : '#home';
     showHikeCover('course-cover', hike);
-    setCourseField(byId('hike-course-name'), field(hike.course, 'course.course'));
+    setCourseField(byId('hike-course-name'), field(hike.course, 'stretNm'));
     const region = byId('hike-course-mountain');
     const mountainLink = document.createElement('a');
     mountainLink.href = '#mountain/' + hike.mountainId;
-    setCourseField(mountainLink, field(hike.mountain, 'course.mountain'));
+    setCourseField(mountainLink, mountainField(hike, hike.mountain, 'frtrlNm'));
     region.replaceChildren(mountainLink);
     if (hike.area) {
       const area = document.createElement('span');
-      setCourseField(area, field(hike.area, 'course.area'));
+      setCourseField(area, field(hike.area, 'beginRdnmadr, endRdnmadr'));
       region.append(' · ', area);
     }
     const stops = hike.stops || [];
@@ -395,13 +453,13 @@ function showScreen() {
       const label = document.createElement('small');
       label.textContent = index === 0 ? '출발' : index === stops.length - 1 ? '도착' : '경유';
       const name = document.createElement('span');
-      setCourseField(name, field(stop, 'course.stops'));
+      setCourseField(name, field(stop, 'coursInfo'));
       point.append(label, name);
       return point;
     }));
     byId('course-route-caption').hidden = stops.length > 0;
     byId('course-guide').hidden = !hike.guide;
-    setCourseField(byId('course-guide'), field(hike.guide, 'course.guide', '편집 요약'));
+    setCourseField(byId('course-guide'), field(hike.guide, 'stretIntrcn'));
     const stats = byId('course-stats');
     for (const [key, target] of [['km','detail-distance'], ['minutes','detail-duration'], ['difficulty','detail-difficulty']]) {
       const element = byId(target);
@@ -421,7 +479,7 @@ function showScreen() {
       const term = document.createElement('dt');
       const detail = document.createElement('dd');
       term.textContent = label;
-      setCourseField(detail, field(hike[key], 'course.' + key, label));
+      setCourseField(detail, field(hike[key], facilityFields[key]));
       facilities.append(term, detail);
     }
     byId('course-facilities-section').hidden = !facilities.children.length;
@@ -467,7 +525,7 @@ byId('hike-share').addEventListener('click', async () => {
   window.prompt('상세페이지 링크를 복사해 주세요.', url);
 });
 
-document.querySelector('.hike-feature h1').textContent = field(featuredCourse.course, 'featuredCourse.course');
+document.querySelector('.hike-feature h1').textContent = field(featuredCourse.course, 'stretNm');
 window.addEventListener('hashchange', () => {
   showScreen();
   window.scrollTo(0, 0);
@@ -475,5 +533,7 @@ window.addEventListener('hashchange', () => {
 filterMountains();
 filterCourses();
 showScreen();
+
+loadMountainTraits();
 
 byId('featured-photo').src = hikePhoto(featuredCourse).src;

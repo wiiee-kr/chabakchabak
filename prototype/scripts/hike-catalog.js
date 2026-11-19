@@ -3,11 +3,11 @@ const forestBook = 'https://www.forest.go.kr/images/data/fonDown/100_mountain_eb
 const forestTrip = (area, seq) => 'https://www.foresttrip.go.kr/pot/cc/hm/selectHndfmsmtnMngmeDtl.do?fmmntArcd=' + area + '&fmmntSeq=' + seq;
 const summitStationSource = 'https://apihub.kma.go.kr/getAttachFile.do?fileName=%28250305%29%EC%82%B0%EC%95%85%EC%98%88%EB%B3%B4+API+%EC%84%9C%EB%B9%84%EC%8A%A4+%ED%99%9C%EC%9A%A9%EA%B0%80%EC%9D%B4%EB%93%9C_f.pdf';
 const hikes = [
-  { id: 'bukhansan', mountain: '북한산', profileSource: forestTrip('01', 71990), latitude: 37.6587, longitude: 126.978, regions: ['수도권'], location: '서울 강북·성북·종로·은평구, 경기 고양·양주시', heightM: 835.6, traits: ['100대 명산', '국립공원'], description: '백운대를 중심으로 인수봉과 만경대가 솟아 있고, 북한산성과 여러 계곡이 이어져요.' },
-  { id: 'odaesan', mountain: '오대산', profileSource: forestTrip('02', 72002), latitude: 37.7941, longitude: 128.5431, regions: ['강원'], location: '강원 평창군·홍천군·강릉시', heightM: 1565.4, traits: ['100대 명산', '국립공원'], description: '비로봉을 중심으로 상왕봉·호령봉·두로봉·동대산이 솟아 있어요. 산 안에는 월정사와 상원사가 있어요.' },
-  { id: 'jeju', mountain: '제주 오름', regions: ['제주'], location: '제주특별자치도', heightM: null, traits: ['오름'], description: '제주 여러 오름의 코스를 함께 소개해요. 올레 21코스에서는 지미봉을 지나 종달바당으로 향해요.' },
-  { id: 'seoraksan', mountain: '설악산', profileSource: forestTrip('02', 71995), latitude: 38.119169, longitude: 128.465222, regions: ['강원'], location: '강원 속초시·인제군·양양군', heightM: 1708.1, traits: ['100대 명산', '국립공원'], description: '한계령과 마등령 등 여러 고개를 따라 산줄기가 이어져요. 계곡 곳곳에는 백담사와 토왕성폭포 같은 명소가 있어요.' },
-  { id: 'sobaeksan', mountain: '소백산', profileSource: forestTrip('03', 71997), latitude: 36.9574, longitude: 128.4844, regions: ['충청','경상'], location: '경북 영주시·충북 단양군', heightM: 1439.7, traits: ['100대 명산', '국립공원'], description: '비로봉에서 연화봉으로 능선이 이어지고, 높은 지대에는 초원과 주목 군락이 펼쳐져요.' }
+  { id: 'bukhansan', mountain: '북한산', profileSource: forestTrip('01', 71990), latitude: 37.6587, longitude: 126.978, regions: ['수도권'], location: '서울 강북·성북·종로·은평구, 경기 고양·양주시', heightM: 835.6, description: '백운대를 중심으로 인수봉과 만경대가 솟아 있고, 북한산성과 여러 계곡이 이어져요.' },
+  { id: 'odaesan', mountain: '오대산', profileSource: forestTrip('02', 72002), latitude: 37.7941, longitude: 128.5431, regions: ['강원'], location: '강원 평창군·홍천군·강릉시', heightM: 1565.4, description: '비로봉을 중심으로 상왕봉·호령봉·두로봉·동대산이 솟아 있어요. 산 안에는 월정사와 상원사가 있어요.' },
+  { id: 'jeju', mountain: '제주 오름', regions: ['제주'], location: '제주특별자치도', heightM: null, description: '제주 여러 오름의 코스를 함께 소개해요. 올레 21코스에서는 지미봉을 지나 종달바당으로 향해요.' },
+  { id: 'seoraksan', mountain: '설악산', profileSource: forestTrip('02', 71995), latitude: 38.119169, longitude: 128.465222, regions: ['강원'], location: '강원 속초시·인제군·양양군', heightM: 1708.1, description: '한계령과 마등령 등 여러 고개를 따라 산줄기가 이어져요. 계곡 곳곳에는 백담사와 토왕성폭포 같은 명소가 있어요.' },
+  { id: 'sobaeksan', mountain: '소백산', profileSource: forestTrip('03', 71997), latitude: 36.9574, longitude: 128.4844, regions: ['충청','경상'], location: '경북 영주시·충북 단양군', heightM: 1439.7, description: '비로봉에서 연화봉으로 능선이 이어지고, 높은 지대에는 초원과 주목 군락이 펼쳐져요.' }
 ];
 const dnb = id => 'https://www.durunubi.kr/4-2-1-1-walk-mobility-view-detail.do?brd_div=DNWW&crs_idx=T_CRS_MNG' + id;
 const archive = id => 'https://archive.knps.or.kr/archive/s/site/item/' + id;
