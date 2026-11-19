@@ -1,11 +1,3 @@
-const mountainProfiles = {
-  sobaeksan: ['경북 영주시 · 충북 단양군 일대', ['국립공원', '능선', '초원'], '1,439m', '소백산은 능선을 따라 넓은 초원이 펼쳐지는 산이에요. 바람에 풀이 일렁이는 모습을 보며 잠시 쉬어 가기 좋아요.'],
-  bukhansan: ['서울 · 경기 북부', ['국립공원', '암릉'], '836m', '북한산은 서울 가까이에서 큼직한 바위 봉우리를 만날 수 있는 산이에요. 능선에서 내려다보면 산자락 너머로 익숙한 도시 풍경이 펼쳐져요.'],
-  odaesan: ['강원 평창군 일대', ['국립공원', '숲길'], '1,563m', '오대산은 나무가 빼곡한 숲길이 매력적인 산이에요. 잠시 걸음을 늦추고 나뭇잎 사이로 들어오는 햇살과 바람 소리를 느껴 보세요.'],
-  jeju: ['제주특별자치도', ['오름'], '오름별 상이', '제주 곳곳에는 오름이라 부르는 작은 화산들이 있어요. 둥근 능선이 이어지는 곳도, 숲이 우거진 곳도 있어 골라 걷는 재미가 있어요.'],
-  seoraksan: ['강원 속초시 · 인제군 일대', ['국립공원', '암릉'], '1,708m', '설악산은 뾰족한 바위 봉우리들이 겹겹이 솟아 있는 산이에요. 계곡을 따라 걸으며 올려다볼 때와 능선에서 바라볼 때의 풍경이 사뭇 달라요.']
-};
-
 // 산 ID별로 차박차박의 실제 방문 영상만 [{ youtubeId, title }] 형식으로 등록한다.
 const mountainVisitVideos = {
   bukhansan: [{ youtubeId: 'Rxdx86RJ02c', title: '서울 한복판에 가을냄새 한가득, 이렇게 아름다웠나 북한산' }]
@@ -17,7 +9,7 @@ async function syncVideoTitle(label, videoUrl) {
     const response = await fetch('https://www.youtube.com/oembed?' + query);
     if (!response.ok) return;
     const { title } = await response.json();
-    if (typeof title === 'string' && title.trim()) label.textContent = title;
+    if (typeof title === 'string' && title.trim()) label.textContent = field(title, 'oEmbed.title');
   } catch {
     // 오프라인에서는 등록된 제목을 그대로 표시한다.
   }
@@ -33,7 +25,7 @@ function renderMountainVideos(mountainId) {
     thumbnail.alt = '';
     thumbnail.loading = 'lazy';
     const label = document.createElement('span');
-    label.textContent = title;
+    label.textContent = field(title, 'video.title');
     link.append(thumbnail, label);
     syncVideoTitle(label, link.href);
     return link;
@@ -54,20 +46,56 @@ function formatDuration(minutes) {
   return [hours && `${hours}시간`, minutes % 60 && `${minutes % 60}분`].filter(Boolean).join(' ');
 }
 
+function sourceName(source) {
+  if (!source) return '';
+  const host = new URL(source).hostname;
+  if (host.endsWith('durunubi.kr')) return '한국관광공사 두루누비';
+  if (host.endsWith('knps.or.kr')) return '국립공원공단';
+  if (host.endsWith('korea.kr')) return '대한민국 정책브리핑';
+  return '한국관광공사 대한민국 구석구석';
+}
+
+function fieldLabel(path, original) {
+  return '(' + path + (original ? ' · ' + original : '') + ')';
+}
+
+function field(value, path, original) {
+  return value == null ? '미확인' : value + ' ' + fieldLabel(path, original);
+}
+
+function metric(course, key) {
+  const originals = {
+    km: ['길이', '코스거리'],
+    minutes: ['소요시간', '코스소요시간'],
+    difficulty: ['난이도', '코스난이도']
+  };
+  const isDurunubi = course.source?.includes('durunubi.kr');
+  const isArchive = course.source?.includes('archive.knps.or.kr');
+  const original = key === 'minutes' && course.timeOrigin ? course.timeOrigin : isDurunubi ? originals[key][0] : isArchive ? originals[key][1] : '';
+  let value = course[key];
+  if (value == null) return '미확인';
+  if (key === 'km') value += 'km';
+  if (key === 'minutes') {
+    value = formatDuration(value);
+    if (course.maxMinutes) return field(value + ' ~ ' + formatDuration(course.maxMinutes), 'course.minutes, course.maxMinutes');
+  }
+  return field(value, 'course.' + key, course.rawGrade && key === 'difficulty' ? '원문 ' + course.rawGrade : original);
+}
+
 function renderList(id, items, type, fromMountain = false) {
   byId(id).innerHTML = items.map(hike => {
     const isMountain = type === 'mountain';
     const name = isMountain ? hike.mountain : hike.course;
     let meta;
     if (isMountain) {
-      meta = hike.regions.join(' · ');
+      meta = field(hike.regions.join(' · '), 'mountain.regions');
     } else {
-      const difficulty = `<span data-level="${hike.difficulty}">${hike.difficulty}</span>`;
-      const distanceAndTime = `${hike.km}km · ${formatDuration(hike.minutes)}`;
+      const difficulty = `<span data-level="${hike.difficulty || ''}">${metric(hike, 'difficulty')}</span>`;
+      const distanceAndTime = `${metric(hike, 'km')} · ${metric(hike, 'minutes')}`;
       meta = fromMountain
         ? `${difficulty} · ${distanceAndTime}`
-        : `${hike.mountain} · ${distanceAndTime} · ${difficulty}`;
-      if (!hike.source) meta += ' · 시연용';
+        : `${field(hike.mountain, 'course.mountain')} · ${distanceAndTime} · ${difficulty}`;
+
     }
     const bookmark = fromMountain ? `<button type="button" class="course-bookmark" data-course-id="${hike.id}"
       aria-label="${name} 북마크" aria-pressed="${bookmarkTime('course', hike.id) !== null}">
@@ -76,7 +104,7 @@ function renderList(id, items, type, fromMountain = false) {
     const from = fromMountain ? '/mountain' : '/courses';
     return `<li><a class="hike-row" href="#${type}/${hike.id}${isMountain ? '' : from}">
       <span class="terrain hike-row__image" data-range="${hike.mountainId || hike.id}" aria-hidden="true"></span>
-      <span><strong>${name}</strong><span class="hike-row__meta">${meta}</span></span>
+      <span><strong>${field(name, isMountain ? 'mountain.mountain' : 'course.course')}</strong><span class="hike-row__meta">${meta}</span></span>
     </a>${bookmark}</li>`;
   }).join('');
 }
@@ -89,7 +117,7 @@ function filterMountains() {
 
 function filterCourses() {
   const matches = courses.filter(hike => {
-    const timeBand = hike.minutes <= 120 ? 'short' : hike.minutes <= 240 ? 'medium' : 'long';
+    const timeBand = hike.minutes == null ? null : hike.minutes <= 120 ? 'short' : hike.minutes <= 240 ? 'medium' : 'long';
     return !values[mode] || values[mode] === (mode === 'difficulty' ? hike.difficulty : timeBand);
   });
   renderList('course-list', matches, 'course');
@@ -171,21 +199,34 @@ function showScreen() {
   if (isHome) selectTab(byId(screen === 'courses' ? 'course-tab' : 'mountain-tab'));
   if (isMountain) {
     byId('hike-back').href = from === 'bookmarks' ? 'my-settings.html#bookmarks' : '#home';
-    byId('hike-mountain-name').textContent = hike.mountain;
-    byId('hike-detail-bar').textContent = hike.mountain;
+    byId('hike-mountain-name').textContent = field(hike.mountain, 'mountain.mountain');
+    byId('hike-detail-bar').textContent = field(hike.mountain, 'mountain.mountain');
     const cover = byId('mountain-cover');
     cover.dataset.range = hike.id;
     cover.setAttribute('aria-label', hike.mountain + ' 산 능선 일러스트');
-    const [locationLabel, traits, peak, description] = mountainProfiles[hike.id];
-    byId('hike-mountain-region').textContent = locationLabel;
+    const { location: locationLabel, traits, heightM, description } = hike;
+    const isGroup = hike.id === 'jeju';
+    const source = byId('mountain-source');
+    const profile = byId('profile-source');
+    profile.hidden = !hike.profileSource;
+    if (hike.profileSource) profile.href = hike.profileSource;
+    const station = byId('summit-station');
+    station.hidden = hike.latitude == null;
+    if (!station.hidden) {
+      station.href = summitStationSource;
+      station.textContent = '정상 예보 지점 ' + field(hike.latitude, 'mountain.latitude', '위도') + ' · ' + field(hike.longitude, 'mountain.longitude', '경도');
+    }
+    source.href = isGroup ? dnb('0000001276') : forestBook;
+    source.textContent = isGroup ? '차박차박 지역 묶음 · 제주올레 코스 자료' : '산림청 100대 명산 · 이름·소재지·높이';
+    byId('hike-mountain-region').textContent = field(locationLabel, 'mountain.location', isGroup ? '' : '소재지');
     byId('mt-traits').replaceChildren(...traits.map(trait => {
       const chip = document.createElement('span');
-      chip.textContent = trait;
+      chip.textContent = field(trait, 'mountain.traits');
       return chip;
     }));
-    byId('mt-description').textContent = description;
-    byId('mt-peak').textContent = peak;
-    const verified = courses.filter(course => course.mountainId === id && course.source);
+    byId('mt-description').textContent = field(description, 'mountain.description', '편집 요약');
+    byId('mt-peak').textContent = isGroup ? '오름별 상이' : field(heightM.toLocaleString('ko-KR') + 'm', 'mountain.heightM', '산높이');
+    const verified = courses.filter(course => course.mountainId === id && course.source && course.difficulty);
     const levels = ['쉬움', '보통', '어려움'];
     const score = verified.reduce((sum, course) => sum + levels.indexOf(course.difficulty), 0);
     const level = verified.length ? levels[Math.round(score / verified.length)] : '확인 중';
@@ -195,7 +236,7 @@ function showScreen() {
     levelTip.textContent = verified.length > 1
       ? `등록된 코스 중 난이도가 확인된 ${verified.length}개의 평균이에요. 쉬움·보통·어려움을 1~3점으로 환산해 반올림해요.`
       : verified.length === 1 ? `${verified[0].course} 1개의 난이도예요.` : '확인된 코스 난이도가 아직 없어요.';
-    byId('mt-level').textContent = level;
+    byId('mt-level').textContent = verified.length ? field(level, 'level', verified.length > 1 ? '코스 평균' : '단일 코스') : level;
     byId('mt-level').dataset.level = level;
     renderMountainVideos(id);
     const notices = document.querySelector('.mt-notices');
@@ -203,7 +244,7 @@ function showScreen() {
     for (const notice of notices.children) notice.open = false;
     const mountainCourses = courses.filter(course => course.mountainId === id);
     renderList('hike-mountain-course-list', mountainCourses, 'course', true);
-    byId('mountain-course-cta').textContent = hike.mountain + ' 코스 ' + mountainCourses.length;
+    byId('mountain-course-cta').textContent = hike.mountain + ' 코스 ' + field(mountainCourses.length, 'mountainCourses.length');
     bookmarkButton.dataset.mountainId = id;
     bookmarkButton.setAttribute('aria-pressed', String(bookmarkTime('mountain', id) !== null));
     updateMountainTitle();
@@ -212,26 +253,41 @@ function showScreen() {
     byId('hike-detail-bar').hidden = false;
     byId('hike-detail-bar').textContent = '코스 상세';
     byId('hike-back').href = from === 'bookmarks' ? 'my-settings.html#bookmarks/courses' : from === 'mountain' ? `#mountain/${hike.mountainId}` : from === 'courses' ? '#courses' : '#home';
-    byId('hike-course-name').textContent = hike.course;
-    byId('hike-course-mountain').textContent = hike.mountain;
+    byId('hike-course-name').textContent = field(hike.course, 'course.course');
+    byId('hike-course-mountain').textContent = field(hike.mountain, 'course.mountain');
     const source = byId('course-source');
     source.hidden = !hike.source;
     source.href = hike.source || '';
-    source.textContent = hike.sourceLabel || '한국관광공사 두루누비';
+    source.textContent = sourceName(hike.source);
     byId('course-demo-note').hidden = Boolean(hike.source);
-    if (hike.area) byId('hike-course-mountain').textContent += ' · ' + hike.area;
-    byId('course-stops').replaceChildren(...(hike.stops || ['출발', '경유', '도착']).map(stop => {
+    if (hike.area) byId('hike-course-mountain').textContent += ' · ' + field(hike.area, 'course.area');
+    byId('course-stops').replaceChildren(...(hike.stops || []).map(stop => {
       const point = document.createElement('li');
-      point.textContent = stop;
+      point.textContent = field(stop, 'course.stops');
       return point;
     }));
     byId('course-route-caption').hidden = Boolean(hike.stops);
-    byId('course-demo-steps').hidden = Boolean(hike.guide);
-    byId('course-guide').textContent = hike.guide || '';
-    byId('course-guide').hidden = !hike.guide;
-    byId('detail-distance').textContent = `${hike.km}km`;
-    byId('detail-duration').textContent = formatDuration(hike.minutes);
-    byId('detail-difficulty').textContent = hike.difficulty;
+    const trackSource = byId('course-track-source');
+    trackSource.hidden = !hike.source?.includes('durunubi.kr');
+    if (!trackSource.hidden) trackSource.href = hike.source;
+    byId('course-demo-steps').hidden = true;
+    const guide = hike.guide || (hike.stops ? hike.stops[0] + '에서 출발해 ' + hike.stops.at(-1) + '에 도착해요.' : '');
+    byId('course-guide').textContent = guide ? field(guide, hike.guide ? 'course.guide' : 'course.stops', hike.guide ? '편집 요약' : '경로에서 생성') : '';
+    byId('course-guide').closest('section').hidden = !guide;
+    byId('course-guide').hidden = !guide;
+    byId('detail-distance').textContent = metric(hike, 'km');
+    byId('detail-duration').textContent = metric(hike, 'minutes');
+    byId('detail-difficulty').textContent = metric(hike, 'difficulty');
+    const facilities = byId('course-facilities');
+    facilities.replaceChildren();
+    for (const [key, label] of [['water','식수'], ['shops','매점'], ['transport','교통 안내'], ['toilets','화장실']]) {
+      if (!hike[key]) continue;
+      const term = document.createElement('dt');
+      const detail = document.createElement('dd');
+      term.textContent = label;
+      detail.textContent = field(hike[key], 'course.' + key, label);
+      facilities.append(term, detail);
+    }
   }
   document.title = `차박차박 · ${isCourse ? hike.course : isMountain ? hike.mountain : '홈'}`;
 }
@@ -289,6 +345,7 @@ byId('mountain-share').addEventListener('click', async () => {
   window.prompt('산 상세 링크를 복사해 주세요.', url);
 });
 
+document.querySelector('.hike-feature h1').textContent = field(featuredCourse.course, 'featuredCourse.course');
 window.addEventListener('hashchange', () => {
   showScreen();
   window.scrollTo(0, 0);
