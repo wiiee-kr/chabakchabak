@@ -301,5 +301,3 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 /* Match the community publish icon, including disabled opacity. */
 .app-bar__confirm { opacity: 1; }
 .app-bar__confirm svg { width: 21px; height: 21px; }
-
-.detail + .comments-heading { margin-top: var(--section-gap); }

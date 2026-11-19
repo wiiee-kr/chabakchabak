@@ -271,9 +271,6 @@ body {
 .hike-row { border:0; border-radius:0; padding:12px 0; }
 #hike-mountain-course-list > li:first-child > .hike-row { padding-top: 0; }
 .hike-list:where(:not(#hike-mountain-course-list)) li + li { border-top:1px solid var(--ds-grayscale-50); }
-.mode-group { display:flex; gap:16px; }
-.mode-group button { font:inherit; font-size:var(--typography-label-m-size); padding:12px 0 8px; border:0; background:transparent; color:var(--ds-grayscale-500); }
-.mode-group button[aria-pressed="true"] { font-weight:600; color:var(--ds-blue-900); box-shadow:inset 0 -2px var(--ds-blue-900); }
 .hike-region-filters[hidden] { display:none; }
 #hike-detail > .app-bar {
   position: fixed;
