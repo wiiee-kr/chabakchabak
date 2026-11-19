@@ -1,3 +1,42 @@
+
+
+/* Desktop tab previews use the community phone's dimensions and offsets. */
+@media (min-width: 521px) {
+  html:has(body > :is(#hike-home:not([hidden]), .my-page, aside + main#app)) {
+    background: #ededed;
+  }
+
+  body:has(> :is(#hike-home:not([hidden]), .my-page, aside + main#app)) {
+    box-sizing: border-box;
+    position: relative;
+    width: 430px;
+    height: min(860px, calc(100dvh - 56px));
+    min-height: 0;
+    margin: 35px auto 0;
+    padding: 0;
+    background: white;
+    border: 1px solid #dedede;
+    border-radius: 24px;
+    overflow: clip;
+    /* Keep fixed navigation and actions inside the preview. */
+    transform: translateZ(0);
+  }
+
+  body > :is(#hike-home, .my-page, aside + main#app) {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    padding-bottom: calc(var(--bottom-nav-height) + var(--bottom-nav-offset) + 16px);
+  }
+
+  body > aside:has(+ main#app) { display: none; }
+  body > aside + main#app { border: 0; padding-inline: 16px; }
+}
 /* Shared gap from the app bar edge to the first body element. */
 :root { --app-body-gap: 16px; }
 
