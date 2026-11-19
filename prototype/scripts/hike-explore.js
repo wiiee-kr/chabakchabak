@@ -37,8 +37,8 @@ function renderMountainVideos(mountainId) {
 const byId = id => document.getElementById(id);
 const tabs = [...document.querySelectorAll('.hike-tabs [role="tab"]')];
 const regionButtons = [...document.querySelectorAll('[data-region]')];
-let mode = 'difficulty';
-const values = { difficulty: '', duration: '' };
+const difficultyFilter = byId('course-difficulty');
+const durationFilter = byId('course-duration');
 let region = '';
 
 function formatDuration(minutes) {
@@ -118,7 +118,8 @@ function filterMountains() {
 function filterCourses() {
   const matches = courses.filter(hike => {
     const timeBand = hike.minutes == null ? null : hike.minutes <= 120 ? 'short' : hike.minutes <= 240 ? 'medium' : 'long';
-    return !values[mode] || values[mode] === (mode === 'difficulty' ? hike.difficulty : timeBand);
+    return (!difficultyFilter.value || hike.difficulty === difficultyFilter.value)
+      && (!durationFilter.value || timeBand === durationFilter.value);
   });
   renderList('course-list', matches, 'course');
   byId('course-empty').hidden = matches.length > 0;
@@ -341,24 +342,8 @@ for (const button of regionButtons) {
     filterMountains();
   });
 }
-for (const button of document.querySelectorAll('[data-mode]')) {
-  button.onclick = () => {
-    mode = button.dataset.mode;
-    for (const option of document.querySelectorAll('[data-mode]')) {
-      const active = option === button;
-      option.setAttribute('aria-pressed', active);
-      byId(option.dataset.mode).hidden = !active;
-    }
-    filterCourses();
-  };
-}
-for (const button of document.querySelectorAll('[data-value]')) {
-  button.onclick = () => {
-    values[mode] = button.dataset.value;
-    for (const option of byId(mode).querySelectorAll('button')) option.setAttribute('aria-pressed', option === button);
-    filterCourses();
-  };
-}
+difficultyFilter.addEventListener('change', filterCourses);
+durationFilter.addEventListener('change', filterCourses);
 byId('mountain-share').addEventListener('click', async () => {
   const url = location.href;
   if (navigator.share) {
