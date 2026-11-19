@@ -87,43 +87,30 @@
     </div>
   </header>
   <main id="hike-course-detail" class="hike-page">
-    <h2 class="hike-title" id="hike-course-name"></h2>
+    <div class="mountain-cover"><div class="terrain" id="course-cover" aria-hidden="true"></div></div>
     <p class="hike-intro" id="hike-course-mountain"></p>
-    <a id="course-source" class="hike-demo-note" hidden></a>
-    <p id="course-demo-note" class="hike-demo-note">출발·도착 지점을 특정할 수 없어 공식 경로 확인 전이에요</p>
-
+    <h2 class="hike-title" id="hike-course-name"></h2>
+    <p class="hike-intro" id="course-guide" hidden></p>
     <dl class="hike-stats" aria-label="코스 요약">
+      <div><dt>난이도</dt><dd id="detail-difficulty"></dd></div>
       <div><dt>거리</dt><dd id="detail-distance"></dd></div>
       <div><dt>소요시간</dt><dd id="detail-duration"></dd></div>
-      <div><dt>난이도</dt><dd id="detail-difficulty"></dd></div>
     </dl>
-
     <section class="hike-section" aria-labelledby="hike-route-title">
       <h3 id="hike-route-title">코스 한눈에 보기</h3>
-      <figure class="hike-route">
-        <ol id="course-stops" aria-label="주요 지점 순서">
-          <li>출발</li><li>경유</li><li>도착</li>
-        </ol>
-        <a class="hike-demo-note" id="course-track-source" hidden>두루누비 경로·GPX 자료 (course.source)</a>
-        <figcaption id="course-route-caption">공식 경로 확인 전</figcaption>
-      </figure>
+      <ol id="course-stops" aria-label="주요 지점 순서"></ol>
+      <p class="hike-intro" id="course-route-caption">공식 경로를 확인하고 있어요</p>
     </section>
-
-    <section class="hike-section" aria-labelledby="hike-steps-title">
-      <h3 id="hike-steps-title">이렇게 걸어요</h3>
-      <p id="course-guide" hidden></p>
-      <ol hidden id="course-demo-steps" class="hike-steps">
-        <li><strong>출발 지점</strong><span>출발 장소와 접근 방법</span></li>
-        <li><strong>주요 경유지</strong><span>영상에 나온 장소와 구간별 안내</span></li>
-        <li><strong>도착 지점</strong><span>도착 장소와 돌아가는 방법</span></li>
-      </ol>
+    <section id="course-facilities-section" class="hike-section" hidden>
+      <h3>교통·편의시설</h3>
+      <dl id="course-facilities"></dl>
     </section>
-
-    <dl id="course-facilities"></dl>
-    <section class="hike-section" aria-labelledby="hike-video-title">
-      <h3 id="hike-video-title">원본 영상</h3>
-      <p class="hike-placeholder hike-video">영상 확인 예정</p>
-    </section>
+    <div class="mountain-bottom-actions">
+      <button type="button" id="course-detail-bookmark" aria-label="코스 북마크" aria-pressed="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M5 21V6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v15l-7-4z"/></svg>
+      </button>
+      <a id="course-source"></a>
+    </div>
   </main>
   <main id="hike-mountain-detail" class="hike-page" hidden>
 

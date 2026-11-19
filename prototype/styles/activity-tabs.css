@@ -21,7 +21,7 @@
   color: var(--ds-grayscale-500, #7b7b7b);
   font-size: 13px;
   line-height: 20px;
-  font-weight: 400;
+  font-weight: 500;
 }
 .activity-tabs a[aria-current="page"] {
   border: 0;

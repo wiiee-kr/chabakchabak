@@ -135,7 +135,7 @@ function selectTab(selected) {
 
 
 function updateMountainTitle() {
-  if (!byId('hike-mountain-detail').hidden) {
+  if (!byId('hike-detail').hidden) {
     byId('hike-detail-bar').hidden = window.scrollY < 8;
   }
 }
@@ -180,6 +180,23 @@ byId('mountain-course-cta').addEventListener('click', () => {
   const heading = byId('hike-mountain-courses');
   heading.focus({ preventScroll: true });
   heading.scrollIntoView({ block: 'start' });
+});
+
+function setCourseField(element, text) {
+  const split = text.lastIndexOf(' (');
+  if (split < 0) {
+    element.textContent = text;
+    return;
+  }
+  const annotation = document.createElement('small');
+  annotation.className = 'field-name';
+  annotation.textContent = text.slice(split + 1);
+  element.replaceChildren(text.slice(0, split), ' ', annotation);
+}
+
+byId('course-detail-bookmark').addEventListener('click', event => {
+  const button = event.currentTarget;
+  toggleBookmark(button, 'chabak.course-bookmark.' + button.dataset.courseId);
 });
 
 function showScreen() {
@@ -250,34 +267,43 @@ function showScreen() {
     updateMountainTitle();
   }
   if (isCourse) {
-    byId('hike-detail-bar').hidden = false;
-    byId('hike-detail-bar').textContent = '코스 상세';
+    byId('hike-detail-bar').textContent = hike.course;
+    byId('hike-detail-bar').hidden = window.scrollY < 8;
     byId('hike-back').href = from === 'bookmarks' ? 'my-settings.html#bookmarks/courses' : from === 'mountain' ? `#mountain/${hike.mountainId}` : from === 'courses' ? '#courses' : '#home';
-    byId('hike-course-name').textContent = field(hike.course, 'course.course');
-    byId('hike-course-mountain').textContent = field(hike.mountain, 'course.mountain');
+    byId('course-cover').dataset.range = hike.mountainId;
+    setCourseField(byId('hike-course-name'), field(hike.course, 'course.course'));
+    const region = byId('hike-course-mountain');
+    setCourseField(region, field(hike.mountain, 'course.mountain'));
+    if (hike.area) {
+      const area = document.createElement('span');
+      setCourseField(area, field(hike.area, 'course.area'));
+      region.append(' · ', area);
+    }
     const source = byId('course-source');
-    source.hidden = !hike.source;
-    source.href = hike.source || '';
-    source.textContent = sourceName(hike.source);
-    byId('course-demo-note').hidden = Boolean(hike.source);
-    if (hike.area) byId('hike-course-mountain').textContent += ' · ' + field(hike.area, 'course.area');
-    byId('course-stops').replaceChildren(...(hike.stops || []).map(stop => {
+    source.href = hike.source || '#mountain/' + hike.mountainId;
+    source.textContent = hike.source ? '공식 코스 정보 보기' : hike.mountain + ' 상세 보기';
+    if (hike.source) source.title = sourceName(hike.source);
+    else source.removeAttribute('title');
+    const stops = hike.stops || [];
+    byId('course-stops').replaceChildren(...stops.map((stop, index) => {
       const point = document.createElement('li');
-      point.textContent = field(stop, 'course.stops');
+      const label = document.createElement('small');
+      label.textContent = index === 0 ? '출발' : index === stops.length - 1 ? '도착' : '경유';
+      const name = document.createElement('span');
+      setCourseField(name, field(stop, 'course.stops'));
+      point.append(label, name);
       return point;
     }));
-    byId('course-route-caption').hidden = Boolean(hike.stops);
-    const trackSource = byId('course-track-source');
-    trackSource.hidden = !hike.source?.includes('durunubi.kr');
-    if (!trackSource.hidden) trackSource.href = hike.source;
-    byId('course-demo-steps').hidden = true;
-    const guide = hike.guide || (hike.stops ? hike.stops[0] + '에서 출발해 ' + hike.stops.at(-1) + '에 도착해요.' : '');
-    byId('course-guide').textContent = guide ? field(guide, hike.guide ? 'course.guide' : 'course.stops', hike.guide ? '편집 요약' : '경로에서 생성') : '';
-    byId('course-guide').closest('section').hidden = !guide;
-    byId('course-guide').hidden = !guide;
-    byId('detail-distance').textContent = metric(hike, 'km');
-    byId('detail-duration').textContent = metric(hike, 'minutes');
-    byId('detail-difficulty').textContent = metric(hike, 'difficulty');
+    byId('course-route-caption').hidden = stops.length > 0;
+    byId('course-guide').hidden = !hike.guide;
+    setCourseField(byId('course-guide'), field(hike.guide, 'course.guide', '편집 요약'));
+    setCourseField(byId('detail-distance'), metric(hike, 'km'));
+    setCourseField(byId('detail-duration'), metric(hike, 'minutes'));
+    setCourseField(byId('detail-difficulty'), metric(hike, 'difficulty'));
+    byId('detail-difficulty').dataset.level = hike.difficulty || '';
+    const saved = byId('course-detail-bookmark');
+    saved.dataset.courseId = id;
+    saved.setAttribute('aria-pressed', String(bookmarkTime('course', id) !== null));
     const facilities = byId('course-facilities');
     facilities.replaceChildren();
     for (const [key, label] of [['water','식수'], ['shops','매점'], ['transport','교통 안내'], ['toilets','화장실']]) {
@@ -285,9 +311,10 @@ function showScreen() {
       const term = document.createElement('dt');
       const detail = document.createElement('dd');
       term.textContent = label;
-      detail.textContent = field(hike[key], 'course.' + key, label);
+      setCourseField(detail, field(hike[key], 'course.' + key, label));
       facilities.append(term, detail);
     }
+    byId('course-facilities-section').hidden = !facilities.children.length;
   }
   document.title = `차박차박 · ${isCourse ? hike.course : isMountain ? hike.mountain : '홈'}`;
 }
