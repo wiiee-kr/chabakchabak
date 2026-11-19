@@ -181,13 +181,6 @@ svg.navigation-icon--share { width: 20px; height: 20px; }
 body > main#app > header { width: calc(100% + 20px); margin-left: -10px; margin-bottom: var(--app-body-gap); }
 @media (max-width: 900px) { body > main#app > header { width: calc(100% + 8px); margin-left: -4px; } }
 
-/* Root tabs share the home's open leading area and floating actions. */
-.app-bar__leading:has(> :is(h1, strong):only-child) {
-  background: transparent;
-  box-shadow: none;
-  border-radius: 0;
-}
-
 /* Packing's main supplies the same horizontal inset as the home header. */
 body > main#app:has(.packing-home-actions) {
   padding-inline: 16px;
@@ -271,8 +264,7 @@ body > main#app .stack > .primary { font-size: var(--cta-label-large-size); }
 /* All leading app-bar groups use zero left padding, including icon-only groups. */
 .app-bar__leading:has(> :is(.app-bar__icon, .icon):first-child):not(:has(> :nth-child(n+2):not([hidden]))) { padding-left: 0; }
 
-/* Root titles align with the home logo. */
-.app-bar__leading:has(> :is(h1, strong):only-child) { padding-inline: 0; }
+.app-bar__leading:has(> :is(h1, strong):only-child) { padding-inline: 12px; }
 
 /* Toasts overlay the app-bar position at the top of the screen. */
 #toast, #notice {
