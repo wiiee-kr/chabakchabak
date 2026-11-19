@@ -433,3 +433,10 @@ body {
   cursor: pointer;
 }
 .course-bookmark[aria-pressed="true"] svg { color: var(--ds-product-primary); fill: currentColor; }
+
+.hike-route ol { display:flex; flex-wrap:wrap; gap:16px; }
+.hike-route li { flex:1 1 96px; }
+.field-name { font-size:12px; font-weight:400; color:#646973; overflow-wrap:anywhere; }
+.hike-stats > div { min-width:0; }
+#course-facilities { margin:16px 0; }
+#course-facilities dd { margin:0 0 8px; }
